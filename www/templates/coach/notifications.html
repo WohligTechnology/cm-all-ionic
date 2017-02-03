@@ -1,0 +1,41 @@
+<ion-view view-title="Notifications">
+  <ion-content>
+    <ion-list class="no-pad-list">
+      <ion-item class="item-text-wrap" ng-repeat="notification in coachnotifications">
+        <!-- Unsbuscribe -->
+        <div ng-if="notification.type === 'athleteSubscription'">
+          <p><a ui-sref="coachapp.athletes-request">{{notification.athletecoach.athlete.name}} {{notification.athletecoach.athlete.surname}} </a>wants
+            to subsribe your coaching service.</p>
+          <p>{{notification.createdAt | date:"dd/MM/yyyy 'at' h:mma"}}</p>
+          <div class="button-bar hide">
+            <button class="button button-small button-positive">Accept</button>
+            <button class="button button-small button-assertive" ng-click="reason()">Reject</button>
+          </div>
+        </div>
+        <!-- Payment done -->
+        <div ng-if="notification.type === 'athleteSubscriptionPaymentDone'">
+          <p>{{notification.athletecoach.athlete.name}} {{notification.athletecoach.athlete.surname}} has paid your subscription
+            fees.
+          </p>
+        </div>
+        <!-- unsubscribe -->
+        <div ng-if="notification.type == 'Unsubscribe'">
+          <p>{{notification.athletecoach.athlete.name}} {{notification.athletecoach.athlete.surname}} wants to unsubsribe from
+            your coaching service..</p>
+        </div>
+        <!--Injury-->
+        <div ng-if="notification.type == 'athleteInjury'">
+          <p><span class="notify-name">{{notification.athleteinjury.athlete.name}} {{notification.athleteinjury.athlete.surname}} </span>athlete
+            injured form from {{notification.athleteinjury.injuryDate | date:"dd/MM/yyyy"}} to {{notification.athleteinjury.resumeTrainingDate
+            | date:"dd/MM/yyyy"}}.
+          </p>
+          <p>{{notification.createdAt | date:"dd/MM/yyyy 'at' h:mma"}}</p>
+        </div>
+        <!-- competition  -->
+        <div ng-if="d.type == 'competition'">
+          <p>{{d.name}} {{d.surname}} rejected your competition.</p>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

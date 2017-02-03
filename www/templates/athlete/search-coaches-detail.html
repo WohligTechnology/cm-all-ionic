@@ -1,0 +1,63 @@
+<ion-view view-title="Search Coaches">
+  <ion-content class="white-profile">
+    <div class="picture-hold picture-pad">
+      <div class="zd">
+        <span class="full sm" ng-if="subscriptionFull"><i class="ion ion-alert-circled"></i> Fully Subscribed</span>
+        <div class="dp" style="background-image: url({{(coaches.profilePic|uploadpath)||'img/img-placeholder.png'}});"></div>
+        <h3>{{coaches.name}} {{coaches.surname}}</h3>
+        <p class="badged positive-bg">{{coaches.credentials}}</p>
+      </div>
+    </div>
+    <ion-list class="stripped">
+      <ion-item class="item-text-wrap">
+        <h3>Asking Price (/mo.)</h3>
+        <p>{{coaches.coachAskingPrice | currency:'£':0}}</p>
+      </ion-item>
+      <ion-item class="item-text-wrap">
+        <h3>Years of Coaching</h3>
+        <p>{{coaches.yearsOfCoaching}} years</p>
+      </ion-item>
+      <ion-item class="item-text-wrap">
+        <h3>Country</h3>
+        <p>{{coaches.country}}</p>
+      </ion-item>
+      <ion-item class="item-text-wrap">
+        <h3>Age</h3>
+        <p>{{coaches.dob | ageConvert}}</p>
+      </ion-item>
+      <ion-item class="item-text-wrap">
+        <h3>Gender</h3>
+        <p>{{coaches.gender}}</p>
+      </ion-item>
+      <ion-item class="item-text-wrap item-long">
+        <h3>Coaching Focus</h3>
+        <p>
+          <span class="tag-box" ng-repeat="c in coaches.coachingFocus">{{c}}</span>
+        </p>
+      </ion-item>
+      <ion-item class="item-text-wrap item-long">
+        <h3>Specialisations</h3>
+        <p>
+          <span class="tag-box" ng-repeat="s in coaches.specialisations">{{s}}</span>
+          <span class="tag-box" ng-if="coaches.specialisationOther" ng-bind="coaches.specialisationOther"></span>
+        </p>
+      </ion-item>
+      <ion-item class="item-text-wrap item-long" ng-if="coaches.expertise">
+        <h3>Experience</h3>
+        <p class="text-justified" ng-if="coaches.experience" read-more="coaches.experience" read-more-limit="140"></p>
+      </ion-item>
+      <ion-item class="item-text-wrap item-long" ng-if="coaches.expertise">
+        <h3>Expertise</h3>
+        <p class="text-justified" read-more="coaches.expertise" read-more-limit="140"></p>
+      </ion-item>
+      <ion-item class="item-text-wrap item-long" ng-if="coaches.achievements">
+        <h3>Coaching Achievements</h3>
+        <p class="text-justified" read-more="coaches.achievements" read-more-limit="140"></p>
+      </ion-item>
+    </ion-list>
+    <div class="padding-horizontal">
+      <button class="button button-balanced button-block" ng-click="subscribeNow();" ng-if="!subscriptionFull">Subscribe Now</button>
+      <button class="button button-assertive button-block" ng-if="subscriptionFull" disabled>Fully Subscribed</button>
+    </div>
+  </ion-content>
+</ion-view>

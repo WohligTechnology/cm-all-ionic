@@ -1,0 +1,85 @@
+<ion-view>
+  <ion-nav-title>
+    Welcome, {{profileData.name}}
+  </ion-nav-title>
+  <ion-nav-buttons side="right">
+    <a class="button button-icon icon ln-pencil ln-fit" ui-sref="coachapp.edit-profile"></a>
+    <a class="button button-icon icon ln-earth ln-fit" ui-sref="coachapp.notifications"><span ng-if="notificationCount != 0"class="badge-icon assertive-bg">{{notificationCount}}</span></a>
+  </ion-nav-buttons>
+  <ion-content class="white-profile">
+    <div class="warning-bar assertive-bg text-center" ui-sref="coachapp.edit-profile" ng-if="profileIncomplete()">
+      <i class="ion ion-alert-circled"></i> Please complete your profile !
+    </div>
+    <div class="picture-hold">
+      <div class="zd">
+        <div class="dp" style="background-image: url({{(profileData.profilePic | uploadpath) || 'img/img-placeholder.png'}});"></div>
+        <h3>{{profileData.name}} {{profileData.surname}}</h3>
+        <p>{{profileData.credentials}}</p>
+        <div class="main-info">
+          <div class="row">
+            <div class="col">
+              <h3>{{profileData.coachAskingPrice | currency: '£' : 0}}/mo.</h3>
+              <p>Coach Asking Price</p>
+            </div>
+            <div class="col">
+              <h3>{{profileData.coachingLimit}}</h3>
+              <p>Coaching Limit</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ion-refresher on-refresh="reloadProfile()"></ion-refresher>
+    <ion-list class="stripped">
+      <ion-item class="item-text-wrap">
+        <h3>Years Coaching</h3>
+        <p>{{profileData.yearsOfCoaching}}</p>
+      </ion-item>
+      <ion-item class="item-text-wrap">
+        <h3>Country</h3>
+        <p>{{profileData.country}}</p>
+      </ion-item>
+      <ion-item class="item-text-wrap">
+        <h3>Phone Number</h3>
+        <p>{{profileData.mobile}}</p>
+      </ion-item>
+      <ion-item class="item-text-wrap">
+        <h3>Email Address</h3>
+        <p>{{profileData.email}}</p>
+      </ion-item>
+      <ion-item class="item-text-wrap">
+        <h3>Date of Birth</h3>
+        <p>{{profileData.dob | date:'dd MMMM, yyyy'}}</p>
+      </ion-item>
+      <ion-item class="item-text-wrap">
+        <h3>Gender</h3>
+        <p>{{profileData.gender}}</p>
+      </ion-item>
+      <ion-item class="item-text-wrap item-long">
+        <h3>Coaching Focus</h3>
+        <p>
+          <span class="tag-box" ng-repeat="c in profileData.coachingFocus">{{c}}</span>
+        </p>
+      </ion-item>
+      <ion-item class="item-text-wrap item-long">
+        <h3>Specialisations</h3>
+        <p>
+          <span class="tag-box" ng-repeat="s in profileData.specialisations">{{s}}</span>
+          <span class="tag-box" ng-if="profileData.specialisationOther">{{profileData.specialisationOther}}</span>
+        </p>
+      </ion-item>
+      <ion-item class="item-text-wrap item-long" ng-if="profileData.experience">
+        <h3>Experience</h3>
+        <p class="text-justified" read-more="profileData.experience" read-more-limit="140"></p>
+      </ion-item>
+      <ion-item class="item-text-wrap item-long" ng-if="profileData.expertise">
+        <h3>Expertise</h3>
+        <p class="text-justified" read-more="profileData.expertise" read-more-limit="140"></p>
+      </ion-item>
+      <ion-item class="item-text-wrap item-long" ng-if="profileData.achievements">
+        <h3>Coaching Achievements</h3>
+        <p class="text-justified" read-more="profileData.achievements" read-more-limit="140"></p>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,11 @@
+{
+  "name": "coach-mentor-ionic",
+  "app_id": "",
+  "gulpStartupTasks": [
+    "watch"
+  ],
+  "watchPatterns": [
+    "www/**/*",
+    "!www/lib/**/*"
+  ]
+}

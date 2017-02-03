@@ -1,0 +1,22 @@
+<ion-view view-title="Athletes Coaching">
+  <ion-nav-buttons side="right">
+    <span class="ln ln-user right-badge ln-fit" ui-sref="coachapp.athletes-request">
+    <span class="badge badge-assertive">{{requestCount}}</span>
+    </span>
+  </ion-nav-buttons>
+  <ion-content start-y="53">
+    <ion-list>
+      <ion-item class="item-input-inset">
+        <label class="item-input-wrapper"><input type="text" placeholder="Athlete Name"></label>
+        <button class="button button-small icon ln-magnifier"></button>
+      </ion-item>
+      <ion-item class="item-avatar" ui-sref="coachapp.athletes-coaching-detail({athleteId:myathletes.athlete._id})" ng-repeat="myathletes in athletecoaching">
+        <img ng-src="{{(myathletes.athlete.profilePic | uploadpath) || 'img/img-placeholder.png'}}">
+        <h2>{{myathletes.athlete.name}} {{myathletes.athlete.surname}}</h2>
+        <p><i class="icon ln-calendar3"></i> {{(myathletes.createdAt| date:"dd/MM/yyyy")||'-'}} - {{(myathletes.renewalDate)||'-'}}</p>
+        <span class="badge badge-positive chat-badge">{{ myathletes.subscriptionType | limitTo:1 }}</span>
+        <ion-option-button class="button-assertive">Unsubscribe</ion-option-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
