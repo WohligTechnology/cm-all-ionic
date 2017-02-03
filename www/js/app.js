@@ -53,66 +53,12 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         controller: 'appCtrl'
       })
 
-      .state('app.athleteprofile', {
+      .state('app.athlete-profile', {
         url: '/athlete/profile',
         views: {
-          'menuContentAthlete': {
+          'menuContent': {
             templateUrl: 'templates/athlete/profile.html',
             controller: 'AthleteProfileCtrl'
-          }
-        }
-      })
-      .state('app.marketplacearticles', {
-        url: '/marketplace/articles',
-        views: {
-          'menuContentAthlete': {
-            templateUrl: 'templates/marketplace/articles.html',
-            controller: 'AthleteArticlesCtrl'
-          }
-        }
-      })
-      .state('app.marketplaceservice', {
-        url: '/marketplace/service',
-        views: {
-          'menuContentAthlete': {
-            templateUrl: 'templates/marketplace/service.html',
-            controller: 'AthleteServiceCtrl'
-          }
-        }
-      })
-      .state('app.marketplaceevent', {
-        url: '/marketplace/event',
-        views: {
-          'menuContentAthlete': {
-            templateUrl: 'templates/marketplace/event.html',
-            controller: 'AthleteEventsCtrl'
-          }
-        }
-      })
-      .state('app.marketplacearticle-detail', {
-        url: '/marketplace/article-detail',
-        views: {
-          'menuContentAthlete': {
-            templateUrl: 'templates/marketplace/article-detail.html',
-            controller: 'AthleteArticleDetailCtrl'
-          }
-        }
-      })
-      .state('app.marketplaceservice-detail', {
-        url: '/marketplace/service-detail',
-        views: {
-          'menuContentAthlete': {
-            templateUrl: 'templates/marketplace/service-detail.html',
-            controller: 'AthleteServiceDetailCtrl'
-          }
-        }
-      })
-      .state('app.marketplaceevent-detail', {
-        url: '/marketplace/event-detail',
-        views: {
-          'menuContentAthlete': {
-            templateUrl: 'templates/marketplace/event-detail.html',
-            controller: 'AthleteEventDetailCtrl'
           }
         }
       })
@@ -120,21 +66,21 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       .state('app.personal-goals', {
         url: '/athlete/personal-goals',
         views: {
-          'menuContentAthlete': {
+          'menuContent': {
             templateUrl: 'templates/athlete/personal-goals.html',
             controller: 'AthletePersonalGoalsCtrl'
           }
         }
       })
 
-      .state('athletelogin', {
+      .state('athlete-login', {
         url: '/athlete/login',
         cache: false,
         templateUrl: 'templates/athlete/login.html',
         controller: 'AthleteLoginCtrl'
       })
 
-      .state('athleteregistration', {
+      .state('athlete-registration', {
         url: '/athlete/registration',
         templateUrl: 'templates/athlete/registration.html',
         controller: 'AthleteRegistrationCtrl'
@@ -143,99 +89,99 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       .state('app.athlete-edit-profile', {
         url: '/athlete/edit-profile',
         views: {
-          'menuContentAthlete': {
+          'menuContent': {
             templateUrl: 'templates/athlete/profile-edit.html',
             controller: 'AthleteEditProfileCtrl'
           }
         }
       })
 
-      .state('app.blog', {
+      .state('app.athlete-blog', {
         url: '/athlete/blog',
         cache: false,
         views: {
-          'menuContentAthlete': {
+          'menuContent': {
             templateUrl: 'templates/athlete/blog.html',
             controller: 'AthleteBlogCtrl'
           }
         }
       })
 
-      .state('app.blog-detail', {
+      .state('app.athlete-blog-detail', {
         url: '/athlete/blog/:id',
         views: {
-          'menuContentAthlete': {
+          'menuContent': {
             templateUrl: 'templates/athlete/blog-detail.html',
             controller: 'AthleteBlogDetailCtrl'
           }
         }
       })
 
-      .state('app.chat', {
+      .state('app.athlete-chat', {
         url: '/athlete/chat',
         views: {
-          'menuContentAthlete': {
+          'menuContent': {
             templateUrl: 'templates/athlete/chat.html',
             controller: 'AthleteChatCtrl'
           }
         }
       })
 
-      .state('app.chatdetail', {
+      .state('app.athlete-chatdetail', {
         url: '/athlete/chat/detail',
         views: {
-          'menuContentAthlete': {
+          'menuContent': {
             templateUrl: 'templates/athlete/chat-detail.html',
             controller: 'AthleteChatDetailCtrl'
           }
         }
       })
 
-      .state('app.chat-group', {
+      .state('app.athlete-chat-group', {
         url: '/athlete/chat-group',
         views: {
-          'menuContentAthlete': {
+          'menuContent': {
             templateUrl: 'templates/athlete/chat-group.html',
             controller: 'AthleteChatGroupCtrl'
           }
         }
       })
 
-      .state('app.coach', {
+      .state('app.athlete-coach', {
         url: '/athlete/coach',
         views: {
-          'menuContentAthlete': {
+          'menuContent': {
             templateUrl: 'templates/athlete/coach.html',
             controller: 'AthleteCoachCtrl'
           }
         }
       })
 
-      .state('app.coach-detail', {
+      .state('app.athlete-coach-detail', {
         url: '/athlete/coach/detail',
         views: {
-          'menuContentAthlete': {
+          'menuContent': {
             templateUrl: 'templates/athlete/coach-detail.html',
             controller: 'AthleteCoachDetailCtrl'
           }
         }
       })
 
-      .state('app.analytics', {
+      .state('app.athlete-analytics', {
         url: '/athlete/analytics',
         views: {
-          'menuContentAthlete': {
+          'menuContent': {
             templateUrl: 'templates/athlete/analytics.html',
             controller: 'AthleteAnalyticsCtrl'
           }
         }
       })
 
-      .state('app.injuries', {
+      .state('app.athlete-injuries', {
         url: '/athlete/injuries',
         cache: false,
         views: {
-          'menuContentAthlete': {
+          'menuContent': {
             templateUrl: 'templates/athlete/injuries.html',
             controller: 'AthleteInjuryCtrl'
           }
@@ -243,20 +189,20 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       })
 
 
-      .state('app.injuries-create', {
+      .state('app.athlete-injuries-create', {
         url: '/athlete/injuries-create',
         views: {
-          'menuContentAthlete': {
+          'menuContent': {
             templateUrl: 'templates/athlete/injuries-create.html',
             controller: 'AthleteInjuryCreateCtrl'
           }
         }
       })
 
-      .state('app.injuries-detail', {
+      .state('app.athlete-injuries-detail', {
         url: '/athlete/injuries/:id',
         views: {
-          'menuContentAthlete': {
+          'menuContent': {
             templateUrl: 'templates/athlete/injuries-create.html',
             controller: 'AthleteInjuryDetailCtrl'
           }
@@ -264,40 +210,40 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       })
 
 
-      .state('app.search-coaches', {
+      .state('app.athlete-search-coaches', {
         url: '/athlete/search-coaches',
         views: {
-          'menuContentAthlete': {
+          'menuContent': {
             templateUrl: 'templates/athlete/search-coaches.html',
             controller: 'AthleteSearchCoachesCtrl'
           }
         }
       })
 
-      .state('app.search-coaches-detail', {
+      .state('app.athlete-search-coaches-detail', {
         url: '/athlete/search-coaches/:id',
         views: {
-          'menuContentAthlete': {
+          'menuContent': {
             templateUrl: 'templates/athlete/search-coaches-detail.html',
             controller: 'AthleteSearchCoachesDetailCtrl'
           }
         }
       })
 
-      .state('app.notifications', {
+      .state('app.athlete-notifications', {
         url: '/athlete/notifications',
         views: {
-          'menuContentAthlete': {
+          'menuContent': {
             templateUrl: 'templates/athlete/notifications.html',
             controller: 'AthleteNotificationsCtrl'
           }
         }
       })
 
-      .state('app.training-diary', {
+      .state('app.athlete-training-diary', {
         url: '/training-diary',
         views: {
-          'menuContentAthlete': {
+          'menuContent': {
             templateUrl: 'templates/athlete/training-diary.html',
             controller: 'AthleteTrainingDiaryCtrl'
           }
@@ -308,14 +254,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
 
 
       //  Coach State Start
-  // .state('app', {
-  //       url: '/app',
-  //       abstract: true,
-  //       templateUrl: 'templates/coach/menu.html',
-  //       controller: 'appCtrl'
-  //     })
-
-      .state('app.coachprofile', {
+      .state('app.coach-profile', {
         url: '/coach/profile',
         cache: false,
         views: {
@@ -326,14 +265,14 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       })
 
-      .state('coachlogin', {
+      .state('coach-login', {
         url: '/coach/login',
         cache: false,
         templateUrl: 'templates/coach/login.html',
         controller: 'CoachLoginCtrl'
       })
 
-      .state('coachregistration', {
+      .state('coach-registration', {
         url: '/coach/registration',
         templateUrl: 'templates/coach/registration.html',
         controller: 'CoachRegistrationCtrl'
@@ -349,7 +288,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       })
 
-      .state('app.coachblog', {
+      .state('app.coach-blog', {
         cache: false,
         url: '/coach/blog',
         views: {
@@ -360,7 +299,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       })
 
-      .state('app.coachblog-detail', {
+      .state('app.coach-blog-detail', {
         url: '/coach/blog/:id',
         views: {
           'menuContent': {
@@ -370,7 +309,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       })
 
-      .state('app.coachchat', {
+      .state('app.coach-chat', {
         url: '/coach/chat',
         views: {
           'menuContent': {
@@ -380,7 +319,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       })
 
-      .state('app.coachnotifications', {
+      .state('app.coach-notifications', {
         url: '/coach/notifications',
         views: {
           'menuContent': {
@@ -390,7 +329,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       })
 
-      .state('app.coachchatdetail', {
+      .state('app.coach-chatdetail', {
         url: '/coach/chat-detail',
         views: {
           'menuContent': {
@@ -400,7 +339,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       })
 
-      .state('app.coachchat-group', {
+      .state('app.coach-chat-group', {
         url: '/coach/chat-group',
         views: {
           'menuContent': {
@@ -410,8 +349,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       })
 
-      .state('app.coaches', {
-        url: '/coachcoaches',
+      .state('app.coach-coaches', {
+        url: '/coach/coaches',
         views: {
           'menuContent': {
             templateUrl: 'templates/coach/coaches.html',
@@ -420,7 +359,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       })
 
-      .state('app.competition', {
+      .state('app.coach-competition', {
         cache: false,
         url: '/coach/competition',
         views: {
@@ -431,7 +370,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       })
 
-      .state('app.coachanalytics', {
+      .state('app.coach-analytics', {
         url: '/coach/analytics',
         views: {
           'menuContent': {
@@ -441,7 +380,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       })
 
-      .state('app.competition-create', {
+      .state('app.coach-competition-create', {
         url: '/coach/competition-create',
         views: {
           'menuContent': {
@@ -451,7 +390,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       })
 
-      .state('app.competition-detail', {
+      .state('app.coach-competition-detail', {
         url: '/coach/competition/:id',
         views: {
           'menuContent': {
@@ -461,7 +400,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       })
 
-      .state('app.testing', {
+      .state('app.coach-testing', {
         cache: false,
         url: '/coach/testing',
         views: {
@@ -473,7 +412,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       })
 
 
-      .state('app.testing-create', {
+      .state('app.coach-testing-create', {
         url: '/coach/testing-create',
         views: {
           'menuContent': {
@@ -483,7 +422,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       })
 
-      .state('app.testing-detail', {
+      .state('app.coach-testing-detail', {
         url: '/coachtesting/:id',
         views: {
           'menuContent': {
@@ -494,7 +433,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       })
 
 
-      .state('app.athletes-coaching', {
+      .state('app.coach-athletes-coaching', {
         url: '/coachathletes-coaching/:page/:keyword',
         views: {
           'menuContent': {
@@ -504,7 +443,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       })
 
-      .state('app.athletes-coaching-detail', {
+      .state('app.coach-athletes-coaching-detail', {
         url: '/coachathletes-coaching-detail/:athleteId',
         views: {
           'menuContent': {
@@ -514,7 +453,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       })
 
-      .state('app.athlete-detail', {
+      .state('app.coach-athlete-detail', {
         url: '/coachathlete-detail/:athleteId',
         views: {
           'menuContent': {
@@ -524,7 +463,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       })
 
-      .state('app.athletes-request', {
+      .state('app.coach-athletes-request', {
         url: '/coach/athletes-request',
         views: {
           'menuContent': {
@@ -534,7 +473,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       })
 
-      .state('app.coachtraining-diary', {
+      .state('app.coach-training-diary', {
         url: '/coach/training-diary',
         cache: false,
         views: {
@@ -549,12 +488,61 @@ angular.module('starter', ['ionic', 'starter.controllers'])
 
 
       //Marketplace State Start
-      .state('marketplaceapp', {
-        url: '/marketplaceapp',
-        abstract: true,
-        templateUrl: 'templates/coach/menu.html',
-        controller: 'appCtrl'
+      .state('app.marketplace-articles', {
+        url: '/marketplace/articles',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/marketplace/articles.html',
+            controller: 'AthleteArticlesCtrl'
+          }
+        }
       })
+      .state('app.marketplace-service', {
+        url: '/marketplace/service',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/marketplace/service.html',
+            controller: 'AthleteServiceCtrl'
+          }
+        }
+      })
+      .state('app.marketplace-event', {
+        url: '/marketplace/event',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/marketplace/event.html',
+            controller: 'AthleteEventsCtrl'
+          }
+        }
+      })
+      .state('app.marketplace-article-detail', {
+        url: '/marketplace/article-detail',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/marketplace/article-detail.html',
+            controller: 'AthleteArticleDetailCtrl'
+          }
+        }
+      })
+      .state('app.marketplace-service-detail', {
+        url: '/marketplace/service-detail',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/marketplace/service-detail.html',
+            controller: 'AthleteServiceDetailCtrl'
+          }
+        }
+      })
+      .state('app.marketplace-event-detail', {
+        url: '/marketplace/event-detail',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/marketplace/event-detail.html',
+            controller: 'AthleteEventDetailCtrl'
+          }
+        }
+      })
+
       //Marketplace State End
       
       

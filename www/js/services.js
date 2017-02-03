@@ -45,7 +45,7 @@ angular.module('starter.services', [])
         }).success(callback);
       },
 
-      setUser: function (data) {
+      setAthleteUser: function (data) {
         _.assignIn(userProfile, data);
         $.jStorage.set("userProfile", userProfile);
         requestCredentials = {
@@ -74,7 +74,7 @@ angular.module('starter.services', [])
         }).success(callback);
       },
 
-      login: function (formData, callback) {
+      athletelogin: function (formData, callback) {
         $http({
           url: adminurl + 'Athlete/athleteLogin',
           method: 'POST',

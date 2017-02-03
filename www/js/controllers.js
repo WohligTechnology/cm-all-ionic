@@ -26,7 +26,7 @@
   // Log out
   $scope.logout = function () {
     $.jStorage.flush();
-    $state.go('athletelogin');
+    $state.go('athlete-login');
   };
 
   $scope.notificationCount = $.jStorage.get("notificationCount");
@@ -220,7 +220,7 @@
         $scope.formData = {};
         $scope.hideLoading();
         $scope.showLoading('Registration Successful!', 2000);
-        $state.go('athletelogin');
+        $state.go('athlete-login');
       } else {
         $scope.hideLoading();
         $scope.showLoading('Registration Failed!', 2000);
@@ -311,14 +311,15 @@
   //Submit Form
   $scope.submitData = function (formData) {
     $scope.showLoading('Please wait...', 15000);
-    MyServices.login(formData, function (data) {
+    MyServices.athletelogin(formData, function (data) {
       if (data.value === true) {
         $scope.formData = {};
         $scope.hideLoading();
         $scope.showLoading('Login Successful!', 2000);
-        MyServices.setUser(data.data);
-        $state.go('app.athleteprofile');
+        MyServices.setAthleteUser(data.data);
+        $state.go('app.athlete-profile');
       } else {
+                    console.log("nai gaya");
         $scope.hideLoading();
         $scope.showLoading(data.error.message, 2000);
       }
@@ -792,7 +793,7 @@
   $scope.reloadProfile = function () {
     MyServices.getProfile($scope.profileData, function (data) {
       if (data.value === true) {
-        MyServices.setUser(data.data);
+        MyServices.setAthleteUser(data.data);
         $scope.$broadcast('scroll.refreshComplete');
       } else {
         $scope.$broadcast('scroll.refreshComplete');
@@ -906,9 +907,10 @@
     MyServices.editProfile(formData, function (data) {
       if (data.value === true) {
         $scope.hideLoading();
-        MyServices.setUser(data.data);
+        MyServices.setAthleteUser(data.data);
+        console.log(data.data);
         $scope.showLoading('Profile Updated!', 2000);
-        $state.go('app.athleteprofile');
+        $state.go('app.athlete-profile');
       } else {
         $scope.hideLoading();
         $scope.showLoading('Please Try Again!', 2000);
@@ -2121,7 +2123,7 @@
   // Log out
   $scope.logout = function () {
     $.jStorage.flush();
-    $state.go('coachlogin');
+    $state.go('coach-login');
   };
 
 })
@@ -2202,7 +2204,7 @@
         $scope.formData = {};
         $scope.hideLoading();
         $scope.showLoading('Registration Successful', 2000);
-        $state.go('coachlogin');
+        $state.go('coach-login');
       } else {
         $scope.hideLoading();
         $scope.showLoading('Registration Failed', 2000);
@@ -2300,7 +2302,7 @@
         $scope.hideLoading();
         $scope.showLoading('Login Successful', 2000);
         MyServices.setUser(data.data);
-        $state.go('app.coachprofile');
+        $state.go('app.coach-profile');
       } else {
         $scope.hideLoading();
         $scope.showLoading(data.data.message, 2000);
@@ -2473,7 +2475,7 @@
         $scope.hideLoading();
         MyServices.setUser(data.data);
         $scope.showLoading('Profile Updated', 2000);
-        $state.go('app.coachprofile');
+        $state.go('app.coach-profile');
       } else {
         $scope.hideLoading();
         $scope.showLoading('Please Try Again', 2000);
@@ -2522,7 +2524,7 @@
         $scope.passwordData = {};
         $scope.hideLoading();
         $scope.showLoading('Password Updated', 2000);
-        $state.go('app.coachprofile');
+        $state.go('app.coach-profile');
         $scope.closeModal();
       } else {
         $scope.hideLoading();
