@@ -1,6 +1,6 @@
 <ion-view view-title="Test(s)">
   <ion-nav-buttons side="right">
-    <a class="button button-clear icon ion-ios-plus-empty" ui-sref="coachapp.testing-create"></a>
+    <a class="button button-clear icon ion-ios-plus-empty" ui-sref="app.coach-testing-create"></a>
   </ion-nav-buttons>
   <ion-content>
     <ion-list>
@@ -11,7 +11,7 @@
       <ion-item ng-if="allTest.length == 0 && !more.Data">
         No Test(s) found.
       </ion-item>
-      <ion-item ng-if="allTest.length > 0" class="item-icon-left icon-c-l" ui-sref="coachapp.testing-detail({id: d._id})" ng-repeat="d in allTest">
+      <ion-item ng-if="allTest.length > 0" class="item-icon-left icon-c-l" ui-sref="app.coach-testing-detail({id: d._id})" ng-repeat="d in allTest">
         <i class="icon icon-circled ln-speed-fast"></i>
         <h2 data-ng-bind="d.name"></h2>
         <p>{{d.startDate|date:'dd MMMM, yyyy'}} - {{d.endDate|date:'dd MMMM, yyyy'}}</p>

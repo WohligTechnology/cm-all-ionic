@@ -4,7 +4,7 @@
       <ion-item class="item-text-wrap" ng-repeat="notification in coachnotifications">
         <!-- Unsbuscribe -->
         <div ng-if="notification.type === 'athleteSubscription'">
-          <p><a ui-sref="coachapp.athletes-request">{{notification.athletecoach.athlete.name}} {{notification.athletecoach.athlete.surname}} </a>wants
+          <p><a ui-sref="app.coach-athletes-request">{{notification.athletecoach.athlete.name}} {{notification.athletecoach.athlete.surname}} </a>wants
             to subsribe your coaching service.</p>
           <p>{{notification.createdAt | date:"dd/MM/yyyy 'at' h:mma"}}</p>
           <div class="button-bar hide">

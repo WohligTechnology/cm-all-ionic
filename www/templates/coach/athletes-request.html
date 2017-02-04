@@ -1,7 +1,7 @@
 <ion-view view-title="Athlete Requests">
   <ion-content>
     <ion-list>
-      <ion-item class="item-big-image item-text-wrap" ng-repeat="athlete in athletes" ui-sref="app.athlete-detail({athleteId:athlete.athlete._id})">
+      <ion-item class="item-big-image item-text-wrap" ng-repeat="athlete in athletes" ui-sref="app.coach-athlete-detail({athleteId:athlete.athlete._id})">
         <img ng-src="{{(athlete.athlete.profilePic|uploadpath)||'img/img-placeholder.png'}}">
         <h2>{{athlete.athlete.name}} {{athlete.athlete.surname}}</h2>
         <p>Sports: {{athlete.athlete.sports}}</p>

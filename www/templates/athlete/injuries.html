@@ -1,6 +1,6 @@
 <ion-view view-title="My Injuries">
   <ion-nav-buttons side="right">
-    <a class="button button-clear icon ion-ios-plus-empty" ui-sref="athleteapp.injuries-create"></a>
+    <a class="button button-clear icon ion-ios-plus-empty" ui-sref="app.athlete-injuries-create"></a>
   </ion-nav-buttons>
   <ion-content>
     <ion-list>
@@ -11,7 +11,7 @@
       <ion-item ng-if="allInjury.length == 0 && !more.Data">
         No Injuries found.
       </ion-item>
-      <ion-item class="item-icon-left icon-c-l" ui-sref="athleteapp.injuries-detail({id:d._id})" ng-repeat="d in allInjury">
+      <ion-item class="item-icon-left icon-c-l" ui-sref="app.athlete-injuries-detail({id:d._id})" ng-repeat="d in allInjury">
         <i class="icon icon-circled ln-first-aid" ng-class="{'assertive': live==true}"></i>
         <h2>{{d.name}}</h2>
         <p>{{d.injuryDate|date:'dd MMMM, yyyy'}} - {{d.resumeTrainingDate|date:'dd MMMM, yyyy'}}</p>

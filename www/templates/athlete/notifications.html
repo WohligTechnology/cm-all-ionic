@@ -42,7 +42,7 @@
         </div>
         <!-- Competition -->
         <div ng-if="notification.type == 'Competition'">
-          <p ui-sref="athleteapp.competition-detail">You have been assigned to the following competition: <span class="strong">{{notification.name}}</span>.</p>
+          <p ui-sref="app.athlete-competition-detail">You have been assigned to the following competition: <span class="strong">{{notification.name}}</span>.</p>
           <div class="button-bar hide">
             <button class="button button-small button-positive">Accept</button>
             <button class="button button-small button-assertive" ng-click="reason()">Reject</button>
