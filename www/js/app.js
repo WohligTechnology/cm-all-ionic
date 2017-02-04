@@ -493,7 +493,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         views: {
           'menuContent': {
             templateUrl: 'templates/marketplace/articles.html',
-            controller: 'AthleteArticlesCtrl'
+            controller: 'MarketplaceArticlesCtrl'
           }
         }
       })
@@ -502,7 +502,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         views: {
           'menuContent': {
             templateUrl: 'templates/marketplace/service.html',
-            controller: 'AthleteServiceCtrl'
+            controller: 'MarketplaceServiceCtrl'
           }
         }
       })
@@ -511,7 +511,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         views: {
           'menuContent': {
             templateUrl: 'templates/marketplace/event.html',
-            controller: 'AthleteEventsCtrl'
+            controller: 'MarketplaceEventsCtrl'
           }
         }
       })
@@ -520,7 +520,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         views: {
           'menuContent': {
             templateUrl: 'templates/marketplace/article-detail.html',
-            controller: 'AthleteArticleDetailCtrl'
+            controller: 'MarketplaceArticleDetailCtrl'
           }
         }
       })
@@ -529,7 +529,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         views: {
           'menuContent': {
             templateUrl: 'templates/marketplace/service-detail.html',
-            controller: 'AthleteServiceDetailCtrl'
+            controller: 'MarketplaceServiceDetailCtrl'
           }
         }
       })
@@ -538,7 +538,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         views: {
           'menuContent': {
             templateUrl: 'templates/marketplace/event-detail.html',
-            controller: 'AthleteEventDetailCtrl'
+            controller: 'MarketplaceEventDetailCtrl'
           }
         }
       })
