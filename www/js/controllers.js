@@ -253,7 +253,7 @@
   };
 
   //Terms Modal
-  $ionicModal.fromTemplateUrl('templates/modal/static-page.html', {
+  $ionicModal.fromTemplateUrl('templates/athlete-modal/static-page.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function (modal) {
@@ -284,7 +284,7 @@
   $ionicHistory.clearCache();
   $ionicHistory.clearHistory();
   $ionicHistory.removeBackView();
-  $ionicModal.fromTemplateUrl('templates/modal/forgot-password.html', {
+  $ionicModal.fromTemplateUrl('templates/athlete-modal/forgot-password.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function (modal) {
@@ -470,7 +470,7 @@
     $scope.article = function () {
 
      $scope.articleopen = $ionicPopup.show({
-       templateUrl: 'templates/modal/article-modal.html',
+       templateUrl: 'templates/athlete-modal/article-modal.html',
        scope: $scope,
        cssClass:'articlepop'
      });
@@ -482,7 +482,7 @@
 
     $scope.searchpop = function () {
      $scope.searchopen = $ionicPopup.show({
-       templateUrl: 'templates/modal/search.html',
+       templateUrl: 'templates/athlete-modal/search.html',
        scope: $scope,
        cssClass:'searchpop'
      });
@@ -506,7 +506,7 @@
 
       $scope.searchpop = function () {
        $scope.searchopen = $ionicPopup.show({
-         templateUrl: 'templates/modal/search.html',
+         templateUrl: 'templates/athlete-modal/search.html',
          scope: $scope,
          cssClass:'searchpop'
        });
@@ -643,7 +643,7 @@
 
       $scope.searchpop = function () {
        $scope.searchopen = $ionicPopup.show({
-         templateUrl: 'templates/modal/search.html',
+         templateUrl: 'templates/athlete-modal/search.html',
          scope: $scope,
          cssClass:'searchpop'
        });
@@ -924,7 +924,7 @@
 
 
   // Update Password
-  $ionicModal.fromTemplateUrl('templates/modal/password.html', {
+  $ionicModal.fromTemplateUrl('templates/athlete-modal/password.html', {
     id: 1,
     scope: $scope,
     animation: 'slide-in-up'
@@ -944,7 +944,7 @@
         $scope.passwordData = {};
         $scope.hideLoading();
         $scope.showLoading('Password Updated!', 2000);
-        $state.go('app.athelteprofile');
+        $state.go('app.athelte-profile');
         $scope.closeModal();
       } else {
         $scope.hideLoading();
@@ -1147,7 +1147,7 @@
 })
 
 .controller('AthleteChatCtrl', function ($scope, $ionicModal, $state) {
-  $ionicModal.fromTemplateUrl('templates/modal/chat.html', {
+  $ionicModal.fromTemplateUrl('templates/coach-modal/athlete-chat.html', {
     id: 1,
     scope: $scope,
     animation: 'slide-in-up'
@@ -1159,7 +1159,7 @@
   };
 
   $scope.startChat = function () {
-    $state.go('app.chatdetail');
+    $state.go('app.athlete-chatdetail');
     $scope.modalChat.hide();
   };
 })
@@ -1429,7 +1429,7 @@
       if (data.value === true) {
         $scope.hideLoading();
         $scope.showLoading('Injury Created', 2000);
-        $state.go('app.injuries');
+        $state.go('app.athlete-injuries');
       } else {
         $scope.hideLoading();
         $scope.showLoading(data.data.message, 2000);
@@ -1469,7 +1469,7 @@
       if (data.value === true) {
         $scope.hideLoading();
         $scope.showLoading('Injury Edited', 2000);
-        $state.go('app.injuries');
+        $state.go('app.athlete-injuries');
       } else {
         $scope.hideLoading();
         $scope.showLoading('Error Editing Injury', 2000);
@@ -1521,7 +1521,7 @@
         if (data.value) {
           $scope.hideLoading();
           $scope.showLoading("Injury Deleted", 2000);
-          $state.go('app.injuries');
+          $state.go('app.athlete-injuries');
 
         } else {
           $scope.hideLoading();
@@ -1544,7 +1544,7 @@
   $scope.more = {
     Data: true
   };
-  $ionicModal.fromTemplateUrl('templates/modal/coach-filter.html', {
+  $ionicModal.fromTemplateUrl('templates/athlete-modal/coach-filter.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function (modal) {
@@ -1756,12 +1756,12 @@
       if (response.value === true) {
         $scope.hideLoading();
         $scope.showLoading('Request Sent Successfully!', 2000);
-        $state.go('app.search-coaches');
+        $state.go('app.athlete-search-coaches');
       }
     });
   };
 
-  $ionicModal.fromTemplateUrl('templates/modal/message-box.html', {
+  $ionicModal.fromTemplateUrl('templates/athlete-modal/message-box.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function (modal) {
@@ -1929,7 +1929,7 @@
 
   $scope.readNotification();
 
-  $ionicModal.fromTemplateUrl('templates/modal/modal-paynow.html', {
+  $ionicModal.fromTemplateUrl('templates/athlete-modal/modal-paynow.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function (modal) {
@@ -1975,7 +1975,7 @@
   };
 
   //Feedback Modal
-  $ionicModal.fromTemplateUrl('templates/modal/feedback.html', {
+  $ionicModal.fromTemplateUrl('templates/athlete-modal/feedback.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function (modal) {
@@ -2238,7 +2238,7 @@
 
 
   //Terms Modal
-  $ionicModal.fromTemplateUrl('templates/modal/static-page.html', {
+  $ionicModal.fromTemplateUrl('templates/coach-modal/static-page.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function (modal) {
@@ -2268,7 +2268,7 @@
   $ionicHistory.clearCache();
   $ionicHistory.clearHistory();
   $ionicHistory.removeBackView();
-  $ionicModal.fromTemplateUrl('templates/modal/forgot-password.html', {
+  $ionicModal.fromTemplateUrl('templates/coach-modal/forgot-password.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function (modal) {
@@ -2487,7 +2487,7 @@
     $scope.countries = data;
   });
 
-  $ionicModal.fromTemplateUrl('templates/modal/password.html', {
+  $ionicModal.fromTemplateUrl('templates/coach-modal/password.html', {
     id: 1,
     scope: $scope,
     animation: 'slide-in-up'
@@ -2495,7 +2495,7 @@
     $scope.modalPassword = modal;
   });
 
-  $ionicModal.fromTemplateUrl('templates/modal/price.html', {
+  $ionicModal.fromTemplateUrl('templates/coach-modal/price.html', {
     id: 2,
     scope: $scope,
     animation: 'slide-in-up'
@@ -2503,7 +2503,7 @@
     $scope.modalPrice = modal;
   });
 
-  $ionicModal.fromTemplateUrl('templates/modal/coaching-limit.html', {
+  $ionicModal.fromTemplateUrl('templates/coach-modal/coaching-limit.html', {
     id: 3,
     scope: $scope,
     animation: 'slide-in-up'
@@ -2705,7 +2705,7 @@
   $scope.showLoading('Please wait...', 15000);
 
   //Select Athletes
-  $ionicModal.fromTemplateUrl('templates/modal/add-athlete.html', {
+  $ionicModal.fromTemplateUrl('templates/coach-modal/add-athlete.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function (modal) {
@@ -2765,7 +2765,7 @@
       if (data.value === true) {
         $scope.hideLoading();
         $scope.showLoading('Blog Edited', 2000);
-        $state.go('app.blog');
+        $state.go('app.coach-blog');
       } else {
         $scope.hideLoading();
         $scope.showLoading('Error Editing Blog', 2000);
@@ -2814,7 +2814,7 @@
         if (data.value) {
           $scope.hideLoading();
           $scope.showLoading("Blog Deleted", 2000);
-          $state.go('app.blog');
+          $state.go('app.coach-blog');
 
         } else {
           $scope.hideLoading();
@@ -2946,7 +2946,7 @@
   };
 
   //Select Athletes Modal
-  $ionicModal.fromTemplateUrl('templates/modal/add-athlete.html', {
+  $ionicModal.fromTemplateUrl('templates/coach-modal/add-athlete.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function (modal) {
@@ -2998,7 +2998,7 @@
       if (data.value === true) {
         $scope.hideLoading();
         $scope.showLoading('Competition Created', 2000);
-        $state.go('app.competition');
+        $state.go('app.coach-competition');
       } else {
         $scope.hideLoading();
         $scope.showLoading(data.data.message, 2000);
@@ -3020,7 +3020,7 @@
   };
 
   //Select Athletes
-  $ionicModal.fromTemplateUrl('templates/modal/add-athlete.html', {
+  $ionicModal.fromTemplateUrl('templates/coach-modal/add-athlete.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function (modal) {
@@ -3071,7 +3071,7 @@
       if (data.value === true) {
         $scope.hideLoading();
         $scope.showLoading('Competition Edited', 2000);
-        $state.go('app.competition');
+        $state.go('app.coach-competition');
       } else {
         $scope.hideLoading();
         $scope.showLoading('Error Editing Competition', 2000);
@@ -3123,7 +3123,7 @@
         if (data.value) {
           $scope.hideLoading();
           $scope.showLoading("Competition Deleted", 2000);
-          $state.go('app.competition');
+          $state.go('app.coach-competition');
 
         } else {
           $scope.hideLoading();
@@ -3253,7 +3253,7 @@
   };
 
   //Select Athletes Modal
-  $ionicModal.fromTemplateUrl('templates/modal/add-athlete.html', {
+  $ionicModal.fromTemplateUrl('templates/coach-modal/add-athlete.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function (modal) {
@@ -3314,7 +3314,7 @@
       if (data.value === true) {
         $scope.hideLoading();
         $scope.showLoading('Test Created', 2000);
-        $state.go('app.testing');
+        $state.go('app.coach-testing');
       } else {
         $scope.hideLoading();
         $scope.showLoading(data.data.message, 2000);
@@ -3336,7 +3336,7 @@
   };
 
   //Select Athletes
-  $ionicModal.fromTemplateUrl('templates/modal/add-athlete.html', {
+  $ionicModal.fromTemplateUrl('templates/coach-modal/add-athlete.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function (modal) {
@@ -3396,7 +3396,7 @@
       if (data.value === true) {
         $scope.hideLoading();
         $scope.showLoading('Test Edited', 2000);
-        $state.go('app.testing');
+        $state.go('app.coach-testing');
       } else {
         $scope.hideLoading();
         $scope.showLoading('Error Editing Test', 2000);
@@ -3448,7 +3448,7 @@
         if (data.value) {
           $scope.hideLoading();
           $scope.showLoading("Test Deleted", 2000);
-          $state.go('app.testing');
+          $state.go('app.coach-testing');
 
         } else {
           $scope.hideLoading();
@@ -3484,7 +3484,7 @@
   };
 
   //Select Athlete
-  $ionicModal.fromTemplateUrl('templates/modal/select-athlete.html', {
+  $ionicModal.fromTemplateUrl('templates/coach-modal/select-athlete.html', {
     id: 1,
     scope: $scope,
     animation: 'slide-in-up'
@@ -3497,7 +3497,7 @@
   };
 
   //Feedback Modal
-  $ionicModal.fromTemplateUrl('templates/modal/feedback.html', {
+  $ionicModal.fromTemplateUrl('templates/coach-modal/feedback.html', {
     id: 2,
     scope: $scope,
     animation: 'slide-in-up'
@@ -3689,9 +3689,9 @@
     $scope.search.keyword = $stateParams.keyword;
   }
   $scope.changePage = function (page) {
-    var goTo = "app.athletes-coaching";
+    var goTo = "app.coach-athletes-coaching";
     if ($scope.search.keyword) {
-      goTo = "app.athletes-coaching";
+      goTo = "app.coach-athletes-coaching";
     }
     $state.go(goTo, {
       page: page,
@@ -3952,7 +3952,7 @@
 
 
 .controller('CoachChatCtrl', function ($scope, $ionicModal, $state) {
-  $ionicModal.fromTemplateUrl('templates/modal/chat.html', {
+  $ionicModal.fromTemplateUrl('templates/coach-modal/chat.html', {
     id: 1,
     scope: $scope,
     animation: 'slide-in-up'
@@ -3963,7 +3963,7 @@
     $scope.modalChat.show();
   };
 
-  $ionicModal.fromTemplateUrl('templates/modal/group-chat.html', {
+  $ionicModal.fromTemplateUrl('templates/coach-modal/group-chat.html', {
     id: 2,
     scope: $scope,
     animation: 'slide-in-up'
@@ -3980,7 +3980,7 @@
   };
 
   $scope.startChat = function () {
-    $state.go('app.chatdetail');
+    $state.go('app.coach-chatdetail');
     $scope.modalChat.hide();
   };
 })
