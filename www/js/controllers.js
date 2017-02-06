@@ -12,12 +12,63 @@
 })
 
 .controller('LandingCtrl', function ($scope, $ionicModal, $timeout, $state, $rootScope, MyServices, $ionicHistory) {
-  // $scope.loadingData = MyServices.getUser();
-  // if ($scope.loadingData.accessToken) {
-  //   $state.go('app.profile');
-  // } else {
-  //   $state.go('landing');
-  // }
+  //Athlete Login Modal
+  $ionicModal.fromTemplateUrl('templates/athlete-modal/login.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function (modal) {
+    $scope.modal1 = modal;
+  });
+  $scope.openModalAthleteLogin = function () {
+    $scope.modal1.show();
+  };
+
+  $scope.closeModalAthleteLogin = function () {
+    $scope.modal1.hide();
+  };
+    //Athlete Sign Modal
+  $ionicModal.fromTemplateUrl('templates/athlete-modal/registration.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function (modal) {
+    $scope.modal2 = modal;
+  });
+  $scope.openModalAthleteSignin = function () {
+    $scope.modal2.show();
+  };
+
+  $scope.closeModalAthleteSignin = function () {
+    $scope.modal2.hide();
+  };
+
+    //Coach Login Modal
+  $ionicModal.fromTemplateUrl('templates/coach-modal/login.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function (modal) {
+    $scope.modal3 = modal;
+  });
+  $scope.openModalCoachLogin = function () {
+    $scope.modal3.show();
+  };
+
+  $scope.closeModalCoachLogin = function () {
+    $scope.modal3.hide();
+  };
+    //Coach Sign Modal
+  $ionicModal.fromTemplateUrl('templates/coach-modal/registration.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function (modal) {
+    $scope.modal4 = modal;
+  });
+  $scope.openModalCoachSignin = function () {
+    $scope.modal4.show();
+  };
+
+  $scope.closeModalCoachSignin = function () {
+    $scope.modal4.hide();
+  };
 })
 
 .controller('appCtrl', function ($scope, $ionicModal, $timeout, MyServices, $state) {
@@ -72,7 +123,6 @@
         MyServices.setAthleteUser(data.data);
         $state.go('app.athlete-profile');
       } else {
-                    console.log("nai gaya");
         $scope.hideLoading();
         $scope.showLoading(data.error.message, 2000);
       }

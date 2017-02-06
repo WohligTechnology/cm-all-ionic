@@ -73,18 +73,18 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       })
 
-      .state('athlete-login', {
-        url: '/athlete/login',
-        cache: false,
-        templateUrl: 'templates/athlete/login.html',
-        controller: 'AthleteLoginCtrl'
-      })
+      // .state('athlete-login', {
+      //   url: '/athlete/login',
+      //   cache: false,
+      //   templateUrl: 'templates/athlete/login.html',
+      //   controller: 'AthleteLoginCtrl'
+      // })
 
-      .state('athlete-registration', {
-        url: '/athlete/registration',
-        templateUrl: 'templates/athlete/registration.html',
-        controller: 'AthleteRegistrationCtrl'
-      })
+      // .state('athlete-registration', {
+      //   url: '/athlete/registration',
+      //   templateUrl: 'templates/athlete/registration.html',
+      //   controller: 'AthleteRegistrationCtrl'
+      // })
 
       .state('app.athlete-edit-profile', {
         url: '/athlete/edit-profile',
@@ -265,18 +265,18 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       })
 
-      .state('coach-login', {
-        url: '/coach/login',
-        cache: false,
-        templateUrl: 'templates/coach/login.html',
-        controller: 'CoachLoginCtrl'
-      })
+      // .state('coach-login', {
+      //   url: '/coach/login',
+      //   cache: false,
+      //   templateUrl: 'templates/coach/login.html',
+      //   controller: 'CoachLoginCtrl'
+      // })
 
-      .state('coach-registration', {
-        url: '/coach/registration',
-        templateUrl: 'templates/coach/registration.html',
-        controller: 'CoachRegistrationCtrl'
-      })
+      // .state('coach-registration', {
+      //   url: '/coach/registration',
+      //   templateUrl: 'templates/coach/registration.html',
+      //   controller: 'CoachRegistrationCtrl'
+      // })
 
       .state('app.coach-edit-profile', {
         url: '/coach/edit-profile',

@@ -1,0 +1,37 @@
+<ion-modal-view class="bg-login" ng-controller="CoachLoginCtrl">
+    <ion-header-bar class="bar bar-header">
+   <div class="button" ng-click="closeModalCoachLogin()">
+     <span class="icon ion-close"></span>
+     </div>
+     </ion-header-bar>
+       <ion-content>
+    <div class="logo mt30">
+      <img src="img/logo.png" alt="Coach Mentor">
+    </div>
+    <div class="psw-form padding-horizontal">
+      <form name="formName" ng-submit="submitData(formData);" class="err-icon-right">
+        <div class="list">
+          <label class="item item-input ps-relative" ng-class="{'err':formName.email.$invalid && formName.email.$touched}">
+            <i class="ln-envelope"></i>
+            <input type="email" placeholder="Email Address" name="email" ng-model="formData.email"  ng-pattern="validEmail" required>
+            <span class="error-msg" ng-show="formName.email.$invalid && formName.email.$touched">Please enter valid Email</span>
+          </label>
+          <label class="item item-input ps-relative" ng-class="{'err':formName.password.$invalid && formName.password.$touched}">
+            <i class="ln-lock"></i>
+            <input type="password" no-paste placeholder="Password" name="password" ng-model="formData.password" required>
+            <span class="error-msg" ng-show="formName.password.$invalid && formName.password.$touched">Please enter valid Password</span>
+          </label>
+          <div class="pull-right pr15">
+            <a class="color-primary" ng-click="openModal()">Forgot Password?</a>
+          </div>
+          <div class="pl15">
+            <a ui-sref="coach-registration" class="color-primary">Register Now</a>
+          </div>
+        </div>
+        <div class="text-center mt30 padding-horizontal sb-btn">
+          <button class="button button-positive button-block" ng-disabled="formName.$invalid" type="submit">Login</button>
+        </div>
+      </form>
+    </div>
+  </ion-content>
+</ion-modal-view>
