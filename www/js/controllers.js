@@ -100,98 +100,6 @@
 
 })
 
-.controller('AthleteArticlesCtrl', function ($scope, $ionicModal, $timeout ,$ionicPopup) {
-  $scope.searchshow = false;
-    $scope.search = function() {
-        $scope.searchshow =  ! $scope.searchshow;
-    };
-    $scope.articleListBanner = {
-        img: ' img/marketplace/article-list-landing.png',
-    };
-    $scope.view = function() {
-        modal = $uibModal.open({
-            animation: true,
-            templateUrl: " views/modal/article-list-view.html",
-            windowClass: "modal-article-view",
-            scope: $scope
-        });
-    };
-    $scope.categories = ['Training and performance', ' Nutrition', ' Coaching', '   Parents and Guardians', 'News', 'Tips and Techniques'];
-    $scope.marketlist = [{
-        "profile": "img/marketplace/pic1.png",
-        "name": "vern",
-        "surname": "gambetta",
-        "date": "december 1, 2016 ",
-        "rate": "£ 22",
-        "likes": "210 ",
-        "dislikes": "0",
-        "img": "img/marketplace/event2.png",
-        "title": "some thoughts, reflections & advice on coaching."
-    }, {
-        "profile": "img/marketplace/pic4.png",
-        "name": "kristin",
-        "surname": "dryden",
-        "date": "december 2, 2016 ",
-        "rate": "£ 25",
-        "likes": "210 ",
-        "dislikes": "0",
-        "img": "img/marketplace/event3.png",
-        "title": " biased training"
-    }, {
-        "profile": "img/marketplace/pic3.png",
-        "name": "john",
-        "surname": "grace",
-        "date": "january 21, 2016 ",
-        "rate": "free",
-        "likes": "210 ",
-        "dislikes": "0",
-        "img": "img/marketplace/event4.png",
-        "title": "is max strength as important as we think?"
-    }, {
-        "profile": "img/marketplace/pic2.png",
-        "name": "john",
-        "surname": "grace",
-        "date": "january 21, 2016 ",
-        "rate": "free",
-        "likes": "210 ",
-        "dislikes": "0",
-        "img": "img/marketplace/event5.png",
-        "title": "is max strength as important as we think?"
-    }];
-    $scope.articleDetail = {
-        image: ' img/marketplace/artical-popup.png',
-        title: 'some thoughts,reflections & advice on coaching.',
-        price: '£ 25',
-        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla, libero eu tempus tempr lectus nunc lacinia ex, vestibulum sollicitudin arcu ante in est. Nulla mollis neque nec imperd pellentesque. Ut efficitur tempor leo non vestibulum. Aliquam ultricies commodo risus, vitaery interdum orci dictum vel. Donec feugiat urna turpis. Aenean vitae eleifend lorem, condimentn lobortis nibh. Proin et venenatis ipsum, eget pulvinar ligula.'
-
-    };
-    $scope.article = function () {
-
-     $scope.articleopen = $ionicPopup.show({
-       templateUrl: 'templates/athlete-modal/article-modal.html',
-       scope: $scope,
-       cssClass:'articlepop'
-     });
-    }
-
-    $scope.closePopup = function () {
-       $scope.articleopen.close();
-     };
-
-    $scope.searchpop = function () {
-     $scope.searchopen = $ionicPopup.show({
-       templateUrl: 'templates/athlete-modal/search.html',
-       scope: $scope,
-       cssClass:'searchpop'
-     });
-    }
-    $scope.searchPopup = function () {
-       $scope.searchopen.close();
-     }
-    $scope.categories = ['Training and performance', ' Nutrition', ' Coaching', '   Parents and Guardians', 'News', 'Tips and Techniques'];
-
-})
-
 .controller('AthleteProfileCtrl', function ($scope, $ionicScrollDelegate, $ionicHistory, $rootScope, MyServices, $ionicLoading) {
   $ionicHistory.clearCache();
   $ionicHistory.clearHistory();
@@ -1533,6 +1441,117 @@
     }
   };
 })
+.controller('AthleteRegistrationCtrl', function ($scope, $state, $ionicPopup, MyServices, $ionicLoading, $filter, $ionicModal) {
+
+  $scope.formData = {};
+
+  $scope.gender = ['Male', 'Female'];
+
+  $scope.maxDate = $filter('date')(new Date(), 'yyyy-MM-dd');
+
+  $scope.onlyAplha = /^[a-zA-Z_]+$/;
+  $scope.validEmail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+  //Loading
+  $scope.showLoading = function (value, time) {
+    $ionicLoading.show({
+      template: value,
+      duration: time
+    });
+  };
+  $scope.hideLoading = function () {
+    $ionicLoading.hide();
+  };
+
+  //Password Validator
+  $scope.valid1 = false;
+  $scope.valid2 = false;
+  $scope.passwordValidator = function (password) {
+    $scope.passwordInvalid = true;
+    if (password && password.length >= 8 && password.length <= 15) {
+      $scope.valid1 = true;
+    } else {
+      $scope.valid1 = false;
+    }
+    if (/([a-zA-Z])/.test(password) && /([0-9])/.test(password)) {
+      $scope.valid2 = true;
+    } else {
+      $scope.valid2 = false;
+    }
+    if ($scope.valid1 && $scope.valid2) {
+      $scope.passwordInvalid = false;
+    } else {
+      $scope.passwordInvalid = true;
+    }
+  };
+
+  //Submit Form
+  $scope.submitData = function (formData) {
+    $scope.showLoading('Please wait...', 15000);
+    MyServices.register(formData, function (data) {
+      if (data.value === true) {
+        $scope.formData = {};
+        $scope.hideLoading();
+        $scope.showLoading('Registration Successful!', 2000);
+        $state.go('athlete-login');
+      } else {
+        $scope.hideLoading();
+        $scope.showLoading('Registration Failed!', 2000);
+      }
+    });
+  };
+
+  //Terms Popup
+  $scope.termsID = {
+    _id: "580cc6877f2ec11727460f1f"
+  };
+  $scope.privacyID = {
+    _id: "580cc67b7f2ec11727460f1c"
+  };
+  $scope.termsPopup = function (data) {
+    $scope.myPopup = $ionicPopup.show({
+      template: '<p>Do you agree to the Coach Mentor <span class="link" ng-click="staticModal(termsID)">Terms of Service</span> and <span class="link" ng-click="staticModal(privacyID)">Privacy Policy</span>?</p>',
+      title: 'Terms & Conditions',
+      scope: $scope,
+      buttons: [{
+        text: 'No'
+      }, {
+        text: '<b>Yes</b>',
+        type: 'button-positive',
+        onTap: function (e) {
+          $scope.submitData(data);
+        }
+      }]
+    });
+  };
+
+  //Terms Modal
+  $ionicModal.fromTemplateUrl('templates/athlete-modal/static-page.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function (modal) {
+    $scope.modal = modal;
+  });
+  $scope.staticModal = function (id) {
+    $scope.staticData = '';
+    $scope.myPopup.close();
+    $scope.showLoading('Loading...', 15000);
+    MyServices.getStatic(id, function (data) {
+      if (data.value === true) {
+        $scope.staticData = data.data;
+        $scope.hideLoading();
+      } else {
+        $scope.hideLoading();
+        $scope.showLoading('Loading Failed!', 2000);
+      }
+    });
+    $scope.modal.show();
+  };
+  $scope.closeModal = function () {
+    $scope.modal.hide();
+  };
+
+})
 
 //end of Athlete controller
 //Start of Marketplace controller
@@ -1814,6 +1833,97 @@
           "urlPlay": ""
       }];
 })
+.controller('MarketplaceArticlesCtrl', function ($scope, $ionicModal, $timeout ,$ionicPopup) {
+  $scope.searchshow = false;
+    $scope.search = function() {
+        $scope.searchshow =  ! $scope.searchshow;
+    };
+    $scope.articleListBanner = {
+        img: ' img/marketplace/article-list-landing.png',
+    };
+    $scope.view = function() {
+        modal = $uibModal.open({
+            animation: true,
+            templateUrl: " views/modal/article-list-view.html",
+            windowClass: "modal-article-view",
+            scope: $scope
+        });
+    };
+    $scope.categories = ['Training and performance', ' Nutrition', ' Coaching', '   Parents and Guardians', 'News', 'Tips and Techniques'];
+    $scope.marketlist = [{
+        "profile": "img/marketplace/pic1.png",
+        "name": "vern",
+        "surname": "gambetta",
+        "date": "december 1, 2016 ",
+        "rate": "£ 22",
+        "likes": "210 ",
+        "dislikes": "0",
+        "img": "img/marketplace/event2.png",
+        "title": "some thoughts, reflections & advice on coaching."
+    }, {
+        "profile": "img/marketplace/pic4.png",
+        "name": "kristin",
+        "surname": "dryden",
+        "date": "december 2, 2016 ",
+        "rate": "£ 25",
+        "likes": "210 ",
+        "dislikes": "0",
+        "img": "img/marketplace/event3.png",
+        "title": " biased training"
+    }, {
+        "profile": "img/marketplace/pic3.png",
+        "name": "john",
+        "surname": "grace",
+        "date": "january 21, 2016 ",
+        "rate": "free",
+        "likes": "210 ",
+        "dislikes": "0",
+        "img": "img/marketplace/event4.png",
+        "title": "is max strength as important as we think?"
+    }, {
+        "profile": "img/marketplace/pic2.png",
+        "name": "john",
+        "surname": "grace",
+        "date": "january 21, 2016 ",
+        "rate": "free",
+        "likes": "210 ",
+        "dislikes": "0",
+        "img": "img/marketplace/event5.png",
+        "title": "is max strength as important as we think?"
+    }];
+    $scope.articleDetail = {
+        image: ' img/marketplace/artical-popup.png',
+        title: 'some thoughts,reflections & advice on coaching.',
+        price: '£ 25',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla, libero eu tempus tempr lectus nunc lacinia ex, vestibulum sollicitudin arcu ante in est. Nulla mollis neque nec imperd pellentesque. Ut efficitur tempor leo non vestibulum. Aliquam ultricies commodo risus, vitaery interdum orci dictum vel. Donec feugiat urna turpis. Aenean vitae eleifend lorem, condimentn lobortis nibh. Proin et venenatis ipsum, eget pulvinar ligula.'
+
+    };
+    $scope.article = function () {
+
+     $scope.articleopen = $ionicPopup.show({
+       templateUrl: 'templates/athlete-modal/article-modal.html',
+       scope: $scope,
+       cssClass:'articlepop'
+     });
+    }
+
+    $scope.closePopup = function () {
+       $scope.articleopen.close();
+     };
+
+    $scope.searchpop = function () {
+     $scope.searchopen = $ionicPopup.show({
+       templateUrl: 'templates/athlete-modal/search.html',
+       scope: $scope,
+       cssClass:'searchpop'
+     });
+    }
+    $scope.searchPopup = function () {
+       $scope.searchopen.close();
+     }
+    $scope.categories = ['Training and performance', ' Nutrition', ' Coaching', '   Parents and Guardians', 'News', 'Tips and Techniques'];
+
+})
 .controller('MarketplaceServiceDetailCtrl', function ($scope, $state, $ionicPopup, MyServices, $ionicLoading, $filter, $ionicModal) {
   $scope.servicePopup = {
       "image": "img/marketplace/pic2.png",
@@ -1949,117 +2059,7 @@
           }
   })
 
-.controller('AthleteRegistrationCtrl', function ($scope, $state, $ionicPopup, MyServices, $ionicLoading, $filter, $ionicModal) {
 
-  $scope.formData = {};
-
-  $scope.gender = ['Male', 'Female'];
-
-  $scope.maxDate = $filter('date')(new Date(), 'yyyy-MM-dd');
-
-  $scope.onlyAplha = /^[a-zA-Z_]+$/;
-  $scope.validEmail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
-  //Loading
-  $scope.showLoading = function (value, time) {
-    $ionicLoading.show({
-      template: value,
-      duration: time
-    });
-  };
-  $scope.hideLoading = function () {
-    $ionicLoading.hide();
-  };
-
-  //Password Validator
-  $scope.valid1 = false;
-  $scope.valid2 = false;
-  $scope.passwordValidator = function (password) {
-    $scope.passwordInvalid = true;
-    if (password && password.length >= 8 && password.length <= 15) {
-      $scope.valid1 = true;
-    } else {
-      $scope.valid1 = false;
-    }
-    if (/([a-zA-Z])/.test(password) && /([0-9])/.test(password)) {
-      $scope.valid2 = true;
-    } else {
-      $scope.valid2 = false;
-    }
-    if ($scope.valid1 && $scope.valid2) {
-      $scope.passwordInvalid = false;
-    } else {
-      $scope.passwordInvalid = true;
-    }
-  };
-
-  //Submit Form
-  $scope.submitData = function (formData) {
-    $scope.showLoading('Please wait...', 15000);
-    MyServices.register(formData, function (data) {
-      if (data.value === true) {
-        $scope.formData = {};
-        $scope.hideLoading();
-        $scope.showLoading('Registration Successful!', 2000);
-        $state.go('athlete-login');
-      } else {
-        $scope.hideLoading();
-        $scope.showLoading('Registration Failed!', 2000);
-      }
-    });
-  };
-
-  //Terms Popup
-  $scope.termsID = {
-    _id: "580cc6877f2ec11727460f1f"
-  };
-  $scope.privacyID = {
-    _id: "580cc67b7f2ec11727460f1c"
-  };
-  $scope.termsPopup = function (data) {
-    $scope.myPopup = $ionicPopup.show({
-      template: '<p>Do you agree to the Coach Mentor <span class="link" ng-click="staticModal(termsID)">Terms of Service</span> and <span class="link" ng-click="staticModal(privacyID)">Privacy Policy</span>?</p>',
-      title: 'Terms & Conditions',
-      scope: $scope,
-      buttons: [{
-        text: 'No'
-      }, {
-        text: '<b>Yes</b>',
-        type: 'button-positive',
-        onTap: function (e) {
-          $scope.submitData(data);
-        }
-      }]
-    });
-  };
-
-  //Terms Modal
-  $ionicModal.fromTemplateUrl('templates/athlete-modal/static-page.html', {
-    scope: $scope,
-    animation: 'slide-in-up'
-  }).then(function (modal) {
-    $scope.modal = modal;
-  });
-  $scope.staticModal = function (id) {
-    $scope.staticData = '';
-    $scope.myPopup.close();
-    $scope.showLoading('Loading...', 15000);
-    MyServices.getStatic(id, function (data) {
-      if (data.value === true) {
-        $scope.staticData = data.data;
-        $scope.hideLoading();
-      } else {
-        $scope.hideLoading();
-        $scope.showLoading('Loading Failed!', 2000);
-      }
-    });
-    $scope.modal.show();
-  };
-  $scope.closeModal = function () {
-    $scope.modal.hide();
-  };
-
-})
 .controller('MarketplaceArticleDetailCtrl', function ($scope, $ionicModal, $timeout) {
 
     $scope.articleDetail = {
