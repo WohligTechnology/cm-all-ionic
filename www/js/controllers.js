@@ -77,7 +77,7 @@
   // Log out
   $scope.logout = function () {
     $.jStorage.flush();
-    $state.go('athlete-login');
+    $state.go('landing');
   };
 
   $scope.notificationCount = $.jStorage.get("notificationCount");
@@ -121,7 +121,9 @@
         $scope.hideLoading();
         $scope.showLoading('Login Successful!', 2000);
         MyServices.setAthleteUser(data.data);
+        $scope.modal1.hide();
         $state.go('app.athlete-profile');
+        $.jStorage.set("accessType", "Athlete");
       } else {
         $scope.hideLoading();
         $scope.showLoading(data.error.message, 2000);
@@ -155,7 +157,7 @@
   $ionicHistory.clearHistory();
   $ionicHistory.removeBackView();
   $scope.profileData = MyServices.getUser();
-
+console.log($scope.profileData);
   //Loading
   $scope.showLoading = function (value, time) {
     $ionicLoading.show({
@@ -172,6 +174,7 @@
     MyServices.getProfile($scope.profileData, function (data) {
       if (data.value === true) {
         MyServices.setAthleteUser(data.data);
+         $scope.modal.hide();
         $scope.$broadcast('scroll.refreshComplete');
       } else {
         $scope.$broadcast('scroll.refreshComplete');
@@ -1543,7 +1546,7 @@
         $scope.formData = {};
         $scope.hideLoading();
         $scope.showLoading('Registration Successful!', 2000);
-        $state.go('athlete-login');
+        $state.go('landing');
       } else {
         $scope.hideLoading();
         $scope.showLoading('Registration Failed!', 2000);
@@ -2170,11 +2173,14 @@
 // Start Coach controller
 .controller('appCtrl', function ($scope, $ionicModal, $timeout, $state, $rootScope, MyServices) {
   $scope.profileData = MyServices.getUser();
-
+  $scope.accessType=null;
+  $scope.accessType=$.jStorage.get("accessType");
+  console.log($scope.accessType);
+  
   // Log out
   $scope.logout = function () {
     $.jStorage.flush();
-    $state.go('coach-login');
+    $state.go('landing');
   };
 
 })
@@ -2255,7 +2261,8 @@
         $scope.formData = {};
         $scope.hideLoading();
         $scope.showLoading('Registration Successful', 2000);
-        $state.go('coach-login');
+        $scope.modal4.hide();
+        $state.go('landing');
       } else {
         $scope.hideLoading();
         $scope.showLoading('Registration Failed', 2000);
@@ -2353,7 +2360,9 @@
         $scope.hideLoading();
         $scope.showLoading('Login Successful', 2000);
         MyServices.setUser(data.data);
+        $scope.modal3.hide();
         $state.go('app.coach-profile');
+        $.jStorage.set("accessType", "Coach");
       } else {
         $scope.hideLoading();
         $scope.showLoading(data.data.message, 2000);
@@ -2367,7 +2376,6 @@
   $ionicHistory.clearHistory();
   $ionicHistory.removeBackView();
   $scope.profileData = MyServices.getUser();
-
   //Loading
   $scope.showLoading = function (value, time) {
     $ionicLoading.show({
