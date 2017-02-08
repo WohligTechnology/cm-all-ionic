@@ -71,23 +71,24 @@
   };
 })
 
-.controller('appCtrl', function ($scope, $ionicModal, $timeout, MyServices, $state) {
-  $scope.profileData = MyServices.getUser();
+// .controller('appCtrl', function ($scope, $ionicModal, $timeout, MyServices, $state) {
+//   $scope.profileData = MyServices.getUser();
 
-  // Log out
-  $scope.logout = function () {
-    $.jStorage.flush();
-    $state.go('landing');
-  };
+//   // Log out
+//   $scope.logout = function () {
+//     $.jStorage.flush();
+//     $state.go('landing');
+//   };
 
-  $scope.notificationCount = $.jStorage.get("notificationCount");
+//   $scope.notificationCount = $.jStorage.get("notificationCount");
 
-})
+// })
 
 .controller('AthleteLoginCtrl', function ($scope, $state, $ionicPopup, MyServices, $ionicLoading, $ionicModal, $ionicHistory) {
   $ionicHistory.clearCache();
   $ionicHistory.clearHistory();
   $ionicHistory.removeBackView();
+  //forgot password
   $ionicModal.fromTemplateUrl('templates/athlete-modal/forgot-password.html', {
     scope: $scope,
     animation: 'slide-in-up'
@@ -100,7 +101,21 @@
   $scope.closeModal = function () {
     $scope.modal.hide();
   };
-
+ //forgot password end
+//Signup 
+    $ionicModal.fromTemplateUrl('templates/athlete-modal/registration.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function (modal) {
+    $scope.modal2 = modal;
+  });
+  $scope.openModalAthleteSignin = function () {
+    $scope.modal2.show();
+  };
+  $scope.closeModalAthleteSignin = function () {
+    $scope.modal2.hide();
+  };
+//Signup end
   //Loading
   $scope.showLoading = function (value, time) {
     $ionicLoading.show({
@@ -1546,6 +1561,7 @@ console.log($scope.profileData);
         $scope.formData = {};
         $scope.hideLoading();
         $scope.showLoading('Registration Successful!', 2000);
+        $scope.modal2.hide();
         $state.go('landing');
       } else {
         $scope.hideLoading();
@@ -1625,6 +1641,7 @@ console.log($scope.profileData);
          scope: $scope,
          cssClass:'searchpop'
        });
+         $scope.searchshow =  ! $scope.searchshow;
       }
       $scope.searchPopup = function () {
          $scope.searchopen.close();
@@ -1638,14 +1655,14 @@ console.log($scope.profileData);
       $scope.serviceListBanner = {
           bannerImg: ' img/marketplace/service-list.png',
       };
-      $scope.serviceList = function() {
-          modal = $uibModal.open({
-              animation: true,
-              templateUrl: " views/modal/service-popup.html",
-              windowClass: "modal-service",
-              scope: $scope
-          });
-      };
+      // $scope.serviceList = function() {
+      //     modal = $uibModal.open({
+      //         animation: true,
+      //         templateUrl: " views/modal/service-popup.html",
+      //         windowClass: "modal-service",
+      //         scope: $scope
+      //     });
+      // };
       $scope.servicePopup = {
           "image": " img/marketplace/pic2.png",
           "name": "alexi",
@@ -1712,7 +1729,8 @@ console.log($scope.profileData);
           "country": 'London',
           "city": 'big ben city',
           "mailId": 'johnkenly@gmail.com',
-          "description": "Proin theul tempus placerat magna, non maximus ame dolor feugiat non."
+          "description": "Proin theul tempus placerat magna, non maximus ame dolor feugiat non.",
+          "statusnearby":"nearby"
 
       }, {
           "image": "img/marketplace/pic2.png",
@@ -1721,6 +1739,7 @@ console.log($scope.profileData);
           "type": 'Orthopedic Doctor',
           "country": 'London',
           "city": 'big ben city',
+          "statuspopular":"ispopular",
           "mailId": 'johnkenly@gmail.com',
           "description": " Proin theul tempus placerat magna, non maximus ame dolor feugiat non."
 
@@ -1731,6 +1750,8 @@ console.log($scope.profileData);
           "type": 'Orthopedic Doctor',
           "country": 'London',
           "city": 'big ben city',
+          "statuspopular":"ispopular",
+          "statusnearby":"nearby",
           "mailId": 'johnkenly@gmail.com',
           "description": "Proin theul tempus placerat magna, non maximus ame dolor feugiat non."
 
@@ -1741,6 +1762,7 @@ console.log($scope.profileData);
           "type": 'Orthopedic Doctor',
           "country": 'London',
           "city": 'big ben city',
+          "statusnearby":"nearby",
           "mailId": 'johnkenly@gmail.com',
           "description": "Proin theul tempus placerat magna, non maximus ame dolor feugiat non."
       }, {
@@ -1750,6 +1772,7 @@ console.log($scope.profileData);
           "type": 'Orthopedic Doctor',
           "country": 'London',
           "city": 'big ben city',
+          "statuspopular":"ispopular",
           "mailId": 'johnkenly@gmail.com',
           "description": "Proin theul tempus placerat magna, non maximus ame dolor feugiat non."
       }, ];
@@ -1760,8 +1783,9 @@ console.log($scope.profileData);
        $scope.searchopen = $ionicPopup.show({
          templateUrl: 'templates/athlete-modal/search.html',
          scope: $scope,
-         cssClass:'searchpop'
+         cssClass:'searchpop',
        });
+        $scope.searchshow =  ! $scope.searchshow;
       }
       $scope.searchPopup = function () {
          $scope.searchopen.close();
@@ -1774,47 +1798,53 @@ console.log($scope.profileData);
       $scope.eventListBanner = {
           img: ' img/marketplace/event-landing.png',
       };
-      $scope.eventList = function() {
-          modal = $uibModal.open({
-              animation: true,
-              templateUrl: " views/modal/event-popup.html",
-              windowClass: "modal-event",
-              scope: $scope
-          });
-      };
+      // $scope.eventList = function() {
+      //     modal = $uibModal.open({
+      //         animation: true,
+      //         templateUrl: " views/modal/event-popup.html",
+      //         windowClass: "modal-event",
+      //         scope: $scope
+      //     });
+      // };
       $scope.categories = ['Track and Field', 'Park Runs', 'Fun Runs', 'Road Runs', 'Triathlons and Duathlons', 'Extreme and Ultra', 'Trail Racing', 'Other'];
       $scope.Eventlist = [{
           "img": " img/marketplace/event12.png",
           "title": "winter running events.",
           "place": "London",
-          "date": "jan 22-25"
+          "statuspopular":"ispopular",
+          "date": "jan 22-25, 2017"
 
       }, {
           "img": " img/marketplace/event11.png",
           "title": " swimming compititions",
           "place": "London",
-          "date": "jan 22-25"
+          "statuspopular":"ispopular",
+          "statusnearby":"nearby",
+          "date": "dec 22-25, 2016"
       }, {
           "img": " img/marketplace/event9.png",
           "title": "winter running events",
           "place": "London",
-          "date": "jan 22-25"
+          "date": "nov 22-25, 2016"
       }, {
           "img": " img/marketplace/event10.png",
           "title": " swimming compititions",
           "place": "London",
-          "date": "jan 22-25"
+          "date": "oct 22-25, 2016"
       }, {
           "img": " img/marketplace/event6.png",
           "title": "winter running events",
           "place": "London",
-          "date": "jan 22-25"
+          "statusnearby":"nearby",
+          "date": "june 22-25, 2016"
       }, {
           "img": " img/marketplace/event3.png",
           "title": "swimming compititions",
           "place": "London",
-          "date": "jan 22-25"
+          "statusnearby":"nearby",
+          "date": "march 22-25, 2016"
       }];
+      
 
       $scope.data = {
           "image": ' img/marketplace/event2-banner.png',
@@ -1894,14 +1924,14 @@ console.log($scope.profileData);
     $scope.articleListBanner = {
         img: ' img/marketplace/article-list-landing.png',
     };
-    $scope.view = function() {
-        modal = $uibModal.open({
-            animation: true,
-            templateUrl: " views/modal/article-list-view.html",
-            windowClass: "modal-article-view",
-            scope: $scope
-        });
-    };
+    // $scope.view = function() {
+    //     modal = $uibModal.open({
+    //         animation: true,
+    //         templateUrl: " views/modal/article-list-view.html",
+    //         windowClass: "modal-article-view",
+    //         scope: $scope
+    //     });
+    // };
     $scope.categories = ['Training and performance', ' Nutrition', ' Coaching', '   Parents and Guardians', 'News', 'Tips and Techniques'];
     $scope.marketlist = [{
         "profile": "img/marketplace/pic1.png",
@@ -1970,6 +2000,7 @@ console.log($scope.profileData);
        scope: $scope,
        cssClass:'searchpop'
      });
+       $scope.searchshow =  ! $scope.searchshow;
     }
     $scope.searchPopup = function () {
        $scope.searchopen.close();
@@ -2044,7 +2075,7 @@ console.log($scope.profileData);
       $scope.data = {
           "image": 'frontend/img/marketplace/event2-banner.png',
           "title": 'Winter running events',
-          "date": 'jan 22-25 2017',
+          "date": 'jan 22-25 2017 2017',
           "place": 'London',
 
       };
@@ -2175,8 +2206,36 @@ console.log($scope.profileData);
   $scope.profileData = MyServices.getUser();
   $scope.accessType=null;
   $scope.accessType=$.jStorage.get("accessType");
-  console.log($scope.accessType);
-  
+ //Athlete Login Modal
+  $ionicModal.fromTemplateUrl('templates/athlete-modal/login.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function (modal) {
+    $scope.modal1 = modal;
+  });
+  $scope.openModalAthleteLogin = function () {
+    $scope.modal1.show();
+  };
+
+  $scope.closeModalAthleteLogin = function () {
+    $scope.modal1.hide();
+  };
+ //Athlete Login Modal end
+    //Coach Login Modal
+  $ionicModal.fromTemplateUrl('templates/coach-modal/login.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function (modal) {
+    $scope.modal3 = modal;
+  });
+  $scope.openModalCoachLogin = function () {
+    $scope.modal3.show();
+  };
+
+  $scope.closeModalCoachLogin = function () {
+    $scope.modal3.hide();
+  };
+  //Coach Login Modal end
   // Log out
   $scope.logout = function () {
     $.jStorage.flush();
@@ -2326,6 +2385,8 @@ console.log($scope.profileData);
   $ionicHistory.clearCache();
   $ionicHistory.clearHistory();
   $ionicHistory.removeBackView();
+
+      //Forgot Password
   $ionicModal.fromTemplateUrl('templates/coach-modal/forgot-password.html', {
     scope: $scope,
     animation: 'slide-in-up'
@@ -2338,6 +2399,25 @@ console.log($scope.profileData);
   $scope.closeModal = function () {
     $scope.modal.hide();
   };
+//Forgot End Password
+
+      //Coach Sign Modal
+  $ionicModal.fromTemplateUrl('templates/coach-modal/registration.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function (modal) {
+    $scope.modal4 = modal;
+  });
+  $scope.openModalCoachSignin = function () {
+    $scope.modal4.show();
+  };
+
+  $scope.closeModalCoachSignin = function () {
+    $scope.modal4.hide();
+  };
+      //Coach Sign Modal End
+
+
   $scope.validEmail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   //Loading

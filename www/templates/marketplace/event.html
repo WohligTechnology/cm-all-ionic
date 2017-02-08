@@ -1,17 +1,16 @@
-<ion-view view-title="Events &amp; Competiton">
+<ion-view view-title="Events &amp; Competitions">
   <ion-nav-buttons side="right">
     <button type="button" class="button button-icon ln-magnifier ln-fit" ng-click="search();"></button>
   </ion-nav-buttons>
 
       <ion-tabs class=" tab-button tabs-top ">
        <ion-tab title="Most Recent" >
-
          <ion-content  class="has-tabs-top article-main">
-           <div class="" >
+           <div class="pb90" >
              <div class="list list-inset" ng-if="searchshow">
                <label class="item item-input search">
-                 <label for="" ng-click="searchpop();">All</label>
-
+                 <label for="" ng-click="searchpop();">
+                   All <i class="ln-chevron-down item-note"></i></label>
                  <input type="text" placeholder="Search">
                  <i class="icon ion-search placeholder-icon"></i>
                </label>
@@ -34,16 +33,64 @@
        </ion-content>
        </ion-tab>
        <ion-tab title="Most Popular" >
-         <ion-content  class="tab-content ">
+          <ion-content  class="has-tabs-top article-main">
+           <div class="pb90" >
+             <div class="list list-inset" ng-if="searchshow">
+               <label class="item item-input search">
+                 <label for="" ng-click="searchpop();">
+                       <i class="ln-chevron-down item-note"></i>
+                   All
+                   </label>
 
+                 <input type="text" placeholder="Search">
+                 <i class="icon ion-search placeholder-icon"></i>
+               </label>
+             </div>
+             <div class="">
+             <div class="card event" ng-repeat="list in Eventlist" ui-sref="app.marketplace-event-detail" ng-if="list.statuspopular=='ispopular'">
+                 <div class="img-div">
+                     <img ng-src="{{list.img}}" class="full-image">
+                 </div>
+                 <div class="detail">
+                     <label class="textupper">{{list.title}}</label>
+                     <p class="pad-down textupper">{{list.place}}</p>
+                     <p class="textupper">{{list.date}}</p>
+                 </div>
 
-       </ion-content >
+             </div>
+         </div>
+           </div>
+
+       </ion-content>
        </ion-tab>
        <ion-tab title="Near Me" >
-         <ion-content  class="tab-content ">
+          <ion-content  class="has-tabs-top article-main">
+           <div class="pb90" >
+             <div class="list list-inset" ng-if="searchshow">
+               <label class="item item-input search">
+                 <label for="" ng-click="searchpop();">
+                          <i class="ln-chevron-down item-note"></i>
+                   All </label>
 
+                 <input type="text" placeholder="Search">
+                 <i class="icon ion-search placeholder-icon"></i>
+               </label>
+             </div>
+             <div class="">
+             <div class="card event" ng-repeat="list in Eventlist" ui-sref="app.marketplace-event-detail" ng-if="list.statusnearby=='nearby'">
+                 <div class="img-div">
+                     <img ng-src="{{list.img}}" class="full-image">
+                 </div>
+                 <div class="detail">
+                     <label class="textupper">{{list.title}}</label>
+                     <p class="pad-down textupper">{{list.place}}</p>
+                     <p class="textupper">{{list.date}}</p>
+                 </div>
 
-       </ion-content >
+             </div>
+         </div>
+           </div>
+       </ion-content>
 
        </ion-tab>
   </ion-tabs>

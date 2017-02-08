@@ -9816,6 +9816,9 @@ a.button {
 .pb10 {
   padding-bottom: 10px; }
 
+.pb90 {
+  padding-bottom: 90px; }
+
 .bar-header {
   border: 0; }
 
@@ -9824,6 +9827,12 @@ a.button {
   right: 15px;
   top: 14px;
   display: inline-block; }
+
+.relate {
+  position: relative; }
+
+.bold {
+  font-weight: bold; }
 
 .gradient-bg {
   background-color: #003268;
@@ -10741,7 +10750,8 @@ p.bold {
     margin-left: 5px; }
     .profie-sec .details h5 {
       margin: 0;
-      color: #505050; }
+      color: #505050;
+      font-weight: bold; }
     .profie-sec .details label {
       color: #777; }
   .profie-sec .eye {
@@ -10760,18 +10770,13 @@ p.bold {
     display: inline-block;
     width: 50%; }
 
-.right-div {
-  text-align: right;
-  display: inline-block;
-  margin-left: 1%; }
-  .right-div .blue-box {
+.rate-like-dislike {
+  padding: 8px 0 0 0; }
+  .rate-like-dislike .blue-box {
     background-color: #1959a1;
     color: #fff;
-    padding: 3px;
-    font-size: 9px;
-    display: inline-block;
-    width: 30%;
-    margin-right: 5px;
+    padding: 5px 10px;
+    margin-top: 5px;
     font-size: 15px;
     text-align: center;
     text-transform: capitalize; }
@@ -10784,14 +10789,17 @@ p.bold {
     color: #369e57;
     padding: 5px 10px;
     border-radius: 8px;
-    margin: 5px; }
+    margin: 0 5px 0 0;
+    display: inline-block; }
   .rating-blog .ratedown {
     color: #c70e17;
     background-color: #fff;
     border: 1px solid #c70e17;
     padding: 5px 10px;
     border-radius: 8px;
-    margin: 5px; }
+    border-radius: 8px;
+    margin: 5px;
+    display: inline-block; }
 
 .ma-tabs {
   top: 93px;
@@ -10833,7 +10841,7 @@ p.bold {
     border-left: 1px solid grey;
     margin-left: 10px;
     padding-left: 10px; }
-  .search i {
+  .search i.ion-search {
     padding: 6px 12px;
     background: #004a9b;
     color: white; }
@@ -10890,14 +10898,14 @@ p.bold {
 .text-intro {
   margin: 10px;
   color: #777; }
+  .text-intro .title {
+    font-size: 16px; }
 
 .enquire {
-  adding: 10px;
-  display: block;
-  width: 50%;
-  margin: 10px auto;
-  padding: 10px;
-  background: #004a9b; }
+  margin: 10px auto; }
+  .enquire button {
+    width: 50%;
+    margin: 10px auto; }
   .enquire p {
     margin: 0; }
     .enquire p a {
@@ -10943,12 +10951,8 @@ p.bold {
     vertical-align: middle;
     float: left; }
   .event-head button {
-    display: inline-block;
-    vertical-align: middle;
     float: right;
-    margin: 10px auto;
-    background-color: #004a9b !important;
-    color: white !important; }
+    margin: 10px auto; }
 
 .event-info {
   margin: 15px; }
@@ -11034,3 +11038,11 @@ p.bold {
 
 .bar {
   background-size: 100% 0px; }
+
+.rate.ratedown i {
+  margin-right: 2px; }
+
+.filter-mode .item-content {
+  overflow: auto;
+  text-overflow: initial;
+  white-space: normal; }

@@ -6,10 +6,12 @@
        <ion-tab title="Most Recent" >
 
          <ion-content  class="has-tabs-top article-main">
-           <div class="">
+           <div class="pb90">
               <div class="list list-inset" ng-if="searchshow">
                 <label class="item item-input search" >
-                  <label for="" ng-click="searchpop();">All</label>
+                  <label for="" ng-click="searchpop();">
+                     <i class="ln-chevron-down item-note"></i>
+                    All</label>
                   <input type="text" placeholder="Search">
                   <i class="icon ion-search placeholder-icon"></i>
                 </label>
@@ -31,14 +33,18 @@
                <div class="" ui-sref="app.marketplace-article-detail">
                   <img ng-src="{{list.img}}" class="min-height full-image">
                </div>
-               <div class="row">
-                 <p class="col "> {{list.title}}</p>
-                 <div class=" right-div col">
-                     <p class=" blue-box">{{list.rate}}</p>
+               <div class="padding">
+                   <div class="bold">
+                     {{list.title}}
+                     </div>
+                   <div class="rate-like-dislike">
+                     <span class=" blue-box item-note">{{list.rate}}</span>
                      <div class="rating-blog ">
                          <span class="rate rateup"><i class="ln ln-thumbs-up"></i>{{list.likes}}</span>
                          <span class="rate ratedown"><i class="ln ln-thumbs-down"></i>{{list.dislikes}}</span>
-                     </div>
+                   </div>
+               </div>
+         
                  </div>
                </div>
              </div>

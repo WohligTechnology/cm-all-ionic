@@ -11,13 +11,13 @@
         <div class="banner">
             <img ng-src="{{articleBanner.bannerImg}}" class="full-image">
         </div>
-
         <div class="rating-blog like">
             <span class="rate rateup"><i class="ln ln-thumbs-up"></i>{{articleBanner.likes}}</span>
             <span class="rate ratedown"><i class="ln ln-thumbs-down"></i>{{articleBanner.dislikes}}</span>
         </div>
       </div>
       <div class="text-intro">
+         <div class="title textupper bold"><p>{{articleBanner.title}}</p></div>
           <div class="container container-pad ">
               <div class="article-intro" ng-bind-html="articleBanner.content"></div>
           </div>
