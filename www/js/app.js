@@ -41,7 +41,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       .state('landing', {
         url: '/landing',
         templateUrl: 'templates/landing.html',
-        controller: 'LandingCtrl'
+        controller: 'LandingCtrl',
+        cache: false,
       })
 
   // Athlete State Start

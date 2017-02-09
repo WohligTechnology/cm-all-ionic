@@ -1,6 +1,46 @@
 // angular.module('starter.controllers', ['starter.services', 'checklist-model', 'chart.js', 'ui.calendar', 'ngCordova'])
   angular.module('starter.controllers', ['starter.services', 'checklist-model', 'ui.calendar','ngCordova'])
+.controller('appCtrl', function ($scope, $ionicModal,$window, $timeout, $state, $rootScope, MyServices) {
+  $scope.profileData = MyServices.getUser();
+  $scope.accessType=null;
+  $scope.accessType=$.jStorage.get("accessType");
+ //Athlete Login Modal
+  $ionicModal.fromTemplateUrl('templates/athlete-modal/login.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function (modal) {
+    $scope.modal1 = modal;
+  });
+  $scope.openModalAthleteLogin = function () {
+    $scope.modal1.show();
+  };
 
+  $scope.closeModalAthleteLogin = function () {
+    $scope.modal1.hide();
+  };
+ //Athlete Login Modal end
+    //Coach Login Modal
+  $ionicModal.fromTemplateUrl('templates/coach-modal/login.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function (modal) {
+    $scope.modal3 = modal;
+  });
+  $scope.openModalCoachLogin = function () {
+    $scope.modal3.show();
+  };
+
+  $scope.closeModalCoachLogin = function () {
+    $scope.modal3.hide();
+  };
+  //Coach Login Modal end
+  // Log out
+  $scope.logout = function () {
+    $.jStorage.flush();
+    $state.go('landing');
+  };
+
+})
 .controller('LoadingCtrl', function ($scope, $ionicModal, $timeout, $state, $rootScope, MyServices, $ionicHistory) {
   $scope.loadingData = MyServices.getUser();
   if ($scope.loadingData.accessToken) {
@@ -2222,48 +2262,6 @@ console.log($scope.profileData);
 
 
 // Start Coach controller
-.controller('appCtrl', function ($scope, $ionicModal, $timeout, $state, $rootScope, MyServices) {
-  $scope.profileData = MyServices.getUser();
-  $scope.accessType=null;
-  $scope.accessType=$.jStorage.get("accessType");
- //Athlete Login Modal
-  $ionicModal.fromTemplateUrl('templates/athlete-modal/login.html', {
-    scope: $scope,
-    animation: 'slide-in-up'
-  }).then(function (modal) {
-    $scope.modal1 = modal;
-  });
-  $scope.openModalAthleteLogin = function () {
-    $scope.modal1.show();
-  };
-
-  $scope.closeModalAthleteLogin = function () {
-    $scope.modal1.hide();
-  };
- //Athlete Login Modal end
-    //Coach Login Modal
-  $ionicModal.fromTemplateUrl('templates/coach-modal/login.html', {
-    scope: $scope,
-    animation: 'slide-in-up'
-  }).then(function (modal) {
-    $scope.modal3 = modal;
-  });
-  $scope.openModalCoachLogin = function () {
-    $scope.modal3.show();
-  };
-
-  $scope.closeModalCoachLogin = function () {
-    $scope.modal3.hide();
-  };
-  //Coach Login Modal end
-  // Log out
-  $scope.logout = function () {
-    $.jStorage.flush();
-    $state.go('landing');
-  };
-
-})
-
 .controller('CoachRegistrationCtrl', function ($scope, $state, $ionicPopup, MyServices, $filter, $ionicLoading, $ionicModal) {
 
   $scope.formData = {};
