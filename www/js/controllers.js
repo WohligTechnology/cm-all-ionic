@@ -1647,18 +1647,6 @@ console.log($scope.profileData);
          $scope.searchopen.close();
        }
 
-      $scope.openfilterpop = function () {
-       $scope.datefilteropen = $ionicPopup.show({
-         templateUrl: 'templates/athlete-modal/date-filter.html',
-         scope: $scope,
-         cssClass:'datefilterpop'
-       });
-         $scope.searchshow =  ! $scope.searchshow;
-      }
-      $scope.closefilterpop = function () {
-         $scope.datefilteropen.close();
-       }
-
   $scope.searchshow = false;
     $scope.search = function() {
         $scope.searchshow =  ! $scope.searchshow;
