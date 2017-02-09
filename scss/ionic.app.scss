@@ -94,12 +94,18 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
     text-align: right;
   }
   .item {
-    &.on,
-    .activated {
+    &.on{
       background-color: rgba(0, 0, 0, 0.2);
-      border-left: 2px solid white;
+      border-left: 4px solid white;
     }
   }
+  //   .item {
+  //   &.on,
+  //   .activated {
+  //     background-color: rgba(0, 0, 0, 0.2);
+  //     border-left: 2px solid white;
+  //   }
+  // }
   .item-icon-left {
     .icon {
       font-size: 20px;
@@ -476,6 +482,10 @@ p.bold {
 
 .mt30 {
   margin-top: 30%;
+}
+
+.mt15 {
+  margin-top: 15%;
 }
 
 .logo {
@@ -1134,7 +1144,7 @@ p.bold {
   }
 }
 .caption{
-  h4{
+  h4,a{
     color: #666;
   }
   p{
@@ -1479,6 +1489,11 @@ background-color: #2871c1;
    display: none;
  }
 }
+.datefilterpop .popup{
+    .popup-body{
+   padding: 0px;
+ }
+}
 .searchpop .popup{
   .popup-body{
    padding: 0px;
@@ -1532,4 +1547,8 @@ margin: 10px;
     text-overflow: initial;
     white-space: normal;
 }
+}
+.close-position {
+  position: absolute;
+  right: 0;
 }

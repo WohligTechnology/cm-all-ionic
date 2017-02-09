@@ -1,0 +1,29 @@
+<div>
+    <div class="bar bar-header bar-light">
+  <h1 class="title">Selete Date</h1>
+</div>
+        <form name="formName" ng-submit="submit(formData.filterDate);">
+            <ion-list class="pro-edit text-rite">     
+      <label class="item item-input" ng-class="{'err':formName.fromDate.$invalid && formName.fromDate.$touched}">
+            <span class="input-label">From</span>
+            <input type="date" name="fromDate" ng-model="formData.fromDate" max="{{maxDate}}" required>
+            <span class="error-msg" ng-show="formName.fromDate.$invalid && formName.fromDate.$touched">Please enter valid Date</span>
+          </label>
+      <label class="item item-input" ng-class="{'err':formName.toDate.$invalid && formName.toDate.$touched}">
+            <span class="input-label">To</span>
+            <input type="date" name="toDate" ng-model="formData.toDate" max="{{maxDate}}" required>
+            <span class="error-msg" ng-show="formName.toDate.$invalid && formName.toDate.$touched">Please enter valid Date</span>
+          </label>
+            </ion-list>
+            <!--<div class="padding-horizontal">
+                <button class="button button-positive" type="submit" ng-click="closefilterpop()">Update</button>
+            </div>-->
+
+              <div class="padding">
+    <button class="button button-positive" type="submit" ng-click="closefilterpop()">Apply</button>
+    <button class="button button-assertive" ng-click="closefilterpop();">
+  Close
+</button>
+  </div>
+        </form>
+</div>

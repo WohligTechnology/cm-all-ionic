@@ -1,8 +1,9 @@
 <ion-view view-title="Service Providers">
   <ion-nav-buttons side="right">
-    <button type="button" class="button button-icon ln-magnifier ln-fit" ng-click="search();"></button>
+    <button type="button" class="button button-icon ln-funnel ln-fit" ng-click="openfilterpop();"></button>
+    <button type="button" class="button button-icon ln-magnifier ln-fit"  ng-click="search();"></button>
+  <!--<button type="button" class="button button-icon ln-cross ln-fit close-position" ng-click="search();" ng-show="searchshow"></button>-->
   </ion-nav-buttons>
-
         <ion-tabs class=" tab-button tabs-top ">
          <ion-tab title="Most Recent" >
 
@@ -31,6 +32,7 @@
                            <h4>{{s.name}} {{s.surname}}</h4>
                              <p>{{s.country}},{{s.city}}</p>
                              <p >{{s.mailId}}</p>
+                                <p >{{s.contactNumber}}</p>
                          </div>
                        </div>
                        <div class="des">

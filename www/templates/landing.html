@@ -1,24 +1,29 @@
 <ion-view class="bg-login">
   <ion-content>
         <div class="padding">
-    <div class="logo mt20">
+    <div class="logo mt15">
       <img src="img/logo.png" alt="Coach Mentor">
     </div>
-<div class="landing mt30">
+<div class="landing mt15">
+  <h4 class="text-center mt20">Coach</h4>
   <button class="button button-full button-positive" ng-click="openModalCoachSignin();">
-    Sign-up as Coach
+    Register 
 </button>
 <button class="button button-full button-assertive" ng-click="openModalCoachLogin();">
- Log-in as Coach
+Login
 </button>
+<h4 class="text-center mt20">
+  Athlete
+</h4>
 <button class="button button-full button-positive" ng-click="openModalAthleteSignin();">
-  Sign-up as Athlete
+ Register
 </button>
 <button class="button button-full button-assertive" ng-click="openModalAthleteLogin();">
- Log-in as Athlete
+ Login
 </button>
-<button class="button button-full button-calm" ui-sref="app.marketplace-articles">
-  Marketplace
+<h4 class="text-center mt20">Marketplace</h4>
+<button class="button button-full button-balanced" ui-sref="app.marketplace-articles">
+  Get Started
 </button>
 </div>
     </div>

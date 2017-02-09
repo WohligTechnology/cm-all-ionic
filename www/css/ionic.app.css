@@ -9857,10 +9857,9 @@ a.button {
       font-weight: bold; }
   .gradient-bg .text-right {
     text-align: right; }
-  .gradient-bg .item.on,
-  .gradient-bg .item .activated {
+  .gradient-bg .item.on {
     background-color: rgba(0, 0, 0, 0.2);
-    border-left: 2px solid white; }
+    border-left: 4px solid white; }
   .gradient-bg .item-icon-left .icon {
     font-size: 20px; }
 
@@ -10167,6 +10166,9 @@ p.bold {
 
 .mt30 {
   margin-top: 30%; }
+
+.mt15 {
+  margin-top: 15%; }
 
 .logo {
   text-align: center; }
@@ -10713,7 +10715,7 @@ p.bold {
     font-size: 13px;
     text-align: center; }
 
-.caption h4 {
+.caption h4, .caption a {
   color: #666; }
 
 .caption p {
@@ -11000,6 +11002,9 @@ p.bold {
 .articlepop .popup .popup-head {
   display: none; }
 
+.datefilterpop .popup .popup-body {
+  padding: 0px; }
+
 .searchpop .popup .popup-body {
   padding: 0px; }
 
@@ -11046,3 +11051,7 @@ p.bold {
   overflow: auto;
   text-overflow: initial;
   white-space: normal; }
+
+.close-position {
+  position: absolute;
+  right: 0; }

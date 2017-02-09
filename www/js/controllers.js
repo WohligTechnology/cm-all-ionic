@@ -1646,6 +1646,19 @@ console.log($scope.profileData);
       $scope.searchPopup = function () {
          $scope.searchopen.close();
        }
+
+      $scope.openfilterpop = function () {
+       $scope.datefilteropen = $ionicPopup.show({
+         templateUrl: 'templates/athlete-modal/date-filter.html',
+         scope: $scope,
+         cssClass:'datefilterpop'
+       });
+         $scope.searchshow =  ! $scope.searchshow;
+      }
+      $scope.closefilterpop = function () {
+         $scope.datefilteropen.close();
+       }
+
   $scope.searchshow = false;
     $scope.search = function() {
         $scope.searchshow =  ! $scope.searchshow;
@@ -1729,6 +1742,7 @@ console.log($scope.profileData);
           "country": 'London',
           "city": 'big ben city',
           "mailId": 'johnkenly@gmail.com',
+          "contactNumber":"9898989898",
           "description": "Proin theul tempus placerat magna, non maximus ame dolor feugiat non.",
           "statusnearby":"nearby"
 
@@ -1741,6 +1755,7 @@ console.log($scope.profileData);
           "city": 'big ben city',
           "statuspopular":"ispopular",
           "mailId": 'johnkenly@gmail.com',
+           "contactNumber":"9898989898",
           "description": " Proin theul tempus placerat magna, non maximus ame dolor feugiat non."
 
       }, {
@@ -1753,6 +1768,7 @@ console.log($scope.profileData);
           "statuspopular":"ispopular",
           "statusnearby":"nearby",
           "mailId": 'johnkenly@gmail.com',
+           "contactNumber":"9898989898",
           "description": "Proin theul tempus placerat magna, non maximus ame dolor feugiat non."
 
       }, {
@@ -1764,6 +1780,7 @@ console.log($scope.profileData);
           "city": 'big ben city',
           "statusnearby":"nearby",
           "mailId": 'johnkenly@gmail.com',
+           "contactNumber":"9898989898",
           "description": "Proin theul tempus placerat magna, non maximus ame dolor feugiat non."
       }, {
           "image": "img/marketplace/pic5.png",
@@ -1774,6 +1791,7 @@ console.log($scope.profileData);
           "city": 'big ben city',
           "statuspopular":"ispopular",
           "mailId": 'johnkenly@gmail.com',
+           "contactNumber":"9898989898",
           "description": "Proin theul tempus placerat magna, non maximus ame dolor feugiat non."
       }, ];
 })
@@ -1789,6 +1807,19 @@ console.log($scope.profileData);
       }
       $scope.searchPopup = function () {
          $scope.searchopen.close();
+       }
+
+
+      $scope.openfilterpop = function () {
+       $scope.datefilteropen = $ionicPopup.show({
+         templateUrl: 'templates/athlete-modal/date-filter.html',
+         scope: $scope,
+         cssClass:'datefilterpop'
+       });
+         $scope.searchshow =  ! $scope.searchshow;
+      }
+      $scope.closefilterpop = function () {
+         $scope.datefilteropen.close();
        }
   $scope.categories = ['Track and Field', 'Park Runs', 'Fun Runs', 'Road Runs', 'Triathlons and Duathlons', 'Extreme and Ultra', 'Trail Racing', 'Other'];
   $scope.searchshow = false;
@@ -2018,6 +2049,7 @@ console.log($scope.profileData);
       "website": 'www.coachmentor.com',
       "city": 'big ben city',
       "mailId": 'alexigambetta@gmail.com',
+      "contactNumber":"989989898",
       "description": "<p>When dressing for the cold, it is important to dress in layers and to remember that you will still feel cold when you first go outside. Once you start running, your body will perceive the outdoor temperature at about 20 degrees warmer than it actually is! This means that if you are warm when you first go outside you are likely overdressed and could end up overheating.</p><p>When it comes to layering clothes, keep in mind that your first layer should always be a wicking layer. This fabric will help to keep sweat off your body, while maintaining your core temperature without overheating. On top of this layer you can wear another top, as well as a windbreaker to give you extra protection against the harsh winter winds.</p>"
 
   };
@@ -2075,7 +2107,7 @@ console.log($scope.profileData);
       $scope.data = {
           "image": 'frontend/img/marketplace/event2-banner.png',
           "title": 'Winter running events',
-          "date": 'jan 22-25 2017 2017',
+          "date": 'jan 22-25 2017',
           "place": 'London',
 
       };
