@@ -10170,6 +10170,9 @@ p.bold {
 .mt15 {
   margin-top: 15%; }
 
+.pt15 {
+  padding-top: 15%; }
+
 .logo {
   text-align: center; }
 
@@ -10715,7 +10718,8 @@ p.bold {
     font-size: 13px;
     text-align: center; }
 
-.caption h4, .caption a {
+.caption h4,
+.caption a {
   color: #666; }
 
 .caption p {
@@ -10766,7 +10770,7 @@ p.bold {
       font-size: 28px; }
 
 .intro {
-  margin: 18px  0px 18px 18px;
+  margin: 18px 0px 18px 18px;
   color: #505050; }
   .intro p {
     display: inline-block;
@@ -11028,6 +11032,9 @@ p.bold {
 .textupper {
   text-transform: capitalize; }
 
+.upper {
+  text-transform: uppercase; }
+
 .tabs-striped .tabs {
   border-bottom: transparent !important; }
 
@@ -11055,3 +11062,52 @@ p.bold {
 .close-position {
   position: absolute;
   right: 0; }
+
+.landing .landing-slide {
+  height: 100vh;
+  padding: 15px;
+  color: #fff; }
+  .landing .landing-slide.athlete-landing {
+    background: url(../img/athlete.jpg) no-repeat center center;
+    background-size: cover; }
+  .landing .landing-slide.coach-landing {
+    background: url(../img/coach.jpg) no-repeat center center;
+    background-size: cover; }
+  .landing .landing-slide.marketplace-landing {
+    background: url(../img/marketplace.jpg) no-repeat center center;
+    background-size: cover; }
+  .landing .landing-slide h3 {
+    color: #fff; }
+  .landing .landing-slide .landing-btn .button {
+    color: #fff;
+    margin: 0; }
+
+.landing .slider-pager {
+  bottom: 75px; }
+  .landing .slider-pager .slider-pager-page {
+    color: #fff;
+    opacity: 1; }
+    .landing .slider-pager .slider-pager-page.active {
+      color: #c70e17; }
+
+.landing-footer {
+  background: transparent;
+  height: 55px;
+  padding-bottom: 16px; }
+  .landing-footer .button-bar {
+    width: 100%; }
+  .landing-footer .button {
+    border-radius: 25px;
+    margin: 0 5px;
+    background-color: rgba(0, 74, 155, 0.75); }
+    .landing-footer .button:first-child, .landing-footer .button:last-child {
+      border-radius: 25px; }
+    .landing-footer .button.active {
+      background: #c70e17;
+      border-color: #c70e17; }
+
+.button.button-assertive.activated {
+  border-color: #970b11; }
+
+.button.button-positive.activated {
+  border-color: #003268; }
