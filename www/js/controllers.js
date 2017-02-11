@@ -2,8 +2,9 @@
 angular.module('starter.controllers', ['starter.services', 'checklist-model', 'ui.calendar', 'ngCordova'])
   .controller('appCtrl', function ($scope, $ionicModal, $window, $timeout, $state, $rootScope, MyServices) {
     $scope.profileData = MyServices.getUser();
-    $scope.accessType = null;
-    $scope.accessType = $.jStorage.get("accessType");
+    $scope.accessType = MyServices.getAccessType();
+    console.log($scope.accessType);
+
     //Athlete Login Modal
     $ionicModal.fromTemplateUrl('templates/athlete-modal/login.html', {
       scope: $scope,
@@ -43,9 +44,14 @@ angular.module('starter.controllers', ['starter.services', 'checklist-model', 'u
   })
   .controller('LoadingCtrl', function ($scope, $ionicModal, $timeout, $state, $rootScope, MyServices, $ionicHistory) {
     $scope.loadingData = MyServices.getUser();
+    $scope.accessType = MyServices.getAccessType();
+
     if ($scope.loadingData.accessToken) {
-      // $state.go('app.profile');
-      $state.go('landing');
+      if ($scope.accessType == 'Athlete') {
+        $state.go('app.athlete-profile');
+      } else {
+        $state.go('app.coach-profile');
+      }
     } else {
       $state.go('landing');
     }
@@ -186,7 +192,7 @@ angular.module('starter.controllers', ['starter.services', 'checklist-model', 'u
           MyServices.setAthleteUser(data.data);
           $scope.modal1.hide();
           $state.go('app.athlete-profile');
-          $.jStorage.set("accessType", "Athlete");
+          MyServices.setAccessType("Athlete");
         } else {
           $scope.hideLoading();
           $scope.showLoading(data.error.message, 2000);
@@ -2469,7 +2475,7 @@ angular.module('starter.controllers', ['starter.services', 'checklist-model', 'u
           MyServices.setUser(data.data);
           $scope.modal3.hide();
           $state.go('app.coach-profile');
-          $.jStorage.set("accessType", "Coach");
+          MyServices.setAccessType("Coach");
         } else {
           $scope.hideLoading();
           $scope.showLoading(data.data.message, 2000);

@@ -45,21 +45,23 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         cache: false,
       })
 
-  // Athlete State Start
+      // Athlete State Start
 
       .state('app', {
         url: '/app',
         abstract: true,
+        cache: false,
         templateUrl: 'templates/menu.html',
         controller: 'appCtrl'
       })
 
       .state('app.athlete-profile', {
         url: '/athlete/profile',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/athlete/profile.html',
-            controller: 'AthleteProfileCtrl'
+            controller: 'AthleteProfileCtrl',
           }
         }
       })
@@ -250,7 +252,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
           }
         }
       })
-       // Athlete State end
+      // Athlete State end
 
 
 
@@ -261,7 +263,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         views: {
           'menuContent': {
             templateUrl: 'templates/coach/profile.html',
-            controller: 'CoachProfileCtrl'
+            controller: 'CoachProfileCtrl',
           }
         }
       })
@@ -544,10 +546,10 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       })
 
-      //Marketplace State End
-      
-      
-      ;
+    //Marketplace State End
+
+
+    ;
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/loading');
