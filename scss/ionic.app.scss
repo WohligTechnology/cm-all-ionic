@@ -1667,3 +1667,139 @@ p.bold {
 .button.button-positive.activated {
   border-color: #003268;
 }
+
+.diary-list {
+  .item-divider {
+    font-weight: bold;
+  }
+}
+
+.tp-activity {
+  background-color: #ffebea;
+  color: black;
+  padding-left: 65px;
+  .date {
+    position: absolute;
+    left: 15px;
+    top: 13px;
+    width: 44px;
+    font-size: 12px;
+    overflow: hidden;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 120%;
+    border-right: 1px solid rgba(0, 0, 0, 0.35);
+  }
+  .icon {
+    opacity: 0.35;
+    height: 44px;
+  }
+  .day {
+    padding-right: 7px;
+    font-size: 10px;
+    font-weight: 400;
+    display: block;
+    text-align: center;
+  }
+  h2 {
+    font-weight: bold;
+  }
+  button {
+    border-radius: 0px;
+    min-width: 40px;
+    i:before {
+      font-size: 14px;
+    }
+  }
+}
+
+.tp-phase {
+  font-weight: bold;
+  color: white;
+  &.tp-odd {
+    background-color: #00a184;
+  }
+  &.tp-even {
+    background-color: #00a7ab;
+  }
+  .sub {
+    font-weight: 400;
+  }
+}
+
+.hide-out {
+  margin: 15px -54px -16px -65px;
+  font-size: 14px;
+  padding: 10px 15px;
+  background-color: #fffcfc;
+}
+
+.after-text {
+  padding-top: 10px;
+}
+
+$activityBG: #fdebea;
+$aspects: #f78963;
+$tests: #1a9ae4;
+$competitions: #eae327;
+$keyCompetitions: #d6bd19;
+$restDay: #c1271c;
+$highBG: #fee7cc;
+$highColor: #784912;
+$lowBG: #f3ffe9;
+$lowColor: #396316;
+$mediumBG: #fffdea;
+$mediumColor: #887f27;
+$phaseOdd: #0da183;
+$phaseEven: #14a7ac;
+.button {
+  &.Low {
+    background-color: $lowBG;
+    color: $lowColor !important;
+    border-color: $lowBG;
+    font-weight: bold;
+  }
+  &.Medium {
+    background-color: $mediumBG;
+    color: $mediumColor !important;
+    border-color: $mediumBG;
+    font-weight: bold;
+  }
+  &.High {
+    background-color: $highBG;
+    color: $highColor !important;
+    border-color: $highBG;
+    font-weight: bold;
+  }
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.rest-day {
+  color: #c1271c !important;
+}
+
+.opace {
+  opacity: 0;
+}
+
+.phaseOdd {
+  background-color: $phaseOdd !important;
+  border-color: $phaseOdd;
+  font-weight: bold;
+}
+
+.phaseEven {
+  background-color: $phaseEven !important;
+  border-color: $phaseEven;
+  font-weight: bold;
+}
+
+.fc-day-grid-event {
+  margin: 0;
+  padding: 0 1px;
+  border-radius: 0px;
+  text-align: center;
+}

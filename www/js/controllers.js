@@ -1439,104 +1439,18 @@ angular.module('starter.controllers', ['starter.services', 'checklist-model', 'u
       $scope.modal.hide();
     };
 
-    $scope.getAthletePlan = function () {
-      $scope.athleteData = [];
-      MyServices.getAthleteMyPlans({}, function (data) {
-        if (_.isArray(data.data)) {
-          $scope.athleteData = data.data;
-          parsePlanToCalender(data.data);
-          $scope.hideLoading();
-        } else {
-          $scope.athleteData = [];
-          $scope.showLoading('Loading...', 10000);
-          $scope.hideLoading();
-        }
-
-      });
+    //View Switcher
+    $scope.switchView = function (val) {
+      $scope.currentScreen = val;
     };
-    $scope.showLoading('Loading...', 10000);
 
-    $scope.getAthletePlan();
+    // $scope.showLoading('Loading...', 10000);
     $scope.athleteData = [];
     $scope.trainingDiary = [];
 
-    function parsePlanToCalender(Plans) {
-      $scope.trainingDiary = [];
-      $scope.downloads = Plans;
-      _.each(Plans, function (plan) {
-        var startDays = 0;
-        _.each(plan.trainingForms, function (form) {
-          form.trainingPlan = plan._id;
-          var obj = {
-            color: form.form.colorCode,
-            events: [{
-              title: "• " + form.form.name + " - " + plan.name,
-              start: moment(plan.startDate).add(startDays, "days").toDate(),
-              end: moment(plan.startDate).add(startDays, "days").add(form.duration, 'days').toDate(),
-              allDay: true,
-              planForm: form,
-              colorCode: form.form.colorCode
-            }],
-          };
-          startDays += form.duration;
-          if (!_.isEmpty(form.comment)) {
-            var obj2 = _.cloneDeep(obj);
-            obj2.color = "#444";
-            obj2.events[0].title = "Comment: " + form.comment;
-            $scope.trainingDiary.push(obj2);
-          }
-          $scope.trainingDiary.push(obj);
-        });
-      });
-      changePendingForm();
-    }
-
     /* alert on eventClick */
-    $scope.dairyClick = function (obj) {
-      $scope.dayInfo = obj;
-      $scope.formInfo = obj.planForm;
+    $scope.diaryClick = function (obj) {
 
-      if (obj.planForm.answer && obj.planForm.answer.length > 0) {
-        $scope.feedback = obj.planForm.answer;
-        $scope.makeDisable = true;
-      } else {
-        $scope.feedback = obj.planForm.form.formFields;
-        $scope.makeDisable = false;
-      }
-
-      var m = moment(obj.end._d);
-      if (moment().isSameOrAfter(m)) {
-        $scope.openModal();
-      }
-    };
-
-    $scope.dayClick = function (date, jsEvent, view) {
-      console.log(date);
-    };
-
-    var changePendingForm = function () {
-      $scope.pendingForm = [];
-      _.each($scope.trainingDiary, function (events) {
-        _.each(events.events, function (obj) {
-          var m = moment(obj.end);
-          if (!(obj.planForm.answer && obj.planForm.answer.length > 0) && moment().isSameOrAfter(m)) {
-            $scope.pendingForm.push(obj);
-          }
-        });
-      });
-    };
-
-    $scope.submitFeedback = function () {
-      var obj = {};
-      obj.trainingPlan = $scope.formInfo.trainingPlan;
-      obj.trainingForm = $scope.formInfo._id;
-      obj.trainingFormStart = "";
-      obj.trainingFormEnd = "";
-      obj.answer = $scope.formInfo.form.formFields;
-      MyServices.saveAnswer(obj, function (data) {
-        $scope.showLoading('Feedback Submitted Successfully', 2000);
-        $scope.getAthletePlan();
-      });
     };
 
     /* Change View */
@@ -1562,6 +1476,72 @@ angular.module('starter.controllers', ['starter.services', 'checklist-model', 'u
         }
       }
     };
+
+
+    $scope.phase = [{
+      title: 'General Prep (GPE)',
+      start: moment().toDate(),
+      end: moment('13-02-2017', 'DD-MM-YYYY').add(7, 'days').toDate(),
+      className: 'phaseOdd',
+      allDay: true,
+      sort: "a"
+    }];
+
+    $scope.trainingDiary = [$scope.phase];
+
+    $scope.trainingPhasesData = [{
+      name: 'General Prep (GPE)',
+      duration: 1,
+      activities: [{
+          name: 'Circuits',
+          detail: 'Skills – feet & hips MV ladders 3x (10 cones from 20m run in) [3’]  (24, 23) + (22, 21 second runs) from various start points [4’ / 8’] Recovery runs on track in flats',
+          volume: '400m',
+          intensity: 'Low',
+          startDate: moment('13-02-2017', 'DD-MM-YYYY').toDate(),
+        }, {
+          name: 'Speed Recovery',
+          detail: 'Skills – feet & hips MV ladders 3x (10 cones from 20m run in) [3’]  (24, 23) + (22, 21 second runs) from various start points [4’ / 8’] Recovery runs on track in flats',
+          volume: '400m',
+          intensity: 'Low',
+          startDate: moment('13-02-2017', 'DD-MM-YYYY').add(1, 'days').toDate(),
+        },
+        {
+          name: 'Rest Day',
+          detail: 'No Training',
+          volume: '400m',
+          intensity: 'Low',
+          startDate: moment('13-02-2017', 'DD-MM-YYYY').add(2, 'days').toDate(),
+        },
+        {
+          name: 'Circuits',
+          detail: 'Skills – feet & hips MV ladders 3x (10 cones from 20m run in) [3’]  (24, 23) + (22, 21 second runs) from various start points [4’ / 8’] Recovery runs on track in flats',
+          volume: '400m',
+          intensity: 'Low',
+          startDate: moment('13-02-2017', 'DD-MM-YYYY').add(3, 'days').toDate(),
+        },
+        {
+          name: 'Speed Recovery',
+          detail: 'Skills – feet & hips MV ladders 3x (10 cones from 20m run in) [3’]  (24, 23) + (22, 21 second runs) from various start points [4’ / 8’] Recovery runs on track in flats',
+          volume: '400m',
+          intensity: 'Low',
+          startDate: moment('13-02-2017', 'DD-MM-YYYY').add(4, 'days').toDate(),
+        },
+        {
+          name: 'Rest Day',
+          detail: 'No Training',
+          volume: '400m',
+          intensity: 'Low',
+          startDate: moment('13-02-2017', 'DD-MM-YYYY').add(5, 'days').toDate(),
+        },
+        {
+          name: 'Circuits',
+          detail: 'Skills – feet & hips MV ladders 3x (10 cones from 20m run in) [3’]  (24, 23) + (22, 21 second runs) from various start points [4’ / 8’] Recovery runs on track in flats',
+          volume: '400m',
+          intensity: 'Low',
+          startDate: moment('13-02-2017', 'DD-MM-YYYY').add(6, 'days').toDate(),
+        },
+      ]
+    }];
   })
   .controller('AthleteRegistrationCtrl', function ($scope, $state, $ionicPopup, MyServices, $ionicLoading, $filter, $ionicModal) {
 

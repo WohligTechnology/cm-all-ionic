@@ -11111,3 +11111,100 @@ p.bold {
 
 .button.button-positive.activated {
   border-color: #003268; }
+
+.diary-list .item-divider {
+  font-weight: bold; }
+
+.tp-activity {
+  background-color: #ffebea;
+  color: black;
+  padding-left: 65px; }
+  .tp-activity .date {
+    position: absolute;
+    left: 15px;
+    top: 13px;
+    width: 44px;
+    font-size: 12px;
+    overflow: hidden;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 120%;
+    border-right: 1px solid rgba(0, 0, 0, 0.35); }
+  .tp-activity .icon {
+    opacity: 0.35;
+    height: 44px; }
+  .tp-activity .day {
+    padding-right: 7px;
+    font-size: 10px;
+    font-weight: 400;
+    display: block;
+    text-align: center; }
+  .tp-activity h2 {
+    font-weight: bold; }
+  .tp-activity button {
+    border-radius: 0px;
+    min-width: 40px; }
+    .tp-activity button i:before {
+      font-size: 14px; }
+
+.tp-phase {
+  font-weight: bold;
+  color: white; }
+  .tp-phase.tp-odd {
+    background-color: #00a184; }
+  .tp-phase.tp-even {
+    background-color: #00a7ab; }
+  .tp-phase .sub {
+    font-weight: 400; }
+
+.hide-out {
+  margin: 15px -54px -16px -65px;
+  font-size: 14px;
+  padding: 10px 15px;
+  background-color: #fffcfc; }
+
+.after-text {
+  padding-top: 10px; }
+
+.button.Low {
+  background-color: #f3ffe9;
+  color: #396316 !important;
+  border-color: #f3ffe9;
+  font-weight: bold; }
+
+.button.Medium {
+  background-color: #fffdea;
+  color: #887f27 !important;
+  border-color: #fffdea;
+  font-weight: bold; }
+
+.button.High {
+  background-color: #fee7cc;
+  color: #784912 !important;
+  border-color: #fee7cc;
+  font-weight: bold; }
+
+.uppercase {
+  text-transform: uppercase; }
+
+.rest-day {
+  color: #c1271c !important; }
+
+.opace {
+  opacity: 0; }
+
+.phaseOdd {
+  background-color: #0da183 !important;
+  border-color: #0da183;
+  font-weight: bold; }
+
+.phaseEven {
+  background-color: #14a7ac !important;
+  border-color: #14a7ac;
+  font-weight: bold; }
+
+.fc-day-grid-event {
+  margin: 0;
+  padding: 0 1px;
+  border-radius: 0px;
+  text-align: center; }
