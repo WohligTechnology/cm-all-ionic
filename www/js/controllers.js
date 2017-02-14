@@ -1480,7 +1480,7 @@ angular.module('starter.controllers', ['starter.services', 'checklist-model', 'u
 
     $scope.phase = [{
       title: 'General Prep (GPE)',
-      start: moment().toDate(),
+      start: moment('13-02-2017', 'DD-MM-YYYY').toDate(),
       end: moment('13-02-2017', 'DD-MM-YYYY').add(7, 'days').toDate(),
       className: 'phaseOdd',
       allDay: true,
