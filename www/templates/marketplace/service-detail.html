@@ -1,48 +1,48 @@
 <ion-view view-title="Service Provider Details">
-  <ion-content  class="tab-content">
-<div class="">
-    <div class=" ">
-      <div class="service" ng-click="serviceList();" >
-        <div class="profile-back">
+  <ion-content class="tab-content">
+    <div class="">
+      <div class=" ">
+        <div class="service" ng-click="serviceList();">
+          <div class="profile-back">
             Orthopedic Doctor
-        </div>
-        <div class="card service-card"  >
+          </div>
+          <div class="card service-card">
             <div class="pro-div">
-              <div class="pro-img" >
+              <div class="pro-img">
                 <img ng-src="{{servicePopup.image}}" alt="...">
               </div>
               <div class="caption">
                 <h4>{{servicePopup.name}} {{servicePopup.surname}}</h4>
-                  <p>{{servicePopup.country}},{{servicePopup.city}}</p>
-                 <p><a mailto:"abc@gmail.com">{{servicePopup.mailId}}</a></p> 
-                <p><a tel:"989898898">{{servicePopup.contactNumber}}</a></p>
-                  <p >{{servicePopup.website}}</p>
+                <p>{{servicePopup.country}},{{servicePopup.city}}</p>
+                <p><a mailto: "abc@gmail.com">{{servicePopup.mailId}}</a></p>
+                <p><a tel: "989898898">Phone Number - {{servicePopup.contactNumber}}</a></p>
+                <p>{{servicePopup.website}}</p>
               </div>
             </div>
             <!-- <div class="des">
                 <p>{{s.description}}</p>
             </div> -->
             <div class="enquire text-center">
-               <button href="#" class="button button-positive color-white" role="button" style="text-decoration:none">Enquire Now</button>
+              <button href="#" class="button button-positive color-white" role="button" style="text-decoration:none">Enquire Now</button>
             </div>
             <div class="about">
-                  <h4>About</h4>
-                  <div class="about-des" ng-bind-html="servicePopup.description"></div>
+              <h4>About</h4>
+              <div class="about-des" ng-bind-html="servicePopup.description"></div>
             </div>
             <div class=" gallery">
-                <h4>Gallery</h4>
-                <div class="row" ng-repeat="videolist1 in eventsGalleryDetaiLlist">
-                    <div class="col-50 pic-50" ng-repeat="videolist in videolist1">
-                        <div class="relate">
-                        <img ng-src="{{videolist.img}}" class="full-image {{videolist.radius}}">
-                        <span class="{{videolist.classCircle}}"><img src="{{videolist.urlPlay}}"></span>
-                        </div>
-                    </div>
+              <h4>Gallery</h4>
+              <div class="row" ng-repeat="videolist1 in eventsGalleryDetaiLlist">
+                <div class="col-50 pic-50" ng-repeat="videolist in videolist1">
+                  <div class="relate">
+                    <img ng-src="{{videolist.img}}" class="full-image {{videolist.radius}}">
+                    <span class="{{videolist.classCircle}}"><img src="{{videolist.urlPlay}}"></span>
+                  </div>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
       </div>
     </div>
-</div>
-</ion-content >
+  </ion-content>
 </ion-view>
