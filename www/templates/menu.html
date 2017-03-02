@@ -15,99 +15,94 @@
       <!--Coach Menu Start-->
       <ion-list>
         <div ng-if="accessType=='Coach'">
-        <ion-item class="item-avatar" menu-close ui-sref="app.coach-profile" ui-sref-active="on">
-          <div class="img-avatar" style="background-image: url({{(profileData.profilePic | uploadpath) || 'img/img-placeholder.png'}});"></div>
-          <h2>{{profileData.name}} {{profileData.surname}}</h2>
-          <p>Coach</p>
-        </ion-item>
-        <ion-item class="item-icon-left" menu-close ui-sref="app.coach-notifications" ui-sref-active="on">
-          <i class="icon ln-earth"></i> Notifications
-          <span class="badge badge-assertive">0</span>
-        </ion-item>
-        <ion-item class="item-icon-left" menu-close ui-sref="app.coach-training-diary" ui-sref-active="on">
-          <i class="icon ln-calendar"></i> Training Diary
-        </ion-item>
-        <ion-item class="item-icon-left" menu-close ui-sref="app.coach-athletes-coaching" ui-sref-active="on">
-          <i class="icon ln-timer"></i> Athletes Coaching
-        </ion-item>
-        <ion-item class="item-icon-left" menu-close ui-sref="app.coach-competition" ui-sref-active="on">
-          <i class="icon ln-users"></i> Competition
-        </ion-item>
-        <ion-item class="item-icon-left" menu-close ui-sref="app.coach-testing" ui-sref-active="on">
-          <i class="icon ln-speed-fast"></i> Test
-        </ion-item>
-        <ion-item class="item-icon-left" menu-close ui-sref="app.coach-blog" ui-sref-active="on">
-          <i class="icon ln-archive"></i> Blog
-        </ion-item>
-        <ion-item class="item-icon-left" menu-close ui-sref="app.coach-chat" ui-sref-active="on">
-          <i class="icon ln-comments"></i> Chat
-        </ion-item>
-        </div>
-
- <!--Coach Menu End-->
-
- <!--Athlete Menu Start-->
-        <div ng-if="accessType=='Athlete'"> 
-        <ion-item class="item-avatar" menu-close ui-sref="app.athlete-profile" ui-sref-active="on">
-          <div class="img-avatar" style="background-image: url({{(profileData.profilePic | uploadpath)||'img/img-placeholder.png'}});"
-            ng-if="profileData.profilePic"></div>
-          <h2>{{profileData.name}} {{profileData.surname}}</h2>
-          <p>Athlete</p>
-        </ion-item>
-
-          <ion-item class="item-icon-left" menu-close ui-sref="app.athlete-notifications" ui-sref-active="on">
+          <ion-item class="item-avatar" menu-close ui-sref="app.coach-profile" ui-sref-active="on">
+            <div class="img-avatar" style="background-image: url({{(profileData.profilePic | uploadpath) || 'img/img-placeholder.png'}});"></div>
+            <h2>{{profileData.name}} {{profileData.surname}}</h2>
+            <p>Coach</p>
+          </ion-item>
+          <ion-item class="item-icon-left" menu-close ui-sref="app.coach-notifications" ui-sref-active="on">
             <i class="icon ln-earth"></i> Notifications
-            <span class="badge badge-assertive">{{notificationCount}}</span>
+            <span class="badge badge-assertive">0</span>
           </ion-item>
-          <ion-item class="item-icon-left" menu-close ui-sref="app.athlete-coach-detail" ui-sref-active="on">
-            <i class="icon ln-bookmark"></i> My Coach
-          </ion-item>
-          <ion-item class="item-icon-left" menu-close ui-sref="app.athlete-search-coaches" ui-sref-active="on">
-            <i class="icon ln-magnifier"></i> Search Coaches
-          </ion-item>
-          <ion-item class="item-icon-left" menu-close ui-sref="app.athlete-injuries" ui-sref-active="on">
-            <i class="icon ln-first-aid"></i> Injury
-          </ion-item>
-          <ion-item class="item-icon-left" menu-close ui-sref="app.athlete-blog" ui-sref-active="on">
-            <i class="icon ln-archive"></i> Coach Update
-          </ion-item>
-          <ion-item class="item-icon-left" menu-close ui-sref="app.athlete-training-diary" ui-sref-active="on">
+          <ion-item class="item-icon-left" menu-close ui-sref="app.coach-training-diary" ui-sref-active="on">
             <i class="icon ln-calendar"></i> Training Diary
           </ion-item>
-          <ion-item class="item-icon-left" menu-close ui-sref="app.athlete-chat" ui-sref-active="on">
+          <ion-item class="item-icon-left" menu-close ui-sref="app.coach-athletes-coaching" ui-sref-active="on">
+            <i class="icon ln-timer"></i> Athletes Coaching
+          </ion-item>
+          <ion-item class="item-icon-left" menu-close ui-sref="app.coach-competition" ui-sref-active="on">
+            <i class="icon ln-users"></i> Competition
+          </ion-item>
+          <ion-item class="item-icon-left" menu-close ui-sref="app.coach-testing" ui-sref-active="on">
+            <i class="icon ln-speed-fast"></i> Test
+          </ion-item>
+          <ion-item class="item-icon-left" menu-close ui-sref="app.coach-blog" ui-sref-active="on">
+            <i class="icon ln-archive"></i> Blog
+          </ion-item>
+          <ion-item class="item-icon-left" menu-close ui-sref="app.coach-chat" ui-sref-active="on">
             <i class="icon ln-comments"></i> Chat
           </ion-item>
         </div>
- <!--Athlete Menu End-->
-   <!--MarketPlace Menu Start-->
- <div ng-if="accessType==null">
-       <ion-item class="item-icon-left" menu-close ui-sref="landing" >
+        <!--Coach Menu End-->
+        <!--Athlete Menu Start-->
+        <div ng-if="accessType=='Athlete'">
+          <ion-item class="item-avatar" menu-close ui-sref="app.athlete-profile" ui-sref-active="on">
+            <div class="img-avatar" style="background-image: url({{(profileData.profilePic | uploadpath)||'img/img-placeholder.png'}});"
+              ng-if="profileData.profilePic"></div>
+        <h2>{{profileData.name}} {{profileData.surname}}</h2>
+        <p>Athlete</p>
+        </ion-item>
+        <ion-item class="item-icon-left" menu-close ui-sref="app.athlete-notifications" ui-sref-active="on">
+          <i class="icon ln-earth"></i> Notifications
+          <span class="badge badge-assertive">{{notificationCount}}</span>
+        </ion-item>
+        <ion-item class="item-icon-left" menu-close ui-sref="app.athlete-coach-detail" ui-sref-active="on">
+          <i class="icon ln-bookmark"></i> My Coach
+        </ion-item>
+        <ion-item class="item-icon-left" menu-close ui-sref="app.athlete-search-coaches" ui-sref-active="on">
+          <i class="icon ln-magnifier"></i> Search Coaches
+        </ion-item>
+        <ion-item class="item-icon-left" menu-close ui-sref="app.athlete-injuries" ui-sref-active="on">
+          <i class="icon ln-first-aid"></i> Injury
+        </ion-item>
+        <ion-item class="item-icon-left" menu-close ui-sref="app.athlete-blog" ui-sref-active="on">
+          <i class="icon ln-archive"></i> Coach Update
+        </ion-item>
+        <ion-item class="item-icon-left" menu-close ui-sref="app.athlete-training-diary" ui-sref-active="on">
+          <i class="icon ln-calendar"></i> Training Diary
+        </ion-item>
+        <ion-item class="item-icon-left" menu-close ui-sref="app.athlete-chatdetail" ui-sref-active="on">
+          <i class="icon ln-comments"></i> Chat
+        </ion-item>
+        </div>
+        <!--Athlete Menu End-->
+        <!--MarketPlace Menu Start-->
+        <div ng-if="accessType==null">
+          <ion-item class="item-icon-left" menu-close ui-sref="landing">
             <i class="icon ln-home3 ln-fit"></i> Landing
           </ion-item>
-        <ion-item class="item-icon-left" menu-close ng-click="openModalCoachLogin()">
+          <ion-item class="item-icon-left" menu-close ng-click="openModalCoachLogin()">
             <i class="icon ln-user"></i> Login Coach
           </ion-item>
-          <ion-item class="item-icon-left" menu-close  ng-click="openModalAthleteLogin()">
+          <ion-item class="item-icon-left" menu-close ng-click="openModalAthleteLogin()">
             <i class="icon ln-user"></i> Login Athlete
           </ion-item>
- </div>
-
-          <div class="market-div">
-            <ion-item class="item-icon-left " menu-close >
-              <i class="icon ln-cart"></i> Marketplace
-            </ion-item>
-
-              <ion-item class="item-icon-left" menu-close ui-sref="app.marketplace-articles" ui-sref-active="on">
-                <i class="icon ln-document2"></i> Articles
-              </ion-item>
-              <ion-item class="item-icon-left" menu-close ui-sref="app.marketplace-service" ui-sref-active="on">
-                <i class="icon ln-man"></i> Service Providers
-              </ion-item>
-              <ion-item class="item-icon-left" menu-close ui-sref="app.marketplace-event" ui-sref-active="on">
-                <i class="icon ln-calendar3"></i> Events &amp; Competitions
-              </ion-item>
-          </div>
-           <!--MarketPlace Menu End-->
+        </div>
+        <div class="market-div">
+          <ion-item class="item-icon-left " menu-close>
+            <i class="icon ln-cart"></i> Marketplace
+          </ion-item>
+          <ion-item class="item-icon-left" menu-close ui-sref="app.marketplace-articles" ui-sref-active="on">
+            <i class="icon ln-document2"></i> Articles
+          </ion-item>
+          <ion-item class="item-icon-left" menu-close ui-sref="app.marketplace-service" ui-sref-active="on">
+            <i class="icon ln-man"></i> Service Providers
+          </ion-item>
+          <ion-item class="item-icon-left" menu-close ui-sref="app.marketplace-event" ui-sref-active="on">
+            <i class="icon ln-calendar3"></i> Events &amp; Competitions
+          </ion-item>
+        </div>
+        <!--MarketPlace Menu End-->
         <!--<ion-item class="item-icon-left" menu-close ui-sref="app.athlete-analytics" ui-sref-active="on">
           <i class="icon ln-chart-growth"></i> Analytics
         </ion-item>-->

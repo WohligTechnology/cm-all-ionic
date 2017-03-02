@@ -614,7 +614,53 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     };
   })
 
-  .controller('AthleteChatDetailCtrl', function ($scope, $ionicScrollDelegate, $timeout) {
+  .controller('AthleteChatDetailCtrl', function ($scope, $ionicScrollDelegate, $timeout, MyServices) {
+    $scope.athleteData = MyServices.getUser();
+    var athleteId = $scope.athleteData._id;
+
+    // $scope.myCoachProfile = {};
+    if (athleteId) {
+      MyServices.getMyCoach({
+        athleteId: athleteId
+      }, function (response) {
+        if (response.value == true) {
+          $scope.myCoachProfile = response.data.coach;
+          $scope.getAllMessages();
+        } else {
+          $scope.myCoachProfile = "";
+        }
+      })
+    }
+
+    // Get all messages
+    $scope.skip = 0
+    $scope.getAllMessages = function () {
+      $scope.messages = [];
+      $scope.chatData.coach = $scope.myCoachProfile._id;
+      $scope.chatData.athlete = athleteId;
+      $scope.chatData.skip = $scope.skip;
+      MyServices.getAllmessages($scope.chatData, function (data) {
+        $scope.chatMsgs = data.data[0].message;
+        console.log("$scope.chatMsgs", $scope.chatMsgs);
+        _.each($scope.chatMsgs, function (key) {
+          if (key.from == "athlete") {
+            $scope.messages.push({
+              userId: 'me',
+              message: key.message,
+              time: key.time
+            });
+          } else {
+            $scope.messages.push({
+              userId: 'he',
+              message: key.message,
+              time: key.time
+            });
+          }
+        })
+        $ionicScrollDelegate.scrollBottom(true);
+      })
+    }
+
 
     $scope.hideTime = true;
 
@@ -624,19 +670,30 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       return d;
     };
 
+    //Send Message 
+    $scope.chatData = {}
     $scope.sendMessage = function () {
-
+      $scope.messages = [];
       if ($scope.data.message !== '' && $scope.data.message) {
         $scope.messages.push({
           userId: 'me',
-          text: $scope.data.message,
+          message: $scope.data.message,
           time: $scope.timeStamp()
         });
-
-        delete $scope.data.message;
-        $ionicScrollDelegate.scrollBottom(true);
       }
-
+      $ionicScrollDelegate.scrollBottom(true);
+      $scope.chatData.coach = $scope.myCoachProfile._id;
+      $scope.chatData.athlete = athleteId;
+      $scope.chatData.message = {
+        message: $scope.data.message,
+        time: $scope.timeStamp(),
+        from: "athlete"
+      };
+      MyServices.sendMessageFromAthlete($scope.chatData, function (data) {
+        console.log("send");
+        $scope.getAllMessages();
+        $scope.data.message = "";
+      })
     };
 
     $scope.chatTap = function (m) {
@@ -650,43 +707,43 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     };
 
     $scope.data = {};
-    $scope.messages = [{
-      userId: 'he',
-      text: 'Hi Matt, how did you find the session?',
-      time: $scope.timeStamp()
-    }, {
-      userId: 'me',
-      text: 'Good, I managed to hit my target times, legs are feeling quite tired now.',
-      time: $scope.timeStamp()
-    }, {
-      userId: 'he',
-      text: 'Good, I suggest you rehab today ready for tomorrow’s session.',
-      time: $scope.timeStamp()
-    }, {
-      userId: 'he',
-      text: 'Stretch, foam roll etc, please refer to rehab programme attached with your Training Plan',
-      time: $scope.timeStamp()
-    }, {
-      userId: 'me',
-      text: 'Will do, thanks.',
-      time: $scope.timeStamp()
-    }, {
-      userId: 'me',
-      text: 'James, a question regarding the session on the 27th November, you have set three sets however still struggling with the legs from last week, shall I drop a set or take the reps slower and get it finished?',
-      time: $scope.timeStamp()
-    }, {
-      userId: 'he',
-      text: 'Stick with the two sets, get it done in flats. I will adapt your training plan for you.',
-      time: $scope.timeStamp()
-    }, {
-      userId: 'me',
-      text: 'Thanks James',
-      time: $scope.timeStamp()
-    }, {
-      userId: 'me',
-      text: 'Session complete, have submitted my times in session feedback',
-      time: $scope.timeStamp()
-    }];
+    // $scope.messages = [{
+    //   userId: 'he',
+    //   text: 'Hi Matt, how did you find the session?',
+    //   time: $scope.timeStamp()
+    // }, {
+    //   userId: 'me',
+    //   text: 'Good, I managed to hit my target times, legs are feeling quite tired now.',
+    //   time: $scope.timeStamp()
+    // }, {
+    //   userId: 'he',
+    //   text: 'Good, I suggest you rehab today ready for tomorrow’s session.',
+    //   time: $scope.timeStamp()
+    // }, {
+    //   userId: 'he',
+    //   text: 'Stretch, foam roll etc, please refer to rehab programme attached with your Training Plan',
+    //   time: $scope.timeStamp()
+    // }, {
+    //   userId: 'me',
+    //   text: 'Will do, thanks.',
+    //   time: $scope.timeStamp()
+    // }, {
+    //   userId: 'me',
+    //   text: 'James, a question regarding the session on the 27th November, you have set three sets however still struggling with the legs from last week, shall I drop a set or take the reps slower and get it finished?',
+    //   time: $scope.timeStamp()
+    // }, {
+    //   userId: 'he',
+    //   text: 'Stick with the two sets, get it done in flats. I will adapt your training plan for you.',
+    //   time: $scope.timeStamp()
+    // }, {
+    //   userId: 'me',
+    //   text: 'Thanks James',
+    //   time: $scope.timeStamp()
+    // }, {
+    //   userId: 'me',
+    //   text: 'Session complete, have submitted my times in session feedback',
+    //   time: $scope.timeStamp()
+    // }];
 
   })
 

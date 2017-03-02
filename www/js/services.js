@@ -1,6 +1,6 @@
-var adminurl = "http://coachmentor.wohlig.com/api/";
+// var adminurl = "http://coachmentor.wohlig.com/api/";
 // var adminurl = "http://192.168.0.101:1337/api/";
-// var adminurl = "http://wohlig.io/api/";
+var adminurl = "http://wohlig.io/api/";
 var imgurl = adminurl + "upload/";
 
 var imgpath = imgurl + "readFile";
@@ -15,6 +15,7 @@ angular.module('starter.services', [])
     } else {
       requestCredentials = {
         accessToken: $.jStorage.get("userProfile").accessToken[0],
+        accessType: "Athlete"
       };
     }
 
@@ -556,6 +557,24 @@ angular.module('starter.services', [])
         formData = _.merge(formData, requestCredentials);
         $http({
           url: adminurl + 'athletecoaching/updateAthleteCoaching',
+          method: 'POST',
+          data: formData
+        }).success(callback);
+      },
+      //send chat msg from athlete to coach
+      sendMessageFromAthlete: function (formData, callback) {
+        formData = _.merge(formData, requestCredentials);
+        $http({
+          url: adminurl + 'Chat/sendMessage',
+          method: 'POST',
+          data: formData
+        }).success(callback);
+      },
+      //get all chat msg for athlete
+      getAllmessages: function (formData, callback) {
+        formData = _.merge(formData, requestCredentials);
+        $http({
+          url: adminurl + 'Chat/getAllmessages',
           method: 'POST',
           data: formData
         }).success(callback);

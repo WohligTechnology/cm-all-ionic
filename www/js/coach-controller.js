@@ -1917,43 +1917,43 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     };
 
     $scope.data = {};
-    $scope.messages = [{
-      userId: 'me',
-      text: 'Hi Matt, how did you find the session?',
-      time: $scope.timeStamp()
-    }, {
-      userId: 'he',
-      text: 'Good, I managed to hit my target times, legs are feeling quite tired now.',
-      time: $scope.timeStamp()
-    }, {
-      userId: 'me',
-      text: 'Good, I suggest you rehab today ready for tomorrow’s session.',
-      time: $scope.timeStamp()
-    }, {
-      userId: 'me',
-      text: 'Stretch, foam roll etc, please refer to rehab programme attached with your Training Plan',
-      time: $scope.timeStamp()
-    }, {
-      userId: 'he',
-      text: 'Will do, thanks.',
-      time: $scope.timeStamp()
-    }, {
-      userId: 'he',
-      text: 'James, a question regarding the session on the 27th November, you have set three sets however still struggling with the legs from last week, shall I drop a set or take the reps slower and get it finished?',
-      time: $scope.timeStamp()
-    }, {
-      userId: 'me',
-      text: 'Stick with the two sets, get it done in flats. I will adapt your training plan for you.',
-      time: $scope.timeStamp()
-    }, {
-      userId: 'he',
-      text: 'Thanks James',
-      time: $scope.timeStamp()
-    }, {
-      userId: 'he',
-      text: 'Session complete, have submitted my times in session feedback  ',
-      time: $scope.timeStamp()
-    }];
+    //   $scope.messages = [{
+    //     userId: 'me',
+    //     text: 'Hi Matt, how did you find the session?',
+    //     time: $scope.timeStamp()
+    //   }, {
+    //     userId: 'he',
+    //     text: 'Good, I managed to hit my target times, legs are feeling quite tired now.',
+    //     time: $scope.timeStamp()
+    //   }, {
+    //     userId: 'me',
+    //     text: 'Good, I suggest you rehab today ready for tomorrow’s session.',
+    //     time: $scope.timeStamp()
+    //   }, {
+    //     userId: 'me',
+    //     text: 'Stretch, foam roll etc, please refer to rehab programme attached with your Training Plan',
+    //     time: $scope.timeStamp()
+    //   }, {
+    //     userId: 'he',
+    //     text: 'Will do, thanks.',
+    //     time: $scope.timeStamp()
+    //   }, {
+    //     userId: 'he',
+    //     text: 'James, a question regarding the session on the 27th November, you have set three sets however still struggling with the legs from last week, shall I drop a set or take the reps slower and get it finished?',
+    //     time: $scope.timeStamp()
+    //   }, {
+    //     userId: 'me',
+    //     text: 'Stick with the two sets, get it done in flats. I will adapt your training plan for you.',
+    //     time: $scope.timeStamp()
+    //   }, {
+    //     userId: 'he',
+    //     text: 'Thanks James',
+    //     time: $scope.timeStamp()
+    //   }, {
+    //     userId: 'he',
+    //     text: 'Session complete, have submitted my times in session feedback  ',
+    //     time: $scope.timeStamp()
+    //   }];
   })
 
   .controller('CoachChatGroupCtrl', function ($scope, $ionicScrollDelegate, $timeout) {
