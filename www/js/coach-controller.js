@@ -195,7 +195,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
           $scope.formData = {};
           $scope.hideLoading();
           $scope.showLoading('Login Successful', 2000);
-          MyServices.setUser(data.data);
+          MyServices.setCoachUser(data.data);
           $scope.modal3.hide();
           $state.go('app.coach-profile');
           MyServices.setAccessType("Coach");
@@ -211,7 +211,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     $ionicHistory.clearCache();
     $ionicHistory.clearHistory();
     $ionicHistory.removeBackView();
-    $scope.profileData = MyServices.getUser();
+    $scope.profileData = MyServices.getCoachUser();
     //Loading
     $scope.showLoading = function (value, time) {
       $ionicLoading.show({
@@ -227,7 +227,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     $scope.reloadProfile = function () {
       MyServices.getProfile($scope.profileData, function (data) {
         if (data.value === true) {
-          MyServices.setUser(data.data);
+          MyServices.setCoachUser(data.data);
           $scope.$broadcast('scroll.refreshComplete');
         } else {
           $scope.$broadcast('scroll.refreshComplete');
@@ -280,7 +280,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
 
   .controller('CoachEditProfileCtrl', function ($scope, $state, MyServices, $ionicModal, $filter, $ionicLoading, $cordovaFileTransfer, $cordovaCamera) {
-    $scope.formData = MyServices.getUser();
+    $scope.formData = MyServices.getCoachUser();
     $scope.formData.dob = new Date($scope.formData.dob);
     $scope.dummyPassword = '12345678';
 
@@ -368,7 +368,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       MyServices.editProfile(formData, function (data) {
         if (data.value === true) {
           $scope.hideLoading();
-          MyServices.setUser(data.data);
+          MyServices.setCoachUser(data.data);
           $scope.showLoading('Profile Updated', 2000);
           $state.go('app.coach-profile');
         } else {
@@ -1574,7 +1574,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
   })
 
   .controller('CoachAthletesCoachingCtrl', function ($scope, $ionicModal, MyServices, $stateParams) {
-    $scope.profileData = MyServices.getUser();
+    $scope.profileData = MyServices.getCoachUser();
     var coachId = $scope.profileData._id;
     var i = 0;
     $scope.search = {
@@ -1631,7 +1631,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
   })
 
   .controller('CoachAthletesRequestCtrl', function ($scope, $ionicModal, MyServices, $ionicPopup) {
-    $scope.profileData = MyServices.getUser();
+    $scope.profileData = MyServices.getCoachUser();
 
     $scope.reason = function (notificationId) {
       $scope.Id = notificationId;
@@ -1773,7 +1773,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
   })
 
   .controller('CoachNotificationsCtrl', function ($scope, $ionicModal, MyServices, $ionicScrollDelegate, $ionicPopup) {
-    $scope.profileData = MyServices.getUser();
+    $scope.profileData = MyServices.getCoachUser();
     // $scope.notifications = [{
     //   name: 'Matt',
     //   surname: 'Chant',
@@ -1846,7 +1846,53 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
   })
 
 
-  .controller('CoachChatCtrl', function ($scope, $ionicModal, $state) {
+  .controller('CoachChatCtrl', function ($scope, $ionicModal, $state, MyServices, $stateParams) {
+    $scope.coachProfile = MyServices.getCoachUser();
+    var coachId = $scope.coachProfile._id;
+    var i = 0;
+    $scope.search = {
+      keyword: ""
+    };
+    if ($stateParams.keyword) {
+      $scope.search.keyword = $stateParams.keyword;
+    }
+    //Get all athletes By coach
+    $scope.getMyAthletes = function (keywordChange) {
+      $scope.totalItems = undefined;
+      $scope.athletes = undefined;
+      if (keywordChange) {
+        $scope.currentPage = 1;
+      }
+      MyServices.getMyAthletes({
+        page: $scope.currentPage,
+        keyword: $scope.search.keyword
+      }, ++i, function (response, ini) {
+        if (ini == i) {
+          if (response.value) {
+            $scope.chatathletes = response.data.results;
+            console.log($scope.athletes);
+            $scope.totalItems = response.data.total;
+            $scope.maxRow = response.data.options.count;
+          } else {
+            $scope.athletes = [];
+          }
+        }
+      });
+    };
+
+    $scope.getMyAthletes();
+
+    //get all chats of coach
+    $scope.getMyChats = function () {
+      MyServices.getMyChats({
+        coach: coachId
+      }, function (response) {
+        $scope.coachChats = response.data;
+      })
+    };
+
+    $scope.getMyChats();
+
     $ionicModal.fromTemplateUrl('templates/coach-modal/chat.html', {
       id: 1,
       scope: $scope,
@@ -1874,13 +1920,20 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       $scope.modalChat.hide();
     };
 
-    $scope.startChat = function () {
-      $state.go('app.coach-chatdetail');
+    $scope.startChat = function (athleteId) {
+      console.log(athleteId);
+      $state.go('app.coach-chatdetail', {
+        id: athleteId
+      });
       $scope.modalChat.hide();
     };
+
   })
 
-  .controller('CoachChatDetailCtrl', function ($scope, $ionicScrollDelegate, $timeout) {
+  .controller('CoachChatDetailCtrl', function ($scope, $ionicScrollDelegate, $timeout, $stateParams, MyServices) {
+    $scope.coachProfile = MyServices.getCoachUser();
+    var coachId = $scope.coachProfile._id;
+    $scope.chatData = {};
 
     $ionicScrollDelegate.scrollBottom(true);
     $scope.hideTime = true;
@@ -1890,9 +1943,41 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       d = d.toLocaleTimeString().replace(/:\d+ /, ' ');
       return d;
     };
+    // console.log($stateParams.id);
 
+    var athleteId = $stateParams.id
+    // Get all chat messages
+    $scope.skip = 0
+    $scope.getAllMessages = function () {
+      $scope.messages = [];
+      $scope.chatData.coach = $scope.coachProfile._id;
+      $scope.chatData.athlete = athleteId;
+      $scope.chatData.skip = $scope.skip;
+      MyServices.getAllmessages($scope.chatData, function (data) {
+        $scope.chatMsgs = data.data[0].message;
+        _.each($scope.chatMsgs, function (key) {
+          if (key.from == "athlete") {
+            $scope.messages.push({
+              userId: 'he',
+              message: key.message,
+              time: key.time
+            });
+          } else {
+            $scope.messages.push({
+              userId: 'me',
+              message: key.message,
+              time: key.time
+            });
+          }
+        })
+        $ionicScrollDelegate.scrollBottom(true);
+      })
+    }
+
+    $scope.getAllMessages();
+
+    //Send chat message from coach 
     $scope.sendMessage = function () {
-
       if ($scope.data.message !== '' && $scope.data.message) {
         $scope.messages.push({
           userId: 'me',
@@ -1900,8 +1985,19 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
           time: $scope.timeStamp()
         });
 
-        delete $scope.data.message;
         $ionicScrollDelegate.scrollBottom(true);
+        $scope.chatData.coach = $scope.coachProfile._id;
+        $scope.chatData.athlete = athleteId;
+        $scope.chatData.message = {
+          message: $scope.data.message,
+          time: $scope.timeStamp(),
+          from: "coach"
+        };
+        MyServices.sendChatMessages($scope.chatData, function (data) {
+          console.log("send");
+          $scope.getAllMessages();
+          $scope.data.message = "";
+        })
       }
 
     };

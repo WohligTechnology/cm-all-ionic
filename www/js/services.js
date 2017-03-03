@@ -8,16 +8,20 @@ var uploadurl = imgurl;
 var user = {};
 angular.module('starter.services', [])
   .factory('MyServices', function ($http, $filter) {
+    var requestCredentials = {
+      accessToken: $.jStorage.get('accessToken'),
+      accessType: $.jStorage.get('accessType')
+    };
+    // console.log(requestCredentials);
     //Start Athlete Service
     var userProfile = $.jStorage.get("userProfile");
-    if (!userProfile) {
-      userProfile = {};
-    } else {
-      requestCredentials = {
-        accessToken: $.jStorage.get("userProfile").accessToken[0],
-        accessType: "Athlete"
-      };
-    }
+    // if (!userProfile) {
+    //   userProfile = {};
+    // } else {
+    //   requestCredentials = {
+    //     accessToken: $.jStorage.get("userProfile").accessToken[0],
+    //   };
+    // }
 
     var returnval = {};
 
@@ -32,8 +36,11 @@ angular.module('starter.services', [])
       setAthleteUser: function (data) {
         _.assignIn(userProfile, data);
         $.jStorage.set("userProfile", userProfile);
+        $.jStorage.set("accessToken", data.accessToken[0]);
+        $.jStorage.set("accessType", "Athlete");
         requestCredentials = {
           accessToken: $.jStorage.get("userProfile").accessToken[0],
+          accessType: "Athlete"
         };
       },
 
@@ -98,7 +105,6 @@ angular.module('starter.services', [])
       },
       getAthleteMyPlans: function (formData, callback) {
         formData = _.merge(formData, requestCredentials);
-        console.log(formData);
         $http({
           url: adminurl + 'Athlete/getAthleteMyPlans',
           method: 'POST',
@@ -282,15 +288,18 @@ angular.module('starter.services', [])
         }).success(callback);
       },
 
-      setUser: function (data) {
+      setCoachUser: function (data) {
         _.assignIn(userProfile, data);
         $.jStorage.set("userProfile", userProfile);
+        $.jStorage.set("accessToken", data.accessToken[0]);
+        $.jStorage.set("accessType", "Coach");
         requestCredentials = {
           accessToken: $.jStorage.get("userProfile").accessToken[0],
+          accessType: "Coach"
         };
       },
 
-      getUser: function () {
+      getCoachUser: function () {
         return userProfile;
       },
 
@@ -562,7 +571,7 @@ angular.module('starter.services', [])
         }).success(callback);
       },
       //send chat msg from athlete to coach
-      sendMessageFromAthlete: function (formData, callback) {
+      sendChatMessages: function (formData, callback) {
         formData = _.merge(formData, requestCredentials);
         $http({
           url: adminurl + 'Chat/sendMessage',
@@ -575,6 +584,15 @@ angular.module('starter.services', [])
         formData = _.merge(formData, requestCredentials);
         $http({
           url: adminurl + 'Chat/getAllmessages',
+          method: 'POST',
+          data: formData
+        }).success(callback);
+      },
+      //get all chat for athlete
+      getMyChats: function (formData, callback) {
+        formData = _.merge(formData, requestCredentials);
+        $http({
+          url: adminurl + 'Chat/getCoachChats',
           method: 'POST',
           data: formData
         }).success(callback);

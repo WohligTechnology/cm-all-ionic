@@ -689,7 +689,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         time: $scope.timeStamp(),
         from: "athlete"
       };
-      MyServices.sendMessageFromAthlete($scope.chatData, function (data) {
+      MyServices.sendChatMessages($scope.chatData, function (data) {
         console.log("send");
         $scope.getAllMessages();
         $scope.data.message = "";

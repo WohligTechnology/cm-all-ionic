@@ -333,7 +333,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
       })
 
       .state('app.coach-chatdetail', {
-        url: '/coach/chat-detail',
+        url: '/coach/chat-detail/:id',
         views: {
           'menuContent': {
             templateUrl: 'templates/coach/chat-detail.html',

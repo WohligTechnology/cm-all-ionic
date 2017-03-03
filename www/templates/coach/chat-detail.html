@@ -3,7 +3,7 @@
     <div class="chat-holder">
       <div class="bubble" ng-class="{'me': m.userId == 'me'}" ng-repeat="m in messages" on-tap="chatTap(m);">
         <div class="msg">
-          {{m.text}}
+          {{m.message}}
           <div class="tick" ng-class="{'positive-bg stable': read==true}"><i class="icon ion-android-done" ng-class="{'ion-android-done-all': delivered==true}"></i></div>
         </div>
         <div class="time-stamp" ng-show="m.showTime">{{m.time}}</div>
