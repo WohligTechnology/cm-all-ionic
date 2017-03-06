@@ -1893,6 +1893,17 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
     $scope.getMyChats();
 
+    //continious calling API
+    $scope.intervalFunction = function () {
+      $timeout(function () {
+        $scope.getMyChats();
+        $scope.intervalFunction();
+      }, 1000)
+    };
+
+    // Kick off the interval
+    $scope.intervalFunction();
+
     $ionicModal.fromTemplateUrl('templates/coach-modal/chat.html', {
       id: 1,
       scope: $scope,
@@ -1975,6 +1986,17 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     }
 
     $scope.getAllMessages();
+
+    //continious calling API
+    $scope.intervalFunction = function () {
+      $timeout(function () {
+        $scope.getAllMessages();
+        $scope.intervalFunction();
+      }, 1000)
+    };
+
+    // Kick off the interval
+    $scope.intervalFunction();
 
     //Send chat message from coach 
     $scope.sendMessage = function () {
