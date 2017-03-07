@@ -290,11 +290,11 @@ angular.module('starter.services', [])
 
       setCoachUser: function (data) {
         _.assignIn(userProfile, data);
-        $.jStorage.set("userProfile", userProfile);
+        $.jStorage.set("userProfile", data);
         $.jStorage.set("accessToken", data.accessToken[0]);
         $.jStorage.set("accessType", "Coach");
         requestCredentials = {
-          accessToken: $.jStorage.get("userProfile").accessToken[0],
+          accessToken: data.accessToken[0],
           accessType: "Coach"
         };
       },

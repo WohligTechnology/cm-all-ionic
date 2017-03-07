@@ -76,18 +76,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
         }
       })
 
-      // .state('athlete-login', {
-      //   url: '/athlete/login',
-      //   cache: false,
-      //   templateUrl: 'templates/athlete/login.html',
-      //   controller: 'AthleteLoginCtrl'
-      // })
+      .state('athlete-login', {
+        url: '/athlete/login',
+        cache: false,
+        templateUrl: 'templates/athlete/login.html',
+        controller: 'AthleteLoginCtrl'
+      })
 
-      // .state('athlete-registration', {
-      //   url: '/athlete/registration',
-      //   templateUrl: 'templates/athlete/registration.html',
-      //   controller: 'AthleteRegistrationCtrl'
-      // })
+      .state('athlete-registration', {
+        url: '/athlete/registration',
+        templateUrl: 'templates/athlete/registration.html',
+        controller: 'AthleteRegistrationCtrl'
+      })
 
       .state('app.athlete-edit-profile', {
         url: '/athlete/edit-profile',
@@ -552,7 +552,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
     ;
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/loading');
+    $urlRouterProvider.otherwise('/landing');
   })
 
   .filter('ageConvert', function () {
