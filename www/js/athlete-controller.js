@@ -46,15 +46,15 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     $scope.loadingData = MyServices.getUser();
     $scope.accessType = MyServices.getAccessType();
 
-    if ($scope.loadingData.accessToken) {
-      if ($scope.accessType == 'Athlete') {
-        $state.go('app.athlete-profile');
-      } else {
-        $state.go('app.coach-profile');
-      }
-    } else {
-      $state.go('landing');
-    }
+    // if ($scope.loadingData.accessToken) {
+    //   if ($scope.accessType == 'Athlete') {
+    //     $state.go('app.athlete-profile');
+    //   } else {
+    //     $state.go('app.coach-profile');
+    //   }
+    // } else {
+    //   $state.go('landing');
+    // }
   })
 
   .controller('LandingCtrl', function ($scope, $ionicModal, $timeout, $state, $rootScope, MyServices, $ionicHistory, $ionicSlideBoxDelegate) {
