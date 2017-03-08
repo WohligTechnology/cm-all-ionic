@@ -190,6 +190,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     //Submit Form
     $scope.submitData = function (formData) {
       $scope.showLoading('Please wait...', 15000);
+
       MyServices.login(formData, function (data) {
         if (data.value === true) {
           $scope.formData = {};

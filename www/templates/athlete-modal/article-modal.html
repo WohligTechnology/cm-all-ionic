@@ -2,20 +2,20 @@
   <a ng-click="closePopup();" class="cross-img"><img src="img/marketplace/crose.png"></a>
   <div class="article-list-modal">
     <div class="">
-      <img src="{{articleDetail.image}}" class="full-image">
+      <img src="{{eyeDetails.image}}" class="full-image">
     </div>
     <div class="modal-content ">
       <div class="">
         <div class="">
-          <p class="text bold">{{articleDetail.title}}</p>
+          <p class="text bold">{{eyeDetails.previewContent}}</p>
         </div>
         <div class="button-div">
-          <div class="price blue-box ">{{articleDetail.price}}</div>
+          <div class="price blue-box ">{{eyeDetails.articlePrice}}</div>
           <button type="button" class="buy-btn" name="button">BUY</button>
         </div>
       </div>
       <div class="text-intro">
-        <p class="center-text ">{{articleDetail.content}}</p>
+        <p class="center-text ">{{eyeDetails.fullContent}}</p>
       </div>
     </div>
   </div>
