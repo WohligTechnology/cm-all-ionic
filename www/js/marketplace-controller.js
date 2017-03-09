@@ -320,10 +320,15 @@ angular.module('marketplaceController', ['starter.services', 'checklist-model', 
       img: ' img/marketplace/article-list-landing.png',
     };
     $scope.activeTab = 1;
-    $scope.article = {}; //Used to store article data
-    $scope.articleList = []; //Array to store list of articals
-    $scope.article.category = []; //Array to store multiple categories
-    $scope.article.filter = []; //Array to store filters
+    $scope.article = {};
+    $scope.articleRecent = {}; //Used to store Recent article data
+    $scope.articlePopular = {}; //Used to store Popular article data
+    $scope.marketlist = []; //Array to store list of most recent articals
+    $scope.marketlist1 = []; //Array to store list of most popular articals
+    $scope.articleRecent.category = []; //Array to store multiple categories
+    $scope.articleRecent.filter = []; //Array to store filters
+    $scope.articlePopular.category = []; //Array to store multiple categories
+    $scope.articlePopular.filter = []; //Array to store filters
     $scope.skip = 0; //This is used in pagination. Initial value is 0, and increamented by 10
     $scope.isData = false;
     // $scope.view = function() {
@@ -337,96 +342,89 @@ angular.module('marketplaceController', ['starter.services', 'checklist-model', 
     $scope.categories = ['Training and performance', 'Nutrition', 'Coaching', 'Parents and Guardians', 'News', 'Tips and Techniques'];
 
 
-    // $scope.marketlist = [{
-    //   "profile": "img/marketplace/pic1.png",
-    //   "name": "vern",
-    //   "surname": "gambetta",
-    //   "date": "december 1, 2016 ",
-    //   "rate": "£ 22",
-    //   "likes": "210 ",
-    //   "dislikes": "0",
-    //   "img": "img/marketplace/event2.png",
-    //   "title": "some thoughts, reflections & advice on coaching."
-    // }, {
-    //   "profile": "img/marketplace/pic4.png",
-    //   "name": "kristin",
-    //   "surname": "dryden",
-    //   "date": "december 2, 2016 ",
-    //   "rate": "£ 25",
-    //   "likes": "210 ",
-    //   "dislikes": "0",
-    //   "img": "img/marketplace/event3.png",
-    //   "title": " biased training"
-    // }, {
-    //   "profile": "img/marketplace/pic3.png",
-    //   "name": "john",
-    //   "surname": "grace",
-    //   "date": "january 21, 2016 ",
-    //   "rate": "free",
-    //   "likes": "210 ",
-    //   "dislikes": "0",
-    //   "img": "img/marketplace/event4.png",
-    //   "title": "is max strength as important as we think?"
-    // }, {
-    //   "profile": "img/marketplace/pic2.png",
-    //   "name": "john",
-    //   "surname": "grace",
-    //   "date": "january 21, 2016 ",
-    //   "rate": "free",
-    //   "likes": "210 ",
-    //   "dislikes": "0",
-    //   "img": "img/marketplace/event5.png",
-    //   "title": "is max strength as important as we think?"
-    // }];
-    $scope.articleDetail = {
-      image: 'img/marketplace/artical-popup.png',
-      title: 'some thoughts,reflections & advice on coaching.',
-      price: '£ 25',
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla, libero eu tempus tempr lectus nunc lacinia ex, vestibulum sollicitudin arcu ante in est. Nulla mollis neque nec imperd pellentesque. Ut efficitur tempor leo non vestibulum. Aliquam ultricies commodo risus, vitaery interdum orci dictum vel. Donec feugiat urna turpis. Aenean vitae eleifend lorem, condimentn lobortis nibh. Proin et venenatis ipsum, eget pulvinar ligula.'
 
-    };
+
+    // $scope.articleDetail = {
+    //   image: 'img/marketplace/artical-popup.png',
+    //   title: 'some thoughts,reflections & advice on coaching.',
+    //   price: '£ 25',
+    //   content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla, libero eu tempus tempr lectus nunc lacinia ex, vestibulum sollicitudin arcu ante in est. Nulla mollis neque nec imperd pellentesque. Ut efficitur tempor leo non vestibulum. Aliquam ultricies commodo risus, vitaery interdum orci dictum vel. Donec feugiat urna turpis. Aenean vitae eleifend lorem, condimentn lobortis nibh. Proin et venenatis ipsum, eget pulvinar ligula.'
+
+    // };
 
     //most recent
     // $scope.activeTab = val;
-    $scope.article.skip = 0; //Reinitialize skip to handle the tab switch
-    $scope.marketlist = []; //Reinitialize array to handle tab switch
-    $scope.marketlist1 = [];
+    $scope.noMoreItemsAvailable = false;
+    $scope.noMoreItemsAvailable1 = false;
+    $scope.articleRecent.skip = 0;
+    $scope.articlePopular.skip = 0; //Reinitialize skip to handle the tab switch
+    // $scope.marketlist = []; //Reinitialize array to handle tab switch
+    // $scope.marketlist1 = [];
     // $scope.article.skip = $scope.skip;
-
-
-    MyServices.getAllMostPopularArticles($scope.article, function (data) {
+    MyServices.getAllMostPopularArticles($scope.articlePopular, function (data) {
       if (data.value === true) {
-        $scope.marketlist1 = data.data;
+        console.log(data.data.message);
 
-        console.log("marketlist1 popular data", $scope.marketlist1);
+        $scope.marketlist1.push(data.data[0]);
+        console.log("marketlist recent data", $scope.marketlist1);
 
-      }
-    });
-    MyServices.getAllMostRecentArticles($scope.article, function (data) {
-      if (data.value === true) {
-        $scope.marketlist = data.data;
-        console.log("marketlist recent data", $scope.marketlist);
 
       }
     });
 
-    // $scope.loadMore = function () {
-    //   console.log("loadmore called");
-    //   // if ($scope.activeTab == 1) { //For most recent article
-    //   $scope.article.skip = $scope.article.skip + 2;
-    //   MyServices.getAllMostRecentArticles($scope.article, function (data) {
-    //     if (data.value === true) {
-    //       $scope.marketlist.push(data.data);
-    //       console.log("marketlist recent data", $scope.marketlist);
-    //     }
-    //   });
+    $scope.refreshPopular = function () {
 
-    //   $scope.$broadcast('scroll.infiniteScrollComplete');
+      MyServices.getAllMostPopularArticles($scope.articlePopular, function (data) {
+        console.log("articlepopular", $scope.articlePopular);
+        if (data.value === true) {
+          console.log(data.data.message);
+          if (angular.isUndefined(data.data.message)) {
+            $scope.marketlist1.push(data.data[0]);
+            console.log("marketlist1 recent data", $scope.marketlist1);
+          } else {
+            console.log("noMoreItemsAvailable1");
+            $scope.noMoreItemsAvailable1 = true;
+          }
+        }
+      });
+    }
+    $scope.refreshRecent = function () {
+      MyServices.getAllMostRecentArticles($scope.articleRecent, function (data) {
+        if (data.value === true) {
+          console.log(data.data.message);
+          if (angular.isUndefined(data.data.message)) {
+            console.log($scope.marketlist);
+            $scope.marketlist.push(data.data[0]);
+            console.log("marketlist recent data", $scope.marketlist);
+          } else {
+            console.log("noMoreItemsAvailable");
+            $scope.noMoreItemsAvailable = true;
+          }
+        }
+      });
+    }
 
-    // }
-    // $scope.moreDataCanBeLoaded = function () {
-    //   return ($scope.marketlist.length > $scope.article.skip) ? false : true;
-    // }
+
+    $scope.refreshPopular();
+    $scope.refreshRecent();
+
+    $scope.loadMore = function () {
+      console.log("loadmore called");
+      $scope.articleRecent.skip = $scope.articleRecent.skip + 1;
+      $scope.refreshRecent();
+      $scope.$broadcast('scroll.infiniteScrollComplete');
+
+    }
+
+    $scope.loadMore1 = function () {
+      console.log("loadmore called");
+      // if ($scope.activeTab == 1) { //For most recent article
+      $scope.articlePopular.skip = $scope.articlePopular.skip + 1;
+      $scope.refreshPopular();
+
+
+      $scope.$broadcast('scroll.infiniteScrollComplete');
+    }
 
     $scope.article1 = function (list) {
       $scope.eyeDetails = list;
@@ -446,12 +444,17 @@ angular.module('marketplaceController', ['starter.services', 'checklist-model', 
     }
 
 
-    $scope.getReaction = function (value, id) {
+    $scope.getReaction = function (value, id, val) {
 
       $scope.article.reaction = value;
-      $scope.article.userId = $scope.userData._id;
-      $scope.article.accessType = $scope.userData.userType;
-      $scope.article.accessToken = $scope.userData.accessToken;
+      $scope.article.select = val;
+      if ($scope.userData) {
+        $scope.article.userId = $scope.userData._id;
+        $scope.article.accessType = $scope.userData.userType;
+        $scope.article.accessToken = $scope.userData.accessToken;
+      }
+
+
       // $scope.article.accessToken= $.jStorage.get("accessToken");
 
       //$scope.article.articleId = id;//If we directly pass object id 
@@ -472,11 +475,17 @@ angular.module('marketplaceController', ['starter.services', 'checklist-model', 
             //     }
             //     i++;
             // });
-
-            //To avoid find loop we have used $index
-            $scope.marketList[id].noOfLikes = data.data.noOfLikes;
-            $scope.marketList[id].noOfDisLikes = data.data.noOfDisLikes;
-
+            console.log("before", $scope.marketlist[id]);
+            if ($scope.article.select == 1) {
+              //To avoid find loop we have used $index
+              $scope.marketlist[id].noOfLikes = data.data.noOfLikes;
+              $scope.marketlist[id].noOfDisLikes = data.data.noOfDisLikes;
+              console.log("after", $scope.marketlist[id]);
+            } else {
+              $scope.marketlist1[id].noOfLikes = data.data.noOfLikes;
+              $scope.marketlist1[id].noOfDisLikes = data.data.noOfDisLikes;
+              console.log("after", $scope.marketlist1[id]);
+            }
           }
         } // else {
         //     $scope.articleList = [];
@@ -487,6 +496,84 @@ angular.module('marketplaceController', ['starter.services', 'checklist-model', 
     $scope.closePopup = function () {
       $scope.articleopen.close();
     };
+
+    $scope.selectCategory = function (value) {
+      console.log(value);
+      $scope.article.status = status;
+      var articalCategoryArrayLength = $scope.articleRecent.category.length;
+      var articalCategoryArrayLength1 = $scope.articlePopular.category.length;
+      for (var i = 0; i < $scope.categories.length; i++) {
+        if (i === value) {
+          var category = _.find($scope.articleRecent.category, function (o) {
+            if ($scope.categories[i] === o) {
+              return o;
+            }
+          });
+
+          if (category !== undefined) {
+            _.pull($scope.articleRecent.category, category);
+          } else if (category === undefined) {
+            $scope.articleRecent.category.push($scope.categories[i]);
+          }
+        }
+      }
+      for (var i = 0; i < $scope.categories.length; i++) {
+        if (i === value) {
+          var category = _.find($scope.articlePopular.category, function (o) {
+            if ($scope.categories[i] === o) {
+              return o;
+            }
+          });
+
+          if (category !== undefined) {
+            _.pull($scope.articlePopular.category, category);
+          } else if (category === undefined) {
+            $scope.articlePopular.category.push($scope.categories[i]);
+          }
+        }
+      }
+      console.log("category array", $scope.articleRecent.category);
+      console.log("category array", $scope.articlePopular.category);
+    }; //End of selectCategory
+
+    //Function to apply category
+    $scope.applyCategory = function (value) {
+
+      if (value == "Free") {
+        var filter = _.find($scope.article.filter, function (o) {
+          if (value === o) {
+            return o;
+          }
+        });
+        if (filter !== undefined) {
+          _.pull($scope.article.filter, filter);
+        } else {
+          $scope.article.filter.push(value);
+        }
+      } else if (value == "Paid") {
+        var filter = _.find($scope.article.filter, function (o) {
+          if (value === o) {
+            return o;
+          }
+        });
+        if (filter !== undefined) {
+          _.pull($scope.article.filter, filter);
+        } else {
+          $scope.article.filter.push(value);
+        }
+      }
+      console.log("applyCategory ", $scope.article.filter);
+    }; //End applyCategory
+
+    //Function to apply filters the article list
+    $scope.applyFilter = function (value) {
+      console.log("applyFilter", value);
+      $scope.skip = 0; //Reinitialize skip to filter
+      $scope.marketlist = []; //Reinitialize array to handle filter
+      $scope.marketlist = [];
+
+      $scope.toggleTab($scope.activeTab);
+    }; //End of applyFilter
 
 
 
@@ -502,6 +589,10 @@ angular.module('marketplaceController', ['starter.services', 'checklist-model', 
       $scope.searchopen.close();
     }
     $scope.categories = ['Training and performance', 'Nutrition', 'Coaching', 'Parents and Guardians', 'News', 'Tips and Techniques'];
+
+
+
+
   })
   .controller('MarketplaceServiceDetailCtrl', function ($scope, $state, $ionicPopup, MyServices, $ionicLoading, $filter, $ionicModal) {
     $scope.servicePopup = {
@@ -640,59 +731,129 @@ angular.module('marketplaceController', ['starter.services', 'checklist-model', 
   })
 
 
-  .controller('MarketplaceArticleDetailCtrl', function ($scope, $ionicModal, $timeout) {
+  .controller('MarketplaceArticleDetailCtrl', function ($scope, $ionicModal, $timeout, $stateParams, MyServices) {
 
-    $scope.articleDetail = {
-      image: ' img/marketplace/artical-popup.png',
-      title: 'some thoughts,reflections & advice on coaching.',
-      price: '£ 25',
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla, libero eu tempus tempr lectus nunc lacinia ex, vestibulum sollicitudin arcu ante in est. Nulla mollis neque nec imperd pellentesque. Ut efficitur tempor leo non vestibulum. Aliquam ultricies commodo risus, vitaery interdum orci dictum vel. Donec feugiat urna turpis. Aenean vitae eleifend lorem, condimentn lobortis nibh. Proin et venenatis ipsum, eget pulvinar ligula.'
+    $scope._id = $stateParams._id;
+    console.log("id", $scope._id);
 
-    };
-    $scope.articleBanner = {
-      bannerImg: ' img/marketplace/article-detail.png',
-      profile: ' img/marketplace/profile2.png',
-      title: 'maintaining your winter running routine',
-      name: 'kristin',
-      surname: 'dryden',
-      date: ' December 21, 2016',
-      category: ' Nutrition',
-      likes: '25',
-      dislikes: '3',
-      content: '<p>Although running outside in the winter can be intimidating due to conditions like ice, snow and cold, you can keep your running mileage up if you have the right gear and follow some practical cold-weather safety tips. Read below for guidance on how to stay warm when battling some of the year’s coldest temperatures.</p><strong>Wear Layers</strong><p>When dressing for the cold, it is important to dress in layers and to remember that you will still feel cold when you first go outside. Once you start running, your body will perceive the outdoor temperature at about 20 degrees warmer than it actually is! This means that if you are warm when you first go outside you are likely overdressed and could end up overheating.</p><p>When it comes to layering clothes, keep in mind that your first layer should always be a wicking layer. This fabric will help to keep sweat off your body, while maintaining your core temperature without overheating. On top of this layer you can wear another top, as well as a windbreaker to give you extra protection against the harsh winter winds.</p><strong>Cover Your Head, Hands and Feet</strong><p>In addition to wearing layers on your body, it is important to wear the appropriate attire on your head, hands and feet.</p><p>For starters, keep your head warm with a good running hat that is form fitting and keeps your ears protected. It is also a good idea to have running-specific gloves. This type of glove has a wicking fabric on the inside to prevent excessive sweat from accumulating on the hands, which may lead to frostbite.</p>'
+    // $scope.articleDetail = {
+    //   image: ' img/marketplace/artical-popup.png',
+    //   title: 'some thoughts,reflections & advice on coaching.',
+    //   price: '£ 25',
+    //   content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla, libero eu tempus tempr lectus nunc lacinia ex, vestibulum sollicitudin arcu ante in est. Nulla mollis neque nec imperd pellentesque. Ut efficitur tempor leo non vestibulum. Aliquam ultricies commodo risus, vitaery interdum orci dictum vel. Donec feugiat urna turpis. Aenean vitae eleifend lorem, condimentn lobortis nibh. Proin et venenatis ipsum, eget pulvinar ligula.'
 
-    };
-    $scope.articleDetaiLlist = [{
-      "profile": " img/marketplace/pic1.png",
-      "name": "vern",
-      "surname": "gambetta",
-      "date": "december 1, 2016 ",
-      "rate": "free",
-      "img": " img/marketplace/event8.png",
-      "title": "some thoughts, reflections & advice on coaching."
-    }, {
-      "profile": " img/marketplace/pic2.png",
-      "name": "kristin",
-      "surname": "dryden",
-      "date": "december 2, 2016 ",
-      "rate": "£ 22",
-      "img": " img/marketplace/event12.png",
-      "title": " biased training"
-    }, {
-      "profile": " img/marketplace/pic3.png",
-      "name": "john",
-      "surname": "grace",
-      "date": "january 21, 2016 ",
-      "rate": "free",
-      "img": " img/marketplace/event9.png",
-      "title": "is max strength as important as we think?"
-    }];
-    $scope.articleDetail = {
-      image: 'frontend/img/marketplace/artical-popup.png',
-      title: 'some thoughts,reflections & advice on coaching.',
-      price: '£ 25',
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla, libero eu tempus tempr lectus nunc lacinia ex, vestibulum sollicitudin arcu ante in est. Nulla mollis neque nec imperd pellentesque. Ut efficitur tempor leo non vestibulum. Aliquam ultricies commodo risus, vitaery interdum orci dictum vel. Donec feugiat urna turpis. Aenean vitae eleifend lorem, condimentn lobortis nibh. Proin et venenatis ipsum, eget pulvinar ligula.'
+    // };
 
-    };
+    $scope.articleBanner = {};
+
+    MyServices.getOneArticle($scope._id, function (data) {
+      if (data.value === true) {
+        console.log(data.data);
+        if (angular.isUndefined(data.data.message)) {
+          $scope.articleBanner = data.data;
+          console.log("data", $scope.articleBanner);
+        } else {
+          console.log("noMoreItemsAvailable1");
+          $scope.noMoreItemsAvailable1 = true;
+        }
+      }
+    });
+
+    if ($.jStorage.get('userAthlete')) {
+      $scope.userData = $.jStorage.get('userAthlete');
+      $scope.userData.userType = "Athlete";
+    } else if ($.jStorage.get('userProfile')) {
+      $scope.userData = $.jStorage.get('userProfile');
+      $scope.userData.userType = "Coach";
+    }
+
+
+    $scope.getReaction = function (value, id) {
+
+      $scope.article.reaction = value;
+      $scope.article.userId = $scope.userData._id;
+      $scope.article.accessType = $scope.userData.userType;
+      $scope.article.accessToken = $scope.userData.accessToken;
+      // $scope.article.accessToken= $.jStorage.get("accessToken");
+
+      //$scope.article.articleId = id;//If we directly pass object id 
+
+      //Here id is index position of an object inside articleList array.
+      $scope.article.articleId = $scope.marketlist[id]._id;
+
+      MyServices.getReaction($scope.article, function (data) {
+        if (data.value) {
+          console.log("getReaction data", data.data);
+          if (!_.isEmpty(data.data)) {
+            var i = 0;
+            //Find article using id and update no of like and dislikes of that artical
+            // _.find($scope.articleList, function (n) {
+            //     if (n._id == id) {
+            //         $scope.articleList[i].noOfLikes = data.data.noOfLikes;
+            //         $scope.articleList[i].noOfDisLikes = data.data.noOfDisLikes;
+            //     }
+            //     i++;
+            // });
+
+            //To avoid find loop we have used $index
+            $scope.marketList[id].noOfLikes = data.data.noOfLikes;
+            $scope.marketList[id].noOfDisLikes = data.data.noOfDisLikes;
+
+
+          }
+        } // else {
+        //     $scope.articleList = [];
+        // }
+      }); //End of get reaction
+    }
+
+
+    // $scope.articleBanner = {
+    //   bannerImg: ' img/marketplace/article-detail.png',
+    //   profile: ' img/marketplace/profile2.png',
+    //   title: 'maintaining your winter running routine',
+    //   name: 'kristin',
+    //   surname: 'dryden',
+    //   date: ' December 21, 2016',
+    //   category: ' Nutrition',
+    //   likes: '25',
+    //   dislikes: '3',
+    //   content: '<p>Although running outside in the winter can be intimidating due to conditions like ice, snow and cold, you can keep your running mileage up if you have the right gear and follow some practical cold-weather safety tips. Read below for guidance on how to stay warm when battling some of the year’s coldest temperatures.</p><strong>Wear Layers</strong><p>When dressing for the cold, it is important to dress in layers and to remember that you will still feel cold when you first go outside. Once you start running, your body will perceive the outdoor temperature at about 20 degrees warmer than it actually is! This means that if you are warm when you first go outside you are likely overdressed and could end up overheating.</p><p>When it comes to layering clothes, keep in mind that your first layer should always be a wicking layer. This fabric will help to keep sweat off your body, while maintaining your core temperature without overheating. On top of this layer you can wear another top, as well as a windbreaker to give you extra protection against the harsh winter winds.</p><strong>Cover Your Head, Hands and Feet</strong><p>In addition to wearing layers on your body, it is important to wear the appropriate attire on your head, hands and feet.</p><p>For starters, keep your head warm with a good running hat that is form fitting and keeps your ears protected. It is also a good idea to have running-specific gloves. This type of glove has a wicking fabric on the inside to prevent excessive sweat from accumulating on the hands, which may lead to frostbite.</p>'
+
+    // };
+    // $scope.articleDetaiLlist = [{
+    //   "profile": " img/marketplace/pic1.png",
+    //   "name": "vern",
+    //   "surname": "gambetta",
+    //   "date": "december 1, 2016 ",
+    //   "rate": "free",
+    //   "img": " img/marketplace/event8.png",
+    //   "title": "some thoughts, reflections & advice on coaching."
+    // }, {
+    //   "profile": " img/marketplace/pic2.png",
+    //   "name": "kristin",
+    //   "surname": "dryden",
+    //   "date": "december 2, 2016 ",
+    //   "rate": "£ 22",
+    //   "img": " img/marketplace/event12.png",
+    //   "title": " biased training"
+    // }, {
+    //   "profile": " img/marketplace/pic3.png",
+    //   "name": "john",
+    //   "surname": "grace",
+    //   "date": "january 21, 2016 ",
+    //   "rate": "free",
+    //   "img": " img/marketplace/event9.png",
+    //   "title": "is max strength as important as we think?"
+    // }];
+    // $scope.articleDetail = {
+    //   image: 'frontend/img/marketplace/artical-popup.png',
+    //   title: 'some thoughts,reflections & advice on coaching.',
+    //   price: '£ 25',
+    //   content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla, libero eu tempus tempr lectus nunc lacinia ex, vestibulum sollicitudin arcu ante in est. Nulla mollis neque nec imperd pellentesque. Ut efficitur tempor leo non vestibulum. Aliquam ultricies commodo risus, vitaery interdum orci dictum vel. Donec feugiat urna turpis. Aenean vitae eleifend lorem, condimentn lobortis nibh. Proin et venenatis ipsum, eget pulvinar ligula.'
+
+    // };
+
+
   })
 //End of Marketplace controller

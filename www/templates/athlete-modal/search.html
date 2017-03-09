@@ -1,14 +1,14 @@
 <div class="">
   <ion-list>
-<div class="filter-mode">
-    <ion-checkbox ng-model="filter.red" ng-repeat="list in categories" >{{list}}</ion-checkbox>
-</div>
+    <div class="filter-mode">
+      <ion-checkbox ng-model="categoryList" ng-change="selectCategory($index)" ng-repeat="list in categories">{{list}}</ion-checkbox>
+    </div>
   </ion-list>
   <div class="search-button">
     <button class="button button-stable" ng-click="searchPopup();">
   Select All
 </button>
-<button class="button button-stable apply" ng-click="searchPopup();">
+    <button class="button button-stable apply" ng-click="searchPopup();">
   Apply
 </button>
 

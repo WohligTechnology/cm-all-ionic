@@ -493,6 +493,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
       //Marketplace State Start
       .state('app.marketplace-articles', {
         url: '/marketplace/articles',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/marketplace/articles.html',
@@ -519,7 +520,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
         }
       })
       .state('app.marketplace-article-detail', {
-        url: '/marketplace/article-detail',
+        url: '/marketplace/article-detail/:_id',
         views: {
           'menuContent': {
             templateUrl: 'templates/marketplace/article-detail.html',

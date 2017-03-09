@@ -552,6 +552,17 @@ angular.module('starter.services', [])
         }).success(callback);
       },
 
+      getOneArticle: function (formData, callback) {
+        var id = {
+          _id: formData
+        }
+        $http({
+          url: adminurl + 'Article/getOneArticle',
+          method: 'POST',
+          data: id
+        }).success(callback);
+      },
+
 
       getOneAthleteProfile: function (formData, callback) {
         formData = _.merge(formData, requestCredentials);

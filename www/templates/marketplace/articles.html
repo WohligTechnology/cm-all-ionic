@@ -5,63 +5,10 @@
   </ion-nav-buttons>
   <ion-tabs class=" tab-button tabs-top ">
     <ion-tab title="Most Recent">
-
       <ion-content class="has-tabs-top article-main">
-        <ion-list>
-          <div class="pb90">
-            <div class="list list-inset" ng-if="searchshow">
-              <label class="item item-input search">
-                  <label for="" ng-click="searchpop();">
-                     <i class="ln-chevron-down item-note"></i>
-                    All</label>
-              <input type="text" placeholder="Search">
-              <i class="icon ion-search placeholder-icon"></i>
-              </label>
-            </div>
-            <div class="card article-card" ng-repeat="list in marketlist">
-              <div class="profie-sec">
-                <div class="img-div">
-                  <img ng-if="list.profilePic" ng-src="{{list.profilePic}}" alt="">
-                  <img src="frontend/img/img-placeholder.png" alt="" ng-if="!list.profilePic">
-                </div>
-                <div class="details">
-                  <h5 class="textupper"> {{list.authorName}}</h5>
-                  <label class="textupper"> {{list.createdAt | date: "MMMM d, y"}}</label>
-                </div>
-                <div class="eye" ng-click="article1(list)">
-                  <i class="ion ion-ios-eye"></i>
-                </div>
-              </div>
-              <div class="" ui-sref="app.marketplace-article-detail">
-                <img ng-if="list.articleImage" ng-src="{{list.articleImage}}" class="min-height full-image">
-                <img ng-if="!list.articleImage" ng-src="frontend/img/article/article-thumb.jpg" class="min-height full-image">
-              </div>
-              <div class="padding">
-                <div class="bold">
-                  {{list.articleName}}
-                </div>
-                <div class="rate-like-dislike">
-                  <span class=" blue-box item-note" ng-if="list.articleType == 'Free' ">{{list.articleType}}</span>
-                  <span class=" blue-box item-note" ng-if="list.articleType == 'Paid' ">{{list.articlePrice | currency: '£' : 0}}</span>
-                  <div class="rating-blog ">
-                    <span class="rate rateup" ng-click="getReaction('Like',$index)"><i class="ln ln-thumbs-up"></i>{{list.noOfLikes}}</span>
-                    <span class="rate ratedown" ng-click="getReaction('Dislike',$index)"><i class="ln ln-thumbs-down"></i>{{list.noOfDisLikes}}</span>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </ion-list>
-        <ion-infinite-scroll on-infinite="loadMore()"></ion-infinite-scroll>
-        <!--<ion-infinite-scroll ng-if="moreDataCanBeLoaded()" icon="ion-loading-c" on-infinite="loadMore()"></ion-infinite-scroll>-->
-      </ion-content>
-    </ion-tab>
-    <ion-tab title="Most Popular">
-      <ion-content class="has-tabs-top article-main ">
-        <!--<ion-infinite-scroll on-infinite="loadMore()" distance="1%">-->
+        <!--<ion-refresher on-refresh="refreshRecent()"></ion-refresher>
+        <ion-list>-->
         <div class="pb90">
-
           <div class="list list-inset" ng-if="searchshow">
             <label class="item item-input search">
                   <label for="" ng-click="searchpop();">
@@ -71,13 +18,11 @@
             <i class="icon ion-search placeholder-icon"></i>
             </label>
           </div>
-
-          <div class="card article-card" ng-repeat="list in marketlist1">
+          <div class="card article-card" ng-repeat="list in marketlist">
             <div class="profie-sec">
               <div class="img-div">
                 <img ng-if="list.profilePic" ng-src="{{list.profilePic}}" alt="">
-                <img src="frontend/img/img-placeholder.png" alt="" ng-if="!list.profilePic">
-
+                <img src="img/img-placeholder.png" alt="" ng-if="!list.profilePic">
               </div>
               <div class="details">
                 <h5 class="textupper"> {{list.authorName}}</h5>
@@ -87,27 +32,84 @@
                 <i class="ion ion-ios-eye"></i>
               </div>
             </div>
-            <div class="" ui-sref="app.marketplace-article-detail">
+            <div class="" ui-sref="app.marketplace-article-detail({_id:list._id})">
               <img ng-if="list.articleImage" ng-src="{{list.articleImage}}" class="min-height full-image">
-              <img ng-if="!list.articleImage" ng-src="frontend/img/article/article-thumb.jpg" class="min-height full-image">
+              <img ng-if="!list.articleImage" ng-src="img/marketplace/event2.png" class="min-height full-image">
             </div>
             <div class="padding">
               <div class="bold">
                 {{list.articleName}}
               </div>
               <div class="rate-like-dislike">
-                <span class=" blue-box item-note" ng-if="list.articleType == 'Free' ">{{list.articleType}}</span>
-                <span class=" blue-box item-note" ng-if="list.articleType == 'Paid' ">{{list.articlePrice | currency: '£' : 0}}</span>
+                <span class=" blue-box item-note" ng-if="list.articleType =='Free'">{{list.articleType}}</span>
+                <span class=" blue-box item-note" ng-if="list.articleType =='Paid'">{{list.articlePrice | currency: '£' : 0}}</span>
                 <div class="rating-blog ">
-                  <span class="rate rateup"><i class="ln ln-thumbs-up"></i>{{list.noOfLikes}}</span>
-                  <span class="rate ratedown"><i class="ln ln-thumbs-down"></i>{{list.noOfDisLikes}}</span>
+                  <span class="rate rateup" ng-click="getReaction('Like',$index,1)"><i class="ln ln-thumbs-up"></i>{{list.noOfLikes}}</span>
+                  <span class="rate ratedown" ng-click="getReaction('Dislike',$index,1)"><i class="ln ln-thumbs-down"></i>{{list.noOfDisLikes}}</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        </ion-list>
+        <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="2%"></ion-infinite-scroll>
+      </ion-content>
+    </ion-tab>
+
+    <ion-tab title="Most Popular">
+      <ion-content class="has-tabs-top article-main">
+        huihuihuihu
+        <ion-list>
+          <div class="pb90">
+
+            <div class="list list-inset" ng-if="searchshow">
+              <label class="item item-input search">
+                  <label for="" ng-click="searchpop();">
+                     <i class="ln-chevron-down item-note"></i>
+                    All</label>
+              <input type="text" placeholder="Search">
+              <i class="icon ion-search placeholder-icon"></i>
+              </label>
+            </div>
+
+            <div class="card article-card" ng-repeat="list in marketlist1">
+              {{list}}
+              <div class="profie-sec">
+                <div class="img-div">
+                  <img ng-if="list.profilePic" ng-src="{{list.profilePic}}" alt="">
+                  <img src="img/img-placeholder.png" alt="" ng-if="!list.profilePic">
+
+                </div>
+                <div class="details">
+                  <h5 class="textupper"> {{list.authorName}}</h5>
+                  <label class="textupper"> {{list.createdAt | date: "MMMM d, y"}}</label>
+                </div>
+                <div class="eye" ng-click="article1(list)">
+                  <i class="ion ion-ios-eye"></i>
+                </div>
+              </div>
+              <div class="" ui-sref="app.marketplace-article-detail({_id:list._id})">
+                <img ng-if="list.articleImage" ng-src="{{list.articleImage}}" class="min-height full-image">
+                <img ng-if="!list.articleImage" ng-src="img/marketplace/event2.png" class="min-height full-image">
+              </div>
+              <div class="padding">
+                <div class="bold">
+                  {{list.articleName}}
+                </div>
+                <div class="rate-like-dislike">
+                  <span class=" blue-box item-note" ng-if="list.articleType == 'Free' ">{{list.articleType}}</span>
+                  <span class=" blue-box item-note" ng-if="list.articleType == 'Paid' ">{{list.articlePrice | currency: '£' : 0}}</span>
+                  <div class="rating-blog ">
+                    <span class="rate rateup" ng-click="getReaction('Like',$index,2)"><i class="ln ln-thumbs-up"></i>{{list.noOfLikes}}</span>
+                    <span class="rate ratedown" ng-click="getReaction('Dislike',$index,2)"><i class="ln ln-thumbs-down"></i>{{list.noOfDisLikes}}</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-
-        <!--</ion-infinite-scroll>-->
+        </ion-list>
+        <ion-infinite-scroll ng-if="!noMoreItemsAvailable1" on-infinite="loadMore1()" distance="2%"></ion-infinite-scroll>
       </ion-content>
     </ion-tab>
   </ion-tabs>
