@@ -1519,6 +1519,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     $scope.download = [];
     $scope.trainingActivity = [];
     $scope.trainingActivityData = [];
+    $scope.phaseActivityData = [];
     $scope.test = [];
     $scope.aspects = [];
     $scope.keyCompetition = [];
@@ -1636,7 +1637,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
             ///calling functions to generate 
             $scope.initCalendar($scope.trainingPlan.startDate, $scope.trainingPlan.durationWeek); //to get calender view
-            $scope.addPhases($scope.trainingPlan.startDate, $scope.trainingPlan.endDate, $scope.trainingPlan.phase, $scope.trainingActivity); //to get phases in calender
+            $scope.addPhases($scope.trainingPlan.startDate, $scope.trainingPlan.endDate, $scope.trainingPlan.durationWeek, $scope.trainingPlan.phase, $scope.trainingActivity); //to get phases in calender
             $scope.generateActivity($scope.trainingPlan.startDate, $scope.trainingPlan.durationWeek, $scope.trainingActivity, $scope.trainingPlan.phase); //to get activities in calender
             $scope.generateTest($scope.Test); //to get test in calender
             $scope.generateAspects($scope.Aspects); //to get Aspect in calender
@@ -1721,89 +1722,93 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     };
 
     //Function to add phases
-    $scope.addPhases = function (startDate, endDate, data, activitydata) {
+    $scope.addPhases = function (startDate, endDate, durationWeek, data, activitydata) {
       var phaseType;
 
-      var t = 0;
+      var j = 0;
       var k = 0;
       var d = 0;
       var phaseDuration = 0;
       var dateTemp = 0;
       var endTemp = 0;
-      for (var i = 0; i < data.length; i++) {
-        if (i % 2 == 1) {
-          phaseType = 'phaseOdd';
-        } else {
-          phaseType = 'phaseEven';
-        }
-        // for (var j = 0; j < i; j++) {
+      for (var i = 0; i < durationWeek; i++) {
+
         if (i == 0) {
           dateTemp = moment(startDate).toDate();
-          endTemp = moment(startDate).add(data[i].duration, 'week').toDate();
+          endTemp = moment(startDate).add(7, 'days').toDate();
           t = endTemp;
         } else {
-          if (i == data.length - 1) {
-            dateTemp = t;
-            endTemp = moment(endDate).add(data[i].duration, 'week').toDate();
-          } else {
-            dateTemp = t;
-            endTemp = moment(endDate).add(data[i].duration, 'week').toDate();
-            t = endTemp;
-          }
-
+          dateTemp = t;
+          endTemp = moment(dateTemp).add(7, 'days').toDate();
+          t = endTemp;
         }
 
+        activityDuration = 7;
 
-        //for (var j = 0; j < phaseData.length; j++) {
-        phaseDuration = data[i].duration * 7;
+        for (var p = 0; p < activityDuration; p++) {
 
-        for (var j = 0; j < phaseDuration; i++) {
-
-          console.log("phase", phaseDuration);
-          if (activitydata[j].name == 'Rest Day') {
+          console.log("activity", activityDuration);
+          if (activitydata[k].type == 'Rest Day') {
             $scope.classColor = 'training-activity rest-day';
           } else {
             $scope.classColor = 'training-activity';
           }
-          $scope.trainingActivityData.push({
+          $scope.phaseActivityData.push({
             day: d + 1,
-            title: activitydata[j].name,
+            title: activitydata[k].name,
             start: moment(startDate).add(k, 'days').toDate(),
             className: $scope.classColor,
-            volume: activitydata[j].volume,
-            type: activitydata[j].type,
-            detail: activitydata[j].detail,
-            intensity: activitydata[j].intensity,
-            url: activitydata[j].attachment,
+            volume: activitydata[k].volume,
+            type: activitydata[k].type,
+            detail: activitydata[k].detail,
+            intensity: activitydata[k].intensity,
+            url: activitydata[k].attachment,
             allDay: true,
             sort: "a"
           });
+          console.log("activityData:", $scope.phaseActivityData);
+
           k++;
         }
-        $scope.Master_trainingActivityData.push($scope.trainingActivityData);
 
-        //$scope.trainingPhases[j].push($scope.trainingActivityData);
+        phaseDuration = data[j].duration;
+        if (phaseDuration == 1) {
+          console.log(phaseDuration);
+          $scope.trainingPhases.push({
+            type: 'phase',
+            title: data[j].title,
+            duration: 1,
+            start: dateTemp,
+            end: endTemp,
+            className: phaseType,
+            allDay: true,
+            sort: "a",
+            activity: $scope.phaseActivityData
 
-        //  console.log("trainingActivityData", $scope.Master_trainingActivityData);
-        //console.log("trainingActivity", $scope.trainingActivity);
+          });
+          $scope.phaseActivityData = [];
+          j++;
 
-        console.log("trainingActivityData", $scope.Master_trainingActivityData);
-        console.log("start", dateTemp);
-        console.log("end", endTemp);
-        $scope.trainingPhases.push({
-          type: 'phase',
-          title: data[i].title,
-          duration: data[i].duration,
-          start: dateTemp,
-          end: endTemp,
-          className: phaseType,
-          allDay: true,
-          sort: "a",
-          // activityData: $scope.trainingActivityData
-        });
-        $scope.trainingActivityData = [];
+        } else if (phaseDuration > 1) {
+          $scope.trainingPhases.push({
+            type: 'phase',
+            title: data[j].title,
+            duration: 1,
+            start: dateTemp,
+            end: endTemp,
+            className: phaseType,
+            allDay: true,
+            sort: "a",
+            activity: $scope.phaseActivityData
+          });
+          $scope.phaseActivityData = [];
+          console.log(phaseDuration);
+          if (j == phaseDuration) {
+            j++;
+          }
+        }
+        console.log("phase", $scope.trainingPhases);
       }
-      console.log("phase", $scope.trainingPhases);
     };
 
     $scope.navigate = function (val) {
