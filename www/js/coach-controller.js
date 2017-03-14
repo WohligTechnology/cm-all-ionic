@@ -616,6 +616,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     };
     //Search Athlete API
     var j = 0;
+
     $scope.getAthlete = function (search) {
       $scope.athletes = [];
       MyServices.searchAthlete({
@@ -1414,26 +1415,57 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     $scope.matchName = function (data) {
       $scope.formData.athlete = data;
     };
+
     $scope.athleteData = [];
+    $scope.paramData = {};
+    $scope.userData = [];
+
+
 
     $scope.commentData = {};
     var j = 0;
-    $scope.getAthlete = function (search) {
-      MyServices.searchAthlete({
-        keyword: search
-      }, ++j, function (data, ci) {
-        if (ci == j) {
-          $scope.athletes = data.data.results;
-        }
-      });
+
+
+
+    $scope.getsearch = function (search) {
+      if (search) {
+        $scope.paramData.keyword = search;
+      }
+      $scope.getAthlete();
+    }
+
+    // $scope.paramData.keyword = "";
+    $scope.athleteDetails = [];
+
+    $scope.getAthlete = function () {
+      if ($.jStorage.get('userProfile')) {
+        console.log("inside jstorage")
+        $scope.userData = $.jStorage.get('userProfile');
+        console.log($scope.userData);
+      }
+      if ($scope.userData) {
+        console.log("inside user");
+        //$scope.paramData.userId = $scope.userData._id;
+        $scope.paramData.accessType = "Coach";
+        $scope.paramData.accessToken = $scope.userData.accessToken[0];
+        console.log($scope.paramData);
+        MyServices.searchAthlete($scope.paramData, function (data) {
+          if (data.value) {
+            $scope.athletes = data.data.results;
+            console.log($scope.athletes);
+
+          }
+        });
+      }
+
     };
     $scope.changeAthlete = function () {
+
       $scope.athleteData = [];
-      MyServices.getAthletePlans({
-        _id: $scope.formData.athlete._id
-      }, function (data) {
-        if (_.isArray(data.data)) {
+      MyServices.getAthletePlans($scope.athletes[0], function (data) {
+        if (data.value) {
           $scope.athleteData = data.data;
+          console.log($scope.athleteData);
           parsePlanToCalender(data.data);
         } else {
           $scope.athleteData = [];
@@ -1446,13 +1478,15 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     function parsePlanToCalender(Plans) {
       $scope.trainingDiary = [];
       _.each(Plans, function (plan) {
+        console.log("inside Plans", plan);
         var startDays = 0;
         _.each(plan.trainingForms, function (form) {
+          console.log("inside trainingForm", form);
           form.trainingPlan = plan._id;
           var obj = {
             color: form.form.colorCode,
             events: [{
-              title: "• " + form.form.name + " - " + plan.name,
+              title: "•" + form.form.name + " - " + plan.name,
               start: moment(plan.startDate).add(startDays, "days").toDate(),
               end: moment(plan.startDate).add(startDays, "days").add(form.duration, 'days').toDate(),
               allDay: true,
@@ -1466,6 +1500,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
             obj2.color = "#444";
             obj2.events[0].title = "Comment: " + form.comment;
             $scope.trainingDiary.push(obj2);
+            console.log($scope.trainingDiary);
           }
           $scope.trainingDiary.push(obj);
         });

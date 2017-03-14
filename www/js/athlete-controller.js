@@ -1477,7 +1477,59 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     }
   })
 
-  .controller('AthleteTrainingDiaryCtrl', function ($scope, $ionicModal, $ionicLoading, uiCalendarConfig, MyServices) {
+  .controller('AthleteTrainingDiaryCtrl', function ($scope, $ionicModal, $ionicLoading, uiCalendarConfig, MyServices, $timeout) {
+
+    $scope.formData = {};
+    $scope.trainingPhaseOdd = $scope.trainingPhaseEven = $scope.test = $scope.competition = $scope.keyCompetition = $scope.aspects = [];
+    $scope.athleteData = [];
+    $scope.activities = [];
+    $scope.activityDetail = [];
+    $scope.volume = [];
+    $scope.intensity = [];
+    $scope.activityNotes = [];
+    $scope.download = [];
+    $scope.onDiaryData = {};
+
+    $scope.trainingPlan = {};
+    $scope.trainingPhases = [];
+    $scope.trainingPhases = [];
+    $scope.activityDetail = [];
+    $scope.volume = [];
+    $scope.intensity = [];
+    $scope.activityNotes = [];
+    $scope.download = [];
+    $scope.trainingActivity = [];
+    $scope.trainingActivityData = [];
+    $scope.test = [];
+    $scope.aspects = [];
+    $scope.keyCompetition = [];
+    $scope.types = [{
+        name: 'Competition',
+        type: 'competitions'
+      },
+      {
+        name: 'Key Competition',
+        type: 'keyCompetitions'
+      }, {
+        name: 'Test',
+        type: 'tests'
+      }, {
+        name: 'Holiday',
+        type: 'aspects'
+      }, {
+        name: 'Unavailable',
+        type: 'aspects'
+      }, {
+        name: 'Considerations',
+        type: 'aspects'
+      }, {
+        name: 'Training Camps',
+        type: 'aspects'
+      }, {
+        name: 'Others',
+        type: 'aspects'
+      }
+    ];
 
     //Loading
     $scope.showLoading = function (value, time) {
@@ -1514,6 +1566,429 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     // $scope.showLoading('Loading...', 10000);
     $scope.athleteData = [];
     $scope.trainingDiary = [];
+    $scope.athleteData = [];
+    $scope.paramData = {};
+    $scope.userData = [];
+
+
+
+    $scope.commentData = {};
+    var j = 0;
+
+
+
+    $scope.getsearch = function (search) {
+      if (search) {
+        $scope.paramData.keyword = search;
+      }
+      $scope.getAthlete();
+    }
+
+    // $scope.paramData.keyword = "";
+    $scope.athleteDetails = [];
+
+    $scope.getAthlete = function () {
+      if ($.jStorage.get('userProfile')) {
+        console.log("inside jstorage")
+        $scope.userData = $.jStorage.get('userProfile');
+        console.log($scope.userData);
+      }
+      if ($scope.userData) {
+        console.log("inside user");
+        $scope.paramData.athlete = $scope.userData._id;
+        // $scope.paramData.accessType = "Athlete";
+        // $scope.paramData.accessToken = $scope.userData.accessToken[0];
+        console.log($scope.paramData);
+        $scope.athleteData = [];
+        MyServices.getAthletePlans($scope.paramData, function (data) {
+          if (data.value) {
+            $scope.athleteData = data.data;
+            console.log($scope.athleteData);
+            // $scope.showDiv = false;
+            $scope.Aspects = data.data.Aspect;
+            $scope.KeyCompetition = data.data.Competition;
+            $scope.Injury = data.data.Injury;
+            $scope.Test = data.data.Test;
+            $scope.trainingActivity = data.data.TrainingActivity;
+            $scope.trainingPlan = data.data.TrainingPlan[0];
+
+            $scope.notes = $scope.trainingPlan.notes;
+            $scope.goalsAndObjectives = $scope.trainingPlan.goalsAndObjectives;
+
+            ///calling functions to generate 
+            $scope.initCalendar($scope.trainingPlan.startDate, $scope.trainingPlan.durationWeek); //to get calender view
+            $scope.addPhases($scope.trainingPlan.startDate, $scope.trainingPlan.endDate, $scope.trainingPlan.phase, $scope.trainingActivity); //to get phases in calender
+            $scope.generateActivity($scope.trainingPlan.startDate, $scope.trainingPlan.durationWeek, $scope.trainingActivity, $scope.trainingPlan.phase); //to get activities in calender
+            $scope.generateTest($scope.Test); //to get test in calender
+            $scope.generateAspects($scope.Aspects); //to get Aspect in calender
+            $scope.generateKeyCompetition($scope.KeyCompetition); //to get Key competition in calender
+            // $scope.generateInjury($scope.Injury); //to get Injury in calender
+            // console.log("activity", $scope.trainingPlan);
+
+            //parsePlanToCalender(data.data);
+          } else {
+            $scope.athleteData = [];
+          }
+        });
+      }
+    };
+    $scope.getAthlete();
+    $scope.initCalendar = function (date, week) {
+      //   $scope.uiConfig = {
+      //   calendar: {
+      //     firstDay: 1,
+      //     height: 450,
+      //     editable: false,
+      //     eventClick: $scope.dairyClick,
+      //     viewRender: function (view) {
+      //       $scope.viewTitle = view.title;
+      //     }
+      //   }
+      // };
+      //short view calender
+      // $scope.uiConfig = {
+      //   calendar: {
+      //     firstDay: 1,
+      //     height: 400,
+      //     header: false,
+      //     columnFormat: {
+      //       week: 'ddd, D MMM',
+      //     },
+      //     eventClick: $scope.dairyClick,
+      //     viewRender: function (view) {
+      //       $scope.viewTitle = view.title;
+      //     },
+      //   }
+      // };
+
+      // //medium view calender
+      // $scope.uiConfigMedium = {
+      //   calendar: {
+      //     firstDay: 1,
+      //     height: 450,
+      //     weekNumbers: true,
+      //     eventClick: $scope.mediumEventClick,
+      //     dayClick: $scope.dayClick,
+      //     eventRender: $scope.eventRender,
+      //     eventOrder: "sort",
+      //     defaultView: 'month',
+      //     viewRender: function (view) {
+      //       $scope.viewTitle = view.title;
+      //     },
+      //   }
+      // };
+
+      //Long view calender
+      $scope.uiConfig = [];
+      if (week) {
+        var month = Math.ceil(week / 4);
+        for (i = 0; i < month; i++) {
+          $scope.uiConfig.push({
+            firstDay: 1,
+            height: 450,
+            header: false,
+            eventClick: $scope.longEventClick,
+            eventRender: $scope.eventRender,
+            defaultDate: moment(date).add(i, 'months').toDate(),
+            weekNumbers: true,
+            eventOrder: "sort",
+          });
+        }
+      }
+      $scope.activeView = null;
+      $timeout(function () {
+        $scope.activeView = 'long';
+      }, 300);
+    };
+
+    //Function to add phases
+    $scope.addPhases = function (startDate, endDate, data, activitydata) {
+      var phaseType;
+
+      var t = 0;
+      var k = 0;
+      var d = 0;
+      var phaseDuration = 0;
+      var dateTemp = 0;
+      var endTemp = 0;
+      for (var i = 0; i < data.length; i++) {
+        if (i % 2 == 1) {
+          phaseType = 'phaseOdd';
+        } else {
+          phaseType = 'phaseEven';
+        }
+        // for (var j = 0; j < i; j++) {
+        if (i == 0) {
+          dateTemp = moment(startDate).toDate();
+          endTemp = moment(startDate).add(data[i].duration, 'week').toDate();
+          t = endTemp;
+        } else {
+          if (i == data.length - 1) {
+            dateTemp = t;
+            endTemp = moment(endDate).add(data[i].duration, 'week').toDate();
+          } else {
+            dateTemp = t;
+            endTemp = moment(endDate).add(data[i].duration, 'week').toDate();
+            t = endTemp;
+          }
+
+        }
+
+
+        //for (var j = 0; j < phaseData.length; j++) {
+        phaseDuration = data[i].duration * 7;
+
+        for (var j = 0; j < phaseDuration; i++) {
+
+          console.log("phase", phaseDuration);
+          if (activitydata[j].name == 'Rest Day') {
+            $scope.classColor = 'training-activity rest-day';
+          } else {
+            $scope.classColor = 'training-activity';
+          }
+          $scope.trainingActivityData.push({
+            day: d + 1,
+            title: activitydata[j].name,
+            start: moment(startDate).add(k, 'days').toDate(),
+            className: $scope.classColor,
+            volume: activitydata[j].volume,
+            type: activitydata[j].type,
+            detail: activitydata[j].detail,
+            intensity: activitydata[j].intensity,
+            url: activitydata[j].attachment,
+            allDay: true,
+            sort: "a"
+          });
+          k++;
+        }
+        $scope.Master_trainingActivityData.push($scope.trainingActivityData);
+
+        //$scope.trainingPhases[j].push($scope.trainingActivityData);
+
+        //  console.log("trainingActivityData", $scope.Master_trainingActivityData);
+        //console.log("trainingActivity", $scope.trainingActivity);
+
+        console.log("trainingActivityData", $scope.Master_trainingActivityData);
+        console.log("start", dateTemp);
+        console.log("end", endTemp);
+        $scope.trainingPhases.push({
+          type: 'phase',
+          title: data[i].title,
+          duration: data[i].duration,
+          start: dateTemp,
+          end: endTemp,
+          className: phaseType,
+          allDay: true,
+          sort: "a",
+          // activityData: $scope.trainingActivityData
+        });
+        $scope.trainingActivityData = [];
+      }
+      console.log("phase", $scope.trainingPhases);
+    };
+
+    $scope.navigate = function (val) {
+      uiCalendarConfig.calendars.shortCalendar.fullCalendar(val);
+    };
+    $scope.Master_trainingActivityData = [];
+
+    //Function to add activies
+    $scope.generateActivity = function (startDate, duration, activitydata, phaseData) {
+      // console.log('Activityata', activitydata);
+      var k = 0;
+      var d = 0;
+      var phaseDuration = 0;
+
+      for (var j = 0; j < phaseData.length; j++) {
+        phaseDuration = phaseData[j].duration * 7;
+
+        for (var i = 0; i < phaseDuration; i++) {
+
+          console.log("phase", phaseDuration);
+          if (activitydata[k].type == 'Rest Day') {
+            $scope.classColor = 'training-activity rest-day';
+          } else {
+            $scope.classColor = 'training-activity';
+          }
+          $scope.trainingActivityData.push({
+            day: d + 1,
+            title: activitydata[k].name,
+            start: moment(startDate).add(k, 'days').toDate(),
+            className: $scope.classColor,
+            volume: activitydata[k].volume,
+            type: activitydata[k].type,
+            detail: activitydata[k].detail,
+            intensity: activitydata[k].intensity,
+            url: activitydata[k].attachment,
+            allDay: true,
+            sort: "a"
+          });
+          $scope.trainingActivity.push({
+            type: 'noActivity',
+            title: activitydata[k].name,
+            start: moment(startDate).add(k - 1, 'days').toDate(),
+            end: moment(startDate).add(k - 1, 'days').toDate(),
+            className: $scope.classColor,
+            allDay: true,
+            sort: "b"
+          });
+          $scope.activityDetail.push({
+            type: 'detail',
+            title: activitydata[k].detail,
+            start: moment(startDate).add(k - 1, 'days').toDate(),
+            end: moment(startDate).add(k - 1, 'days').toDate(),
+            className: 'activity-desc',
+            allDay: true,
+            sort: "c"
+          });
+          $scope.activityNotes.push({
+            type: 'notes',
+            title: 'document',
+            start: moment(startDate).add(k - 1, 'days').toDate(),
+            end: moment(startDate).add(k - 1, 'days').toDate(),
+            className: 'notes',
+            allDay: true,
+            sort: "d",
+            Id: activitydata[k]._id,
+            athleteNote: activitydata[k].notesAthlete,
+            coachNote: activitydata[k].notesCoach
+          });
+          $scope.download.push({
+            type: 'download',
+            title: 'download',
+            start: moment(startDate).add(k - 1, 'days').toDate(),
+            end: moment(startDate).add(k - 1, 'days').toDate(),
+            className: 'downlo',
+            allDay: true,
+            sort: "e",
+            url: activitydata[k].attachment
+          });
+          var intClass;
+          if (activitydata[k].intensity === 'High') {
+            intClass = 'intHigh';
+          } else if (activitydata[k].intensity === 'Medium') {
+            intClass = 'intMid';
+          } else if (activitydata[k].intensity === 'Low') {
+            intClass = 'intLow';
+          } else if (!activitydata[k].intensity) {
+            intClass = 'hidden-act ';
+          }
+          $scope.intensity.push({
+            type: 'intensity',
+            title: activitydata[k].intensity,
+            start: moment(startDate).add(k - 1, 'days').toDate(),
+            end: moment(startDate).add(k - 1, 'days').toDate(),
+            className: intClass,
+            allDay: true,
+            sort: "f"
+          });
+          $scope.volume.push({
+            type: 'volume',
+            title: activitydata[k].volume,
+            start: moment(startDate).add(k - 1, 'days').toDate(),
+            end: moment(startDate).add(k - 1, 'days').toDate(),
+            className: 'volume',
+            allDay: true,
+            sort: "g"
+          });
+          k++;
+        }
+        $scope.Master_trainingActivityData.push($scope.trainingActivityData);
+
+        //$scope.trainingPhases[j].push($scope.trainingActivityData);
+        $scope.trainingActivityData = [];
+        //  console.log("trainingActivityData", $scope.Master_trainingActivityData);
+        //console.log("trainingActivity", $scope.trainingActivity);
+      }
+      console.log("trainingActivityData", $scope.Master_trainingActivityData);
+      // console.log("$scope.trainingActivityData", $scope.trainingActivityData);
+    };
+
+    //generate key competition
+    $scope.generateKeyCompetition = function (keycomp) {
+      // console.log('befor keyCompetition', keycomp);
+      if (_.isEmpty(keycomp)) {
+        $scope.keyCompetition = [];
+      } else {
+        var compLen = keycomp.length
+        for (var i = 0; i < compLen; i++) {
+          if (keycomp[i].isKey == true) {
+            $scope.keyCompetition.push({
+              type: 'keyCompetitions',
+              title: keycomp[i].name,
+              start: moment(keycomp[i].startDate).toDate(),
+              end: moment(keycomp[i].endDate).toDate(),
+              allDay: true,
+              className: ['keyCompetitions'],
+              sort: "g",
+              details: keycomp[i].details
+            });
+          } else if (keycomp[i].isKey == false) {
+            $scope.competition.push({
+              type: 'competition',
+              title: keycomp[i].name,
+              start: moment(keycomp[i].startDate).toDate(),
+              end: moment(keycomp[i].endDate).toDate(),
+              allDay: true,
+              className: ['competitions'],
+              sort: "h",
+              details: keycomp[i].details
+            });
+          }
+
+        }
+      }
+    };
+
+    //generate training aspects
+    $scope.generateAspects = function (aspectdata) {
+      if (_.isEmpty(aspectdata)) {
+        $scope.aspects = [];
+      } else {
+        var aspectLen = aspectdata.length;
+        for (var i = 0; i < aspectLen; i++) {
+          $scope.aspects.push({
+            type: 'aspects',
+            title: aspectdata[i].name,
+            start: moment(aspectdata[i].startDate).toDate(),
+            end: moment(aspectdata[i].endDate).toDate(),
+            allDay: true,
+            className: ['aspects'],
+            sort: "i",
+            details: aspectdata[i].details
+          });
+        }
+      }
+
+      // console.log('aspects', $scope.aspects);
+    };
+
+    //generate test
+    $scope.generateTest = function (testdata) {
+      // console.log('before test', testdata);
+      if (_.isEmpty(testdata)) {
+        $scope.test = [];
+      } else {
+        var testLen = testdata.length;
+        for (var i = 0; i < testLen; i++) {
+          $scope.test.push({
+            type: 'test',
+            title: testdata[i].name,
+            start: moment(testdata[i].startDate).toDate(),
+            end: moment(testdata[i].endDate).toDate(),
+            allDay: true,
+            className: ['tests'],
+            sort: "j",
+            details: testdata[i].details
+          });
+        }
+      }
+      // console.log('test', $scope.test);
+    };
+
+
+
+
 
     /* alert on eventClick */
     $scope.diaryClick = function (obj) {
@@ -1543,73 +2018,80 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         }
       }
     };
+    // $scope.calenderView = function ($scope.athleteData) {
+    //   for (var i in $scope.athleteData.TrainingPlan) {
 
+    //     for (var j in $scope.athleteData.TrainingPlan.phase) {
+    //       $scope.phase = [{
+    //         title: $scope.athleteData.TrainingPlan.phase[j].title,
+    //         start: $scope.athleteData.TrainingPlan.startDate,
+    //         end: $scope.athleteData.TrainingPlan.endDate,
+    //         className: $scope.athleteData.TrainingPlan.name,
+    //         allDay: true,
+    //         sort: "a"
+    //       }];
+    //     }
+    //     consol.log($scope.phase);
+    //   }
 
-    $scope.phase = [{
-      title: 'General Prep (GPE)',
-      start: moment('13-02-2017', 'DD-MM-YYYY').toDate(),
-      end: moment('13-02-2017', 'DD-MM-YYYY').add(7, 'days').toDate(),
-      className: 'phaseOdd',
-      allDay: true,
-      sort: "a"
-    }];
+    //   $scope.trainingDiary = [$scope.phase];
 
-    $scope.trainingDiary = [$scope.phase];
-
-    $scope.trainingPhasesData = [{
-      name: 'General Prep (GPE)',
-      duration: 1,
-      activities: [{
-          name: 'Circuits',
-          detail: 'Skills – feet & hips MV ladders 3x (10 cones from 20m run in) [3’]  (24, 23) + (22, 21 second runs) from various start points [4’ / 8’] Recovery runs on track in flats',
-          volume: '400m',
-          intensity: 'Low',
-          startDate: moment('13-02-2017', 'DD-MM-YYYY').toDate(),
-        }, {
-          name: 'Speed Recovery',
-          detail: 'Skills – feet & hips MV ladders 3x (10 cones from 20m run in) [3’]  (24, 23) + (22, 21 second runs) from various start points [4’ / 8’] Recovery runs on track in flats',
-          volume: '400m',
-          intensity: 'Low',
-          startDate: moment('13-02-2017', 'DD-MM-YYYY').add(1, 'days').toDate(),
-        },
-        {
-          name: 'Rest Day',
-          detail: 'No Training',
-          volume: '400m',
-          intensity: 'Low',
-          startDate: moment('13-02-2017', 'DD-MM-YYYY').add(2, 'days').toDate(),
-        },
-        {
-          name: 'Circuits',
-          detail: 'Skills – feet & hips MV ladders 3x (10 cones from 20m run in) [3’]  (24, 23) + (22, 21 second runs) from various start points [4’ / 8’] Recovery runs on track in flats',
-          volume: '400m',
-          intensity: 'Low',
-          startDate: moment('13-02-2017', 'DD-MM-YYYY').add(3, 'days').toDate(),
-        },
-        {
-          name: 'Speed Recovery',
-          detail: 'Skills – feet & hips MV ladders 3x (10 cones from 20m run in) [3’]  (24, 23) + (22, 21 second runs) from various start points [4’ / 8’] Recovery runs on track in flats',
-          volume: '400m',
-          intensity: 'Low',
-          startDate: moment('13-02-2017', 'DD-MM-YYYY').add(4, 'days').toDate(),
-        },
-        {
-          name: 'Rest Day',
-          detail: 'No Training',
-          volume: '400m',
-          intensity: 'Low',
-          startDate: moment('13-02-2017', 'DD-MM-YYYY').add(5, 'days').toDate(),
-        },
-        {
-          name: 'Circuits',
-          detail: 'Skills – feet & hips MV ladders 3x (10 cones from 20m run in) [3’]  (24, 23) + (22, 21 second runs) from various start points [4’ / 8’] Recovery runs on track in flats',
-          volume: '400m',
-          intensity: 'Low',
-          startDate: moment('13-02-2017', 'DD-MM-YYYY').add(6, 'days').toDate(),
-        },
-      ]
-    }];
+    //   $scope.trainingPhasesData = [{
+    //     name: 'General Prep (GPE)',
+    //     duration: 1,
+    //     activities: [{
+    //         name: 'Circuits',
+    //         detail: 'Skills – feet & hips MV ladders 3x (10 cones from 20m run in) [3’]  (24, 23) + (22, 21 second runs) from various start points [4’ / 8’] Recovery runs on track in flats',
+    //         volume: '400m',
+    //         intensity: 'Low',
+    //         startDate: moment('13-02-2017', 'DD-MM-YYYY').toDate(),
+    //       }, {
+    //         name: 'Speed Recovery',
+    //         detail: 'Skills – feet & hips MV ladders 3x (10 cones from 20m run in) [3’]  (24, 23) + (22, 21 second runs) from various start points [4’ / 8’] Recovery runs on track in flats',
+    //         volume: '400m',
+    //         intensity: 'Low',
+    //         startDate: moment('13-02-2017', 'DD-MM-YYYY').add(1, 'days').toDate(),
+    //       },
+    //       {
+    //         name: 'Rest Day',
+    //         detail: 'No Training',
+    //         volume: '400m',
+    //         intensity: 'Low',
+    //         startDate: moment('13-02-2017', 'DD-MM-YYYY').add(2, 'days').toDate(),
+    //       },
+    //       {
+    //         name: 'Circuits',
+    //         detail: 'Skills – feet & hips MV ladders 3x (10 cones from 20m run in) [3’]  (24, 23) + (22, 21 second runs) from various start points [4’ / 8’] Recovery runs on track in flats',
+    //         volume: '400m',
+    //         intensity: 'Low',
+    //         startDate: moment('13-02-2017', 'DD-MM-YYYY').add(3, 'days').toDate(),
+    //       },
+    //       {
+    //         name: 'Speed Recovery',
+    //         detail: 'Skills – feet & hips MV ladders 3x (10 cones from 20m run in) [3’]  (24, 23) + (22, 21 second runs) from various start points [4’ / 8’] Recovery runs on track in flats',
+    //         volume: '400m',
+    //         intensity: 'Low',
+    //         startDate: moment('13-02-2017', 'DD-MM-YYYY').add(4, 'days').toDate(),
+    //       },
+    //       {
+    //         name: 'Rest Day',
+    //         detail: 'No Training',
+    //         volume: '400m',
+    //         intensity: 'Low',
+    //         startDate: moment('13-02-2017', 'DD-MM-YYYY').add(5, 'days').toDate(),
+    //       },
+    //       {
+    //         name: 'Circuits',
+    //         detail: 'Skills – feet & hips MV ladders 3x (10 cones from 20m run in) [3’]  (24, 23) + (22, 21 second runs) from various start points [4’ / 8’] Recovery runs on track in flats',
+    //         volume: '400m',
+    //         intensity: 'Low',
+    //         startDate: moment('13-02-2017', 'DD-MM-YYYY').add(6, 'days').toDate(),
+    //       },
+    //     ]
+    //   }];
+    // }
   })
+
   .controller('AthleteRegistrationCtrl', function ($scope, $state, $ionicPopup, MyServices, $ionicLoading, $filter, $ionicModal) {
 
     $scope.formData = {};

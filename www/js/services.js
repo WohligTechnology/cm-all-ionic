@@ -7,6 +7,18 @@ var imgpath = imgurl + "readFile";
 var uploadurl = imgurl;
 var user = {};
 angular.module('starter.services', [])
+
+  .service('saveDetail', function () {
+    var article = {};
+    this.setArticleDetails = function (data) {
+      article = data;
+    }
+
+    this.getArticleDetails = function () {
+      return article;
+    }
+  })
+
   .factory('MyServices', function ($http, $filter) {
     var requestCredentials = {
       accessToken: $.jStorage.get('accessToken'),
@@ -347,23 +359,31 @@ angular.module('starter.services', [])
         }).success(callback);
       },
 
-      searchAthlete: function (formData, i, callback) {
-        formData = _.merge(formData, requestCredentials);
+      searchAthlete: function (formData, callback) {
+        console.log(formData);
+        // var accessToken = {
+        //   _id: formData.accessToken
+        // }
+        // var accessType = {
+        //   _id: formData.accessType
+        // }
+        // formData = _.merge(formData, requestCredentials);
         $http({
           url: adminurl + 'athletecoaching/searchAthleteByCoach',
           method: 'POST',
           data: formData
         }).success(function (data) {
-          callback(data, i);
+          callback(data);
         });
       },
 
       getAthletePlans: function (formData, callback) {
-        formData = _.merge(formData, requestCredentials);
-        $http.post(adminurl + 'athlete/getAthletePlans', formData).success(function (data) {
+
+        $http.post(adminurl + 'Athlete/getCalenderOfAthlete', formData).success(function (data) {
           callback(data);
         });
       },
+
 
       saveComment: function (formData, callback) {
         formData = _.merge(formData, requestCredentials);
@@ -544,6 +564,24 @@ angular.module('starter.services', [])
         }).success(callback);
       },
 
+      getMostRecentServiceProvider: function (formData, callback) {
+        $http({
+          url: adminurl + 'ServiceProvider/getMostRecentServiceProvider',
+          method: 'POST',
+          data: formData
+        }).success(callback);
+      },
+
+
+
+      getMostPopularServiceProvider: function (formData, callback) {
+        $http({
+          url: adminurl + 'ServiceProvider/getMostPopularServiceProvider',
+          method: 'POST',
+          data: formData
+        }).success(callback);
+      },
+
       getReaction: function (formData, callback) {
         $http({
           url: adminurl + 'Article/getReaction',
@@ -563,7 +601,13 @@ angular.module('starter.services', [])
         }).success(callback);
       },
 
-
+      searchArticle: function (formData, callback) {
+        $http({
+          url: adminurl + 'Article/searchArticle',
+          method: 'POST',
+          data: formData
+        }).success(callback);
+      },
       getOneAthleteProfile: function (formData, callback) {
         formData = _.merge(formData, requestCredentials);
         $http({

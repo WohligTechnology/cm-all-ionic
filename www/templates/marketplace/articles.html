@@ -4,7 +4,7 @@
     <!--<button type="button" class="button button-icon ln-cross ln-fit close-position" ng-click="search();" ng-show="searchshow"></button>-->
   </ion-nav-buttons>
   <ion-tabs class=" tab-button tabs-top ">
-    <ion-tab title="Most Recent">
+    <ion-tab title="Most Recent" ng-click="toggleTab(1)">
       <ion-content class="has-tabs-top article-main">
         <!--<ion-refresher on-refresh="refreshRecent()"></ion-refresher>
         <ion-list>-->
@@ -14,27 +14,66 @@
                   <label for="" ng-click="searchpop();">
                      <i class="ln-chevron-down item-note"></i>
                     All</label>
-            <input type="text" placeholder="Search">
-            <i class="icon ion-search placeholder-icon"></i>
+            <div class="search-holder">
+              <input type="text" class="form-control" ng-model="article.searchText" ng-change="searchArticle(article)" name="keyword" placeholder="Search Authors, Articles...">
+              <div class="search-suggest" ng-if="article.searchText != '' && isText == true">
+                <ul class="list-unstyled">
+                  <li class="ct-name"><span>Authors</span></li>
+                  <li class="search-item" ng-click="getAuthor($index)" ng-repeat="item in authorName" ng-if="authorName.length > 0">
+                    <span class="left-space rounded" style="background-image: url({{(item.profilePic|uploadpath) ||'frontend/img/img-placeholder.png'}})"></span>
+                    <p class="text-wrapper">{{item.name}} {{item.surname}}</p>
+                  </li>
+                  <li class="search-item" ng-if="authorName.length == 0">
+                    <span class="left-space rounded"><i class="fa fa-ban"></i></span>
+                    <p class="text-wrapper">No match found</p>
+                  </li>
+                </ul>
+                <ul class="list-unstyled">
+                  <li class="ct-name"><span>Articles</span></li>
+                  <li class="search-item" ng-click="getArticle($index)" ng-repeat="item in articleName" ng-if="articleName.length > 0">
+                    <span class="left-space" style="background-image: url({{(item.articleImage|uploadpath) ||'img/article/article-thumb.jpg'}})"></span>
+                    <p class="text-wrapper">{{item.articleName}}</p>
+                  </li>
+                  <li class="search-item" ng-if="articleName.length == 0">
+                    <span class="left-space rounded"><i class="fa fa-ban"></i></span>
+                    <p class="text-wrapper">No match found</p>
+                  </li>
+                </ul>
+                <ul class="list-unstyled">
+                  <li class="ct-name"><span>Tags</span></li>
+                  <li class="search-item" ng-click="getTags($index)" ng-repeat="item in tagArray" ng-if="tagArray.length > 0">
+                    <span class="left-space"><i class="fa fa-tag"></i></span>
+                    <p class="text-wrapper">{{item._id}}</p>
+                  </li>
+                  <li class="search-item" ng-if="tagArray.length == 0">
+                    <span class="left-space rounded"><i class="fa fa-ban"></i></span>
+                    <p class="text-wrapper">No match found</p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!--<input type="text" placeholder="Search" class="form-control" ng-model="article.searchText" ng-change="searchArticle(article)" name="keyword">-->
+            <i class="icon ion-search placeholder-icon" ng-click="applyFilter(article)" type="submit"></i>
+
             </label>
           </div>
-          <div class="card article-card" ng-repeat="list in marketlist">
+          <div class="card article-card" ng-repeat="list in articleList">
             <div class="profie-sec">
               <div class="img-div">
-                <img ng-if="list.profilePic" ng-src="{{list.profilePic}}" alt="">
-                <img src="img/img-placeholder.png" alt="" ng-if="!list.profilePic">
+                <img ng-src="{{(list.profilePic |uploadpath)||'img/img-placeholder.png'}}" alt="">
+                <!--<img src="img/img-placeholder.png" alt="" ng-if="!list.profilePic">-->
               </div>
               <div class="details">
                 <h5 class="textupper"> {{list.authorName}}</h5>
                 <label class="textupper"> {{list.createdAt | date: "MMMM d, y"}}</label>
               </div>
-              <div class="eye" ng-click="article1(list)">
+              <div class="eye" ng-click="preview(list)">
                 <i class="ion ion-ios-eye"></i>
               </div>
             </div>
-            <div class="" ui-sref="app.marketplace-article-detail({_id:list._id})">
-              <img ng-if="list.articleImage" ng-src="{{list.articleImage}}" class="min-height full-image">
-              <img ng-if="!list.articleImage" ng-src="img/marketplace/event2.png" class="min-height full-image">
+            <div class="" ng-click="checkArticleType(list)">
+              <img ng-src="{{(list.articleImage|uploadpath)||'img/marketplace/article-thumb.jpg'}}" class="min-height full-image">
+              <!--<img ng-if="!list.articleImage" ng-src="img/marketplace/event2.png" class="min-height full-image">-->
             </div>
             <div class="padding">
               <div class="bold">
@@ -44,7 +83,7 @@
                 <span class=" blue-box item-note" ng-if="list.articleType =='Free'">{{list.articleType}}</span>
                 <span class=" blue-box item-note" ng-if="list.articleType =='Paid'">{{list.articlePrice | currency: '£' : 0}}</span>
                 <div class="rating-blog ">
-                  <span class="rate rateup" ng-click="getReaction('Like',$index,1)"><i class="ln ln-thumbs-up"></i>{{list.noOfLikes}}</span>
+                  <span class="rate rateup" ng-click="getReaction('Like',$index)"><i class="ln ln-thumbs-up"></i>{{list.noOfLikes}}</span>
                   <span class="rate ratedown" ng-click="getReaction('Dislike',$index,1)"><i class="ln ln-thumbs-down"></i>{{list.noOfDisLikes}}</span>
                 </div>
               </div>
@@ -53,13 +92,12 @@
           </div>
         </div>
         </ion-list>
-        <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="2%"></ion-infinite-scroll>
+        <ion-infinite-scroll ng-if="noMoreItemsAvailable" on-infinite="loadMore()" distance="2%"></ion-infinite-scroll>
       </ion-content>
     </ion-tab>
 
-    <ion-tab title="Most Popular">
+    <ion-tab title="Most Popular" ng-click="toggleTab(2)">
       <ion-content class="has-tabs-top article-main">
-        huihuihuihu
         <ion-list>
           <div class="pb90">
 
@@ -73,25 +111,24 @@
               </label>
             </div>
 
-            <div class="card article-card" ng-repeat="list in marketlist1">
-              {{list}}
+            <div class="card article-card" ng-repeat="list in articleList">
               <div class="profie-sec">
                 <div class="img-div">
-                  <img ng-if="list.profilePic" ng-src="{{list.profilePic}}" alt="">
-                  <img src="img/img-placeholder.png" alt="" ng-if="!list.profilePic">
+                  <img ng-src="{{(list.profilePic |uploadpath)||'img/img-placeholder.png'}}" alt="">
+                  <!--<img src="img/img-placeholder.png" alt="" ng-if="!list.profilePic">-->
 
                 </div>
                 <div class="details">
                   <h5 class="textupper"> {{list.authorName}}</h5>
                   <label class="textupper"> {{list.createdAt | date: "MMMM d, y"}}</label>
                 </div>
-                <div class="eye" ng-click="article1(list)">
+                <div class="eye" ng-click="preview(list)">
                   <i class="ion ion-ios-eye"></i>
                 </div>
               </div>
-              <div class="" ui-sref="app.marketplace-article-detail({_id:list._id})">
-                <img ng-if="list.articleImage" ng-src="{{list.articleImage}}" class="min-height full-image">
-                <img ng-if="!list.articleImage" ng-src="img/marketplace/event2.png" class="min-height full-image">
+              <div class="" ng-click="checkArticleType(list)">
+                <img ng-src="{{(list.articleImage|uploadpath)||'img/marketplace/article-thumb.jpg'}}" class="min-height full-image">
+                <!--<img ng-if="!list.articleImage" ng-src="img/marketplace/event2.png" class="min-height full-image">-->
               </div>
               <div class="padding">
                 <div class="bold">
@@ -109,7 +146,7 @@
             </div>
           </div>
         </ion-list>
-        <ion-infinite-scroll ng-if="!noMoreItemsAvailable1" on-infinite="loadMore1()" distance="2%"></ion-infinite-scroll>
+        <ion-infinite-scroll ng-if="noMoreItemsAvailable" on-infinite="loadMore()" distance="2%"></ion-infinite-scroll>
       </ion-content>
     </ion-tab>
   </ion-tabs>

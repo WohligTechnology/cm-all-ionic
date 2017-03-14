@@ -2,16 +2,17 @@
   <a ng-click="closePopup();" class="cross-img"><img src="img/marketplace/crose.png"></a>
   <div class="article-list-modal">
     <div class="">
-      <img src="{{eyeDetails.image}}" class="full-image">
+      <img src="{{(eyeDetails.image |uploadpath)||'img/marketplace/article-thumb.jpg'}}" class="full-image">
     </div>
-    <div class="modal-content ">
+    <div class="modal-content" ng-click="checkArticleType(eyeDetails);closePopup()">
       <div class="">
         <div class="">
           <p class="text bold">{{eyeDetails.articleName}}</p>
         </div>
         <div class="button-div">
-          <div class="price blue-box ">{{eyeDetails.articlePrice}}</div>
-          <button type="button" class="buy-btn" name="button">BUY</button>
+          <div class="price blue-box " ng-if="eyeDetails.articleType=='Paid'">{{eyeDetails.articlePrice| currency: '£' : 0}}</div>
+          <div class="price blue-box " ng-if="eyeDetails.articleType=='Free'">{{eyeDetails.articleType}}</div>
+          <button type="button" class="buy-btn" ng-if="eyeDetails.articleType=='Paid'" name="button">BUY</button>
         </div>
       </div>
       <div class="text-intro">

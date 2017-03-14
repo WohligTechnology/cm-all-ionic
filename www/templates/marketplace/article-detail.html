@@ -3,8 +3,8 @@
     <div>
       <div class="detail-div">
         <div class="img-div">
-          <img ng-if="articleBanner.profile" ng-src="{{articleBanner.profile}}" alt="">
-          <img ng-if="!articleBanner.profile" ng-src="img/marketplace/profile2.png" alt="">
+          <img ng-src="{{(articleBanner.profile |uploadpath)||'img/img-placeholder.png'}}" alt="">
+          <!--<img ng-if="!articleBanner.profile" ng-src="img/marketplace/profile2.png" alt="">-->
         </div>
         <div class="name textupper">
           <p>{{articleBanner.authorName}} on {{articleBanner.createdAt | date: "MMMM d, y"}} in {{articleBanner.category}}</p>
@@ -12,8 +12,8 @@
       </div>
       <div class="article-banner">
         <div class="banner">
-          <img ng-if="articleBanner.bannerImg" ng-src="{{articleBanner.bannerImg}}" class="full-image">
-          <img ng-if="!articleBanner.bannerImg" ng-src="img/marketplace/article-detail.png" class="full-image">
+          <img ng-src="{{(articleBanner.bannerImg |uploadpath)||'img/marketplace/article-thumb.jpg'}}" class="full-image">
+          <!--<img ng-if="!articleBanner.bannerImg" ng-src="img/marketplace/article-detail.png" class="full-image">-->
         </div>
         <div class="rating-blog like">
           <span class="rate rateup"><i class="ln ln-thumbs-up"></i>{{articleBanner.noOfLikes}}</span>

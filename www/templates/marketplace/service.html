@@ -4,7 +4,7 @@
     <!--<button type="button" class="button button-icon ln-cross ln-fit close-position" ng-click="search();" ng-show="searchshow"></button>-->
   </ion-nav-buttons>
   <ion-tabs class=" tab-button tabs-top ">
-    <ion-tab title="Most Recent">
+    <ion-tab title="Most Recent" ng-click="toggleTab(1)">
       <ion-content class="has-tabs-top article-main">
         <div>
           <div class="list list-inset" ng-if="searchshow">
@@ -16,14 +16,14 @@
             <i class="icon ion-search placeholder-icon"></i>
             </label>
           </div>
-          <div class="service" ng-click="serviceList();" ng-repeat="s in servicelist" ui-sref="app.marketplace-service-detail">
+          <div class="service" ng-click="serviceList();" ng-repeat="s in serviceProviderList" ui-sref="app.marketplace-service-detail">
             <div class="profile-back">
-              Orthopedic Doctor
+              {{s.category}}
             </div>
             <div class="card service-card">
               <div class="pro-div">
                 <div class="pro-img">
-                  <img ng-src="{{s.image}}" alt="...">
+                  <img ng-src="{{s.profilePic}}" alt="...">
                 </div>
                 <div class="caption">
                   <h4>{{s.name}} {{s.surname}}</h4>
@@ -40,7 +40,7 @@
         </div>
       </ion-content>
     </ion-tab>
-    <ion-tab title="Most Popular">
+    <ion-tab title="Most Popular" ng-click="toggleTab(2)">
       <ion-content class="has-tabs-top article-main">
         <div>
           <div class="list list-inset" ng-if="searchshow">
@@ -75,7 +75,7 @@
         </div>
       </ion-content>
     </ion-tab>
-    <ion-tab title="Near Me">
+    <ion-tab title="Near Me" ng-click="toggleTab(3)">
       <ion-content class="has-tabs-top article-main">
         <div>
           <div class="list list-inset" ng-if="searchshow">

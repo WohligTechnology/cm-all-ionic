@@ -1,6 +1,6 @@
 angular.module('marketplaceController', ['starter.services', 'checklist-model', 'ui.calendar', 'ngCordova'])
   //Start of Marketplace controller
-  .controller('MarketplaceServiceCtrl', function ($scope, $ionicModal, $timeout, $ionicPopup) {
+  .controller('MarketplaceServiceCtrl', function ($scope, $ionicModal, MyServices, $timeout, $ionicPopup, $http) {
     // $scope.template = TemplateService.changecontent("marketplace/service-provider-list");
     //     TemplateService.title = "Service Providers";
     //     $scope.navigation = NavigationService.getNavMarketplace();
@@ -158,6 +158,326 @@ angular.module('marketplaceController', ['starter.services', 'checklist-model', 
       "contactNumber": "9898989898",
       "description": "Proin theul tempus placerat magna, non maximus ame dolor feugiat non."
     }, ];
+
+    //copied
+
+    $scope.activeTab = 1;
+    $scope.skip = 0; //Used in pagination and initial value is 0
+    $scope.serviceProviderList = []; //Array used to store list of service providers
+    $scope.serviceProvider = {}; //Obj to store req parameters
+    $scope.serviceProvider.category = []; //Array to store multiple categories
+    $scope.serviceProviderGallery = []; //Array to store gallery of service provider on service popup page
+    $scope.gallerySkip = 0; //Used in pagination on serive popup page.
+    $scope.enquiryData = {}; //Obj to store enquiry details
+    $scope.serviceProvider.searchText = "";
+    $scope.isData = false;
+    $scope.isGalleryData = false;
+    $scope.isText = true;
+    $scope.serviceProvider.skip = $scope.skip;
+
+    $scope.categories = ['Sports therapist', 'Physiotherapist', 'Nutritionist', 'Personal Trainers', 'Specialist Doctors', 'Other'];
+    var categoriesArrayLength = $scope.categories.length; //variable to store length of $scope.categories array;
+
+
+    //Get user info if user is logged in
+    if ($.jStorage.get('userAthlete')) {
+      $scope.userData = $.jStorage.get('userAthlete');
+      $scope.userData.userType = "Athlete";
+    } else if ($.jStorage.get('userCoach')) {
+      $scope.userData = $.jStorage.get('userCoach');
+      $scope.userData.userType = "Coach";
+    }
+
+
+    //Function to select tab
+    $scope.toggleTab = function (val) {
+
+      if ($scope.activeTab != val) {
+        $scope.activeTab = val;
+        $scope.skip = 0; //Reinitialize skip to handle the tab switch
+        $scope.serviceProviderList = []; //Reinitialize array to handle tab switch
+      }
+      $scope.serviceProvider.skip = $scope.skip;
+      // console.log("$scope.serviceProviderList", $scope.serviceProviderList);
+      console.log("$scope.activeTab ", $scope.activeTab);
+      var reqObj = {};
+      if (val == 1) {
+        MyServices.getMostRecentServiceProvider($scope.serviceProvider, function (data) {
+          if (data.value) {
+            console.log("inside data");
+            if (data.data.length > 0) {
+              $scope.isData = false;
+              var arrayLength = data.data.length;
+              for (var i = 0; i < arrayLength; i++) {
+                $scope.serviceProviderList.push(data.data[i]);
+              }
+              $scope.isText = false;
+            } else if ($scope.serviceProviderList.length > 0) {
+              //toastr.warning('No more Service Provider to load !!!');
+              $scope.isData = true;
+              $scope.isText = false;
+            } else {
+              $scope.serviceProviderList = [];
+              $scope.isText = false;
+            }
+          } else {
+            $scope.serviceProviderList = [];
+            $scope.isText = false;
+          }
+          console.log("getMostRecentServiceProviderdata", $scope.serviceProviderList);
+
+        });
+      }
+      if (val == 2) {
+        MyServices.getMostPopularServiceProvider($scope.serviceProvider, function (data) {
+          if (data.value) {
+            console.log("inside popular data");
+            if (data.data.length > 0) {
+              $scope.isData = false;
+              console.log("hiii inside if");
+              var arrayLength = data.data.length;
+              for (var i = 0; i < arrayLength; i++) {
+                $scope.serviceProviderList.push(data.data[i]);
+                console.log("hiii inside for");
+              }
+              $scope.isText = false;
+              console.log("$scope.serviceProviderList popular", $scope.serviceProviderList);
+            } else if ($scope.serviceProviderList.length > 0) {
+              //toastr.warning('No more Service Provider to load !!!');
+              $scope.isData = true;
+              $scope.isText = false;
+            } else {
+              $scope.serviceProviderList = [];
+              $scope.isText = false;
+            }
+          } else {
+            $scope.serviceProviderList = [];
+            $scope.isText = false;
+          }
+        });
+      }
+      if (val == 3) { // Empty for now and used for near me tab
+        $scope.serviceProviderList = [];
+        $scope.isText = false;
+      }
+    };
+
+    $scope.serviceListBanner = {
+      bannerImg: 'img/marketplace/service-list.png',
+    };
+    // $scope.toggleTab(1);
+
+
+    //To get gallery of service provider
+    $scope.getMyGallery = function (value) {
+      $scope.serviceProviderId = {};
+      console.log("selected sp value", value);
+      $scope.serviceProviderId.userId = value._id;
+      $scope.serviceProviderId.skip = $scope.gallerySkip;
+
+      MyServices.getMyImagesVideos($scope.serviceProviderId, function (data) {
+        if (data.value) {
+          console.log("getMyImages data", data.data);
+          if (data.data.length > 0) {
+            $scope.isGalleryData = false;
+            var arrayLength = data.data.length;
+            for (var i = 0; i < arrayLength; i++) {
+              $scope.serviceProviderGallery.push(data.data[i]);
+            }
+          } else if ($scope.serviceProviderGallery.length > 0) {
+            //toastr.warning('No more gallery to load !!!');
+            $scope.isGalleryData = true;
+          } else {
+            $scope.serviceProviderGallery = [];
+          }
+        } else {
+          $scope.serviceProviderGallery = [];
+        }
+      })
+    }; //End of getMyGallery  
+
+    //Function to search serive provider
+    $scope.searchSP = function (value) {
+      $scope.SPArray = [];
+      $scope.isText = true;
+      $scope.locationArray = [];
+      if (value.searchText != "") {
+        MyService.searchServiceProvider(value, function (data) {
+          if (data.value) {
+            console.log("Event data", data.data);
+            $scope.SPArray = data.data.spName;
+            $scope.locationArray = data.data.location;
+          } else {
+            console.log("Event data false");
+          }
+        });
+      }
+    };
+
+    //Function to get SP based on location search
+    $scope.getSPByLocation = function (value) {
+      $scope.skip = 0; //Reinitialize skip to filter
+      $scope.serviceProviderList = []; //Reinitialize array to handle filter
+      $scope.isText = false;
+      $scope.serviceProvider.searchText = $scope.locationArray[value]._id;
+
+      $scope.toggleTab($scope.activeTab);
+    }; //End of getSPByLocation
+
+
+    //Function to get SP based on name/surname search
+    $scope.getMySP = function (value) {
+      var spId = $scope.SPArray[value]._id;
+      var fullName = $scope.SPArray[value].name + " " + $scope.SPArray[value].surname;
+      $scope.serviceProvider.searchText = fullName;
+      $scope.skip = 0; //Reinitialize skip to filter
+      $scope.isText = false;
+      $scope.serviceProviderList = []; //Reinitialize array to handle filter
+      MyServices.getOneSP({
+        _id: spId
+      }, function (data) {
+        if (data.value) {
+          $scope.serviceProviderList.push(data.data);
+        } else {
+          $scope.serviceProviderList = [];
+        }
+
+      });
+    }; //End of getMySP
+
+    //Function used for pagination on service popup page
+    $scope.loadMoreGallery = function () {
+      $scope.gallerySkip = $scope.gallerySkip + 6;
+      $scope.getMyGallery($scope.servicePopup);
+    };
+
+    //Function to increment no of views
+    $scope.increamentNoOfViews = function (value) {
+      var counter = {};
+      counter._id = value._id;
+
+      MyServices.increamentNoOfViewsSP(counter, function (data) {
+        if (data.value) {
+          console.log("No of views increamented successfully");
+        } else {
+          console.log("Unable to increment no of views");
+        }
+      }); //End of increamentNoOfViews service
+    }; //End of increamentNoOfViews function
+
+    //Function to get service provider details popup
+    $scope.serviceProviderDetails = function (value) {
+      $scope.serviceProviderDetailsModal = $uibModal.open({
+        animation: true,
+        templateUrl: "frontend/views/modal/service-popup.html",
+        windowClass: "modal-service",
+        scope: $scope
+      });
+      $scope.isGalleryData = false;
+      $scope.gallerySkip = 0;
+      $scope.serviceProviderGallery = [];
+      $scope.servicePopup = $scope.serviceProviderList[value]; //Store service provider details and display it on service-popup
+
+      $scope.getMyGallery($scope.servicePopup);
+      $scope.increamentNoOfViews($scope.servicePopup);
+    };
+
+    //Function to get service provider details popup
+    $scope.enquiryForm = function (value) {
+      //$scope.serviceProviderDetailsModal.close();
+      //$scope.enquiryData = $scope.userData;
+      if ($scope.userData) {
+        $scope.enquiryData.name = $scope.userData.name;
+        $scope.enquiryData.mobile = $scope.userData.mobile;
+        $scope.enquiryData.email = $scope.userData.email;
+      }
+
+      modal = $uibModal.open({
+        animation: true,
+        templateUrl: "frontend/views/modal/service-enquiry.html",
+        windowClass: "modal-service",
+        scope: $scope
+      });
+    };
+
+    //Function to submit equiry     
+    $scope.enquireNow = function (value) {
+      value._id = $scope.serviceProviderId.userId; //Setting service provider id
+      MyServices.saveEnquiry(value, function (data) {
+        if (data.value) {
+          if (data.data.message == "Enquiry submitted successfully !!!") {
+            toastr.success(data.data.message);
+          } else {
+            toastr.warning(data.data.message);
+          }
+
+
+        } else {
+          toastr.error("Unable to submit enquiry");
+        }
+        $scope.enquiryData = {}; //Reinitialize enquiry obj
+        console.log("$scope.enquiryData ", $scope.enquiryData);
+      });
+    };
+
+
+    //Function to store multiple categories in array
+    $scope.selectCategory = function (value) {
+      var serviceProviderCategoryArrayLength = $scope.serviceProvider.category.length;
+      for (var i = 0; i < categoriesArrayLength; i++) {
+        if (i === value) {
+          var category = _.find($scope.serviceProvider.category, function (o) {
+            if ($scope.categories[i] === o) {
+              return o;
+            }
+          });
+          if (category !== undefined) {
+            _.pull($scope.serviceProvider.category, category);
+          } else if (category === undefined) {
+            $scope.serviceProvider.category.push($scope.categories[i]);
+          }
+        }
+      }
+      console.log("category array", $scope.serviceProvider.category);
+    }; //End of selectCategory
+
+    //Function to apply filters the SP list
+    $scope.applyFilter = function (value) {
+      console.log("applyFilter", value);
+      $scope.skip = 0; //Reinitialize skip to filter
+      $scope.serviceProviderList = []; //Reinitialize array to handle filter
+
+      $scope.toggleTab($scope.activeTab);
+    }; //End of applyFilter
+
+    $scope.selected = false;
+    //Function to select all categories in array
+    $scope.selectAllCategoris = function () {
+      $scope.serviceProvider.category = [];
+      _.each($scope.categories, function (key) {
+        $scope.serviceProvider.category.push(key);
+      })
+      $scope.selected = true;
+    } //End of select all categories
+
+    //Function used for pagination
+    $scope.loadMore = function () {
+      console.log("loadmore called");
+      if ($scope.activeTab == 1) { //For most recent service provider
+        $scope.skip = $scope.skip + 6;
+        $scope.toggleTab(1);
+      } else if ($scope.activeTab == 2) { //for most popular service provider
+        $scope.skip = $scope.skip + 6;
+        $scope.toggleTab(2);
+      } else if ($scope.activeTab == 3) { //for near me service provider
+        $scope.skip = $scope.skip + 6;
+        $scope.toggleTab(3);
+      }
+    }
+
+    $scope.toggleTab(1); //Onload function to get list of most recent service providers
+
+
   })
   .controller('MarketplaceEventsCtrl', function ($scope, $ionicModal, $timeout, $ionicPopup) {
 
@@ -311,7 +631,8 @@ angular.module('marketplaceController', ['starter.services', 'checklist-model', 
       "urlPlay": ""
     }];
   })
-  .controller('MarketplaceArticlesCtrl', function ($scope, $ionicModal, MyServices, $timeout, $ionicPopup, $http) {
+
+  .controller('MarketplaceArticlesCtrl', function ($scope, $state, $ionicModal, saveDetail, MyServices, $timeout, $ionicPopup, $http) {
     $scope.searchshow = false;
     $scope.search = function () {
       $scope.searchshow = !$scope.searchshow;
@@ -319,221 +640,294 @@ angular.module('marketplaceController', ['starter.services', 'checklist-model', 
     $scope.articleListBanner = {
       img: ' img/marketplace/article-list-landing.png',
     };
-    $scope.activeTab = 1;
-    $scope.article = {};
-    $scope.articleRecent = {}; //Used to store Recent article data
-    $scope.articlePopular = {}; //Used to store Popular article data
-    $scope.marketlist = []; //Array to store list of most recent articals
-    $scope.marketlist1 = []; //Array to store list of most popular articals
-    $scope.articleRecent.category = []; //Array to store multiple categories
-    $scope.articleRecent.filter = []; //Array to store filters
-    $scope.articlePopular.category = []; //Array to store multiple categories
-    $scope.articlePopular.filter = []; //Array to store filters
-    $scope.skip = 0; //This is used in pagination. Initial value is 0, and increamented by 10
-    $scope.isData = false;
-    // $scope.view = function() {
-    //     modal = $uibModal.open({
-    //         animation: true,
-    //         templateUrl: " views/modal/article-list-view.html",
-    //         windowClass: "modal-article-view",
-    //         scope: $scope
-    //     });
-    // };
-    $scope.categories = ['Training and performance', 'Nutrition', 'Coaching', 'Parents and Guardians', 'News', 'Tips and Techniques'];
+
+    //copied
+
+    {
+
+      $scope.activeTab = 1;
+      $scope.article = {}; //Used to store article data
+      $scope.articleList = []; //Array to store list of articals
+      $scope.article.category = []; //Array to store multiple categories
+      $scope.article.filter = []; //Array to store filters
+      $scope.skip = 0; //This is used in pagination. Initial value is 0, and increamented by 10
+      $scope.isData = false;
+      $scope.isText = true;
+      $scope.noMoreItemsAvailable = false;
+      $scope.categories = ['Training and performance', 'Nutrition', 'Coaching', 'Parents and Guardians', 'News', 'Tips and Techniques'];
+      var categoriesArrayLength = $scope.categories.length; //variable to store length of $scope.categories array;
 
 
-
-
-    // $scope.articleDetail = {
-    //   image: 'img/marketplace/artical-popup.png',
-    //   title: 'some thoughts,reflections & advice on coaching.',
-    //   price: '£ 25',
-    //   content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla, libero eu tempus tempr lectus nunc lacinia ex, vestibulum sollicitudin arcu ante in est. Nulla mollis neque nec imperd pellentesque. Ut efficitur tempor leo non vestibulum. Aliquam ultricies commodo risus, vitaery interdum orci dictum vel. Donec feugiat urna turpis. Aenean vitae eleifend lorem, condimentn lobortis nibh. Proin et venenatis ipsum, eget pulvinar ligula.'
-
-    // };
-
-    //most recent
-    // $scope.activeTab = val;
-    $scope.noMoreItemsAvailable = false;
-    $scope.noMoreItemsAvailable1 = false;
-    $scope.articleRecent.skip = 0;
-    $scope.articlePopular.skip = 0; //Reinitialize skip to handle the tab switch
-    // $scope.marketlist = []; //Reinitialize array to handle tab switch
-    // $scope.marketlist1 = [];
-    // $scope.article.skip = $scope.skip;
-    MyServices.getAllMostPopularArticles($scope.articlePopular, function (data) {
-      if (data.value === true) {
-        console.log(data.data.message);
-
-        $scope.marketlist1.push(data.data[0]);
-        console.log("marketlist recent data", $scope.marketlist1);
-
-
+      // if ($.jStorage.get('userAthlete')) {
+      //   $scope.userData = $.jStorage.get('userAthlete');
+      //   $scope.userData.userType = "Athlete";
+      // } else 
+      if ($.jStorage.get('userProfile')) {
+        $scope.userData = $.jStorage.get('userProfile');
+        $scope.userData.userType = "Coach";
       }
-    });
 
-    $scope.refreshPopular = function () {
+      // $scope.authorProfile = function (data) {
+      //   $scope.modalData = data;
+      //   modal = $uibModal.open({
+      //     animation: true,
+      //     templateUrl: "frontend/views/modal/author-profile.html",
+      //     scope: $scope
+      //   });
+      // };
 
-      MyServices.getAllMostPopularArticles($scope.articlePopular, function (data) {
-        console.log("articlepopular", $scope.articlePopular);
-        if (data.value === true) {
-          console.log(data.data.message);
-          if (angular.isUndefined(data.data.message)) {
-            $scope.marketlist1.push(data.data[0]);
-            console.log("marketlist1 recent data", $scope.marketlist1);
-          } else {
-            console.log("noMoreItemsAvailable1");
-            $scope.noMoreItemsAvailable1 = true;
-          }
+      //Function to select tab
+      $scope.toggleTab = function (val) {
+
+
+        if ($scope.activeTab != val) {
+          $scope.noMoreItemsAvailable = false;
+          // $scope.noMoreItemsAvailable1 = true;
+          $scope.activeTab = val;
+          $scope.skip = 0; //Reinitialize skip to handle the tab switch
+          $scope.articleList = []; //Reinitialize array to handle tab switch
         }
-      });
-    }
-    $scope.refreshRecent = function () {
-      MyServices.getAllMostRecentArticles($scope.articleRecent, function (data) {
-        if (data.value === true) {
-          console.log(data.data.message);
-          if (angular.isUndefined(data.data.message)) {
-            console.log($scope.marketlist);
-            $scope.marketlist.push(data.data[0]);
-            console.log("marketlist recent data", $scope.marketlist);
-          } else {
-            console.log("noMoreItemsAvailable");
-            $scope.noMoreItemsAvailable = true;
-          }
+        $scope.article.skip = $scope.skip;
+
+        console.log("$scope.activeTab ", $scope.activeTab);
+        var reqObj = {};
+        if (val == 1) {
+          MyServices.getAllMostRecentArticles($scope.article, function (data) {
+            if (data.value) {
+              console.log("inside recent");
+              console.log(data.data);
+              if (data.data.length > 0) {
+                $scope.noMoreItemsAvailable = true;
+                var arrayLength = data.data.length;
+                for (var i = 0; i < arrayLength; i++) {
+                  $scope.articleList.push(data.data[i]);
+                }
+                $scope.isText = false;
+                console.log("recent", $scope.articleList);
+              } else if ($scope.articleList.length > 0) {
+                $scope.noMoreItemsAvailable = false;
+                $scope.isText = false;
+              } else {
+                $scope.articleList = [];
+                $scope.isText = false;
+                $scope.noMoreItemsAvailable = false;
+              }
+
+            } else {
+              $scope.articleList = [];
+              $scope.isText = false;
+              $scope.noMoreItemsAvailable = false;
+            }
+            //$scope.noMoreItemsAvailable = true;
+
+          });
         }
-      });
-    }
+        if (val == 2) {
+          MyServices.getAllMostPopularArticles($scope.article, function (data) {
+            if (data.value) {
+              console.log("inside popular");
+              if (data.data.length > 0) {
+                $scope.noMoreItemsAvailable = true;
+                // console.log("hiii inside if");
+                var arrayLength = data.data.length;
+                for (var i = 0; i < arrayLength; i++) {
+                  $scope.articleList.push(data.data[i]);
+                  // console.log("hiii inside for");
+                }
+                $scope.isText = false;
+                console.log("popular", $scope.articleList);
+              } else if ($scope.articleList.length > 0) {
+                //toastr.warning('No more articles to load !!!');
+                $scope.noMoreItemsAvailable = false;
+                $scope.isText = false;
+              } else {
+                $scope.articleList = [];
+                $scope.isText = false;
+                $scope.noMoreItemsAvailable = false;
+              }
+            } else {
+              $scope.articleList = [];
+              $scope.noMoreItemsAvailable = false;
+              $scope.isText = false;
+            }
+            //$scope.noMoreItemsAvailable = true;
+          });
+        }
+      };
 
+      //Function to get suggestions for articles
+      $scope.searchArticle = function (value) {
+        $scope.authorName = [];
+        $scope.articleName = [];
+        $scope.tagArray = [];
+        $scope.isText = true;
+        if (value.searchText != "") {
+          MyServices.searchArticle(value, function (data) {
+            if (data.value) {
+              console.log("Event data", data.data);
+              $scope.authorName = data.data.authorName;
+              $scope.articleName = data.data.articleName;
+              $scope.tagArray = data.data.tagData;
+            } else {
+              console.log("Event data false");
+            }
+          });
+        }
+      }; //End of searchArticle 
 
-    $scope.refreshPopular();
-    $scope.refreshRecent();
+      //Function to get article based on author name search
+      $scope.getAuthor = function (value) {
+        var fullName = $scope.authorName[value].name + " " + $scope.authorName[value].surname;
+        $scope.article.searchText = fullName;
+        $scope.isText = false;
+        $scope.articleList = []; //Reinitialize array to handle searched data
+        $scope.skip = 0;
+        $scope.toggleTab($scope.activeTab);
+      }; //End of getAuthor
 
-    $scope.loadMore = function () {
-      console.log("loadmore called");
-      $scope.articleRecent.skip = $scope.articleRecent.skip + 1;
-      $scope.refreshRecent();
-      $scope.$broadcast('scroll.infiniteScrollComplete');
+      //Function to get article based on article name search
+      $scope.getArticle = function (value) {
+        $scope.article.searchText = $scope.articleName[value].articleName;
+        $scope.isText = false;
+        $scope.articleList = []; //Reinitialize array to handle searched data
+        $scope.skip = 0;
+        $scope.toggleTab($scope.activeTab);
+      }; //End of getArticle
 
-    }
+      //Function to get articles based on tags search
+      $scope.getTags = function (value) {
+        $scope.article.searchText = $scope.tagArray[value]._id;
+        $scope.isText = false;
+        $scope.articleList = []; //Reinitialize array to handle searched data
+        $scope.skip = 0;
+        $scope.toggleTab($scope.activeTab);
+      }; //End of getTags
 
-    $scope.loadMore1 = function () {
-      console.log("loadmore called");
-      // if ($scope.activeTab == 1) { //For most recent article
-      $scope.articlePopular.skip = $scope.articlePopular.skip + 1;
-      $scope.refreshPopular();
+      //Function used for pagination
+      $scope.loadMore = function () {
+        console.log("loadmore called");
+        if ($scope.activeTab == 1) { //For most recent article
+          $scope.skip = $scope.skip + 2;
+          $scope.toggleTab(1);
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+        } else if ($scope.activeTab == 2) { //for most popular article
+          $scope.skip = $scope.skip + 2;
+          $scope.toggleTab(2);
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+        }
+      }
 
+      $scope.articleListBanner = {
+        img: 'img/marketplace/article-list-landing.png',
+      };
+      // $scope.preview = function (value) {
+      //   modal = $uibModal.open({
+      //     animation: true,
+      //     templateUrl: "frontend/views/modal/article-list-view.html",
+      //     windowClass: "modal-article-view",
+      //     scope: $scope
+      //   });
 
-      $scope.$broadcast('scroll.infiniteScrollComplete');
-    }
+      // _.find($scope.articleList, function (n) {
+      //     if (n._id == value) {
+      //         $scope.articleDetail = n;
+      //     }
+      // })
 
-    $scope.article1 = function (list) {
+      //Here we have used index position of article to assign object from articleList array to articleDetail
+      // $scope.articleDetail = $scope.articleList[value];
+    };
+
+    $scope.preview = function (list) {
       $scope.eyeDetails = list;
       $scope.articleopen = $ionicPopup.show({
         templateUrl: 'templates/athlete-modal/article-modal.html',
         scope: $scope,
         cssClass: 'articlepop'
       });
-    }
+    };
 
-    if ($.jStorage.get('userAthlete')) {
-      $scope.userData = $.jStorage.get('userAthlete');
-      $scope.userData.userType = "Athlete";
-    } else if ($.jStorage.get('userProfile')) {
-      $scope.userData = $.jStorage.get('userProfile');
-      $scope.userData.userType = "Coach";
-    }
+    $scope.checkArticleType = function (value) {
+      if (value.articleType == "Free") {
+        saveDetail.setArticleDetails(value);
+        $state.go('app.marketplace-article-detail');
+      } else if (value.articleType == "Paid") {
+        var myPopup = $ionicPopup.show({
 
-
-    $scope.getReaction = function (value, id, val) {
-
-      $scope.article.reaction = value;
-      $scope.article.select = val;
-      if ($scope.userData) {
-        $scope.article.userId = $scope.userData._id;
-        $scope.article.accessType = $scope.userData.userType;
-        $scope.article.accessToken = $scope.userData.accessToken;
+          title: '<h4>This Article is Paid</h4>',
+          scope: $scope,
+          buttons: [{
+            text: 'OK'
+          }, ]
+        });
       }
-
-
-      // $scope.article.accessToken= $.jStorage.get("accessToken");
-
-      //$scope.article.articleId = id;//If we directly pass object id 
-
-      //Here id is index position of an object inside articleList array.
-      $scope.article.articleId = $scope.marketlist[id]._id;
-
-      MyServices.getReaction($scope.article, function (data) {
-        if (data.value) {
-          console.log("getReaction data", data.data);
-          if (!_.isEmpty(data.data)) {
-            var i = 0;
-            //Find article using id and update no of like and dislikes of that artical
-            // _.find($scope.articleList, function (n) {
-            //     if (n._id == id) {
-            //         $scope.articleList[i].noOfLikes = data.data.noOfLikes;
-            //         $scope.articleList[i].noOfDisLikes = data.data.noOfDisLikes;
-            //     }
-            //     i++;
-            // });
-            console.log("before", $scope.marketlist[id]);
-            if ($scope.article.select == 1) {
-              //To avoid find loop we have used $index
-              $scope.marketlist[id].noOfLikes = data.data.noOfLikes;
-              $scope.marketlist[id].noOfDisLikes = data.data.noOfDisLikes;
-              console.log("after", $scope.marketlist[id]);
-            } else {
-              $scope.marketlist1[id].noOfLikes = data.data.noOfLikes;
-              $scope.marketlist1[id].noOfDisLikes = data.data.noOfDisLikes;
-              console.log("after", $scope.marketlist1[id]);
-            }
-          }
-        } // else {
-        //     $scope.articleList = [];
-        // }
-      }); //End of get reaction
     }
+
 
     $scope.closePopup = function () {
       $scope.articleopen.close();
     };
 
+    //Function to increment no of views
+    $scope.increamentNoOfViews = function (id) {
+      var counter = {};
+      counter._id = id;
+
+      MyServices.increamentNoOfViews(counter, function (data) {
+        if (data.value) {
+          console.log("No of views increamented successfully");
+        } else {
+          console.log("Unable to increment no of views");
+        }
+      }); //End of increamentNoOfViews service
+    }; //End of increamentNoOfViews function
+
+    //Function to get details of article
+    $scope.getArticleDetails = function (value) {
+      if (value != null) {
+        if ($scope.articleList[value].articleType == "Free") {
+
+          $scope.increamentNoOfViews($scope.articleList[value]._id); //Function call to increamentNoOfViews
+
+          $state.go('marketplace.article-detail', {
+            id: $scope.articleList[value]._id,
+            authorId: $scope.articleList[value].authorObjId._id
+          });
+        } else if ($scope.articleList[value].articleType == "Paid") {
+          toastr.warning('This is article is paid', 'Buy this article');
+        }
+      } else if (value == null) { //This is used for modal(article preview)
+        if ($scope.articleDetail.articleType == "Free") {
+          $scope.increamentNoOfViews($scope.articleDetail.authorObjId._id); //Function call to increamentNoOfViews
+          $state.go('marketplace.article-detail', {
+            id: $scope.articleDetail._id,
+            authorId: $scope.articleDetail.authorObjId._id
+          });
+        } else if ($scope.articleDetail.articleType == "Paid") {
+          toastr.warning('This is article is paid', 'Buy this article');
+        }
+      }
+    }; //End of getArticleDetails function
+
+    //Function to store multiple categories in array
     $scope.selectCategory = function (value) {
-      console.log(value);
-      $scope.article.status = status;
-      var articalCategoryArrayLength = $scope.articleRecent.category.length;
-      var articalCategoryArrayLength1 = $scope.articlePopular.category.length;
-      for (var i = 0; i < $scope.categories.length; i++) {
+      var articalCategoryArrayLength = $scope.article.category.length;
+      for (var i = 0; i < categoriesArrayLength; i++) {
         if (i === value) {
-          var category = _.find($scope.articleRecent.category, function (o) {
+          var category = _.find($scope.article.category, function (o) {
             if ($scope.categories[i] === o) {
               return o;
             }
           });
-
           if (category !== undefined) {
-            _.pull($scope.articleRecent.category, category);
+            _.pull($scope.article.category, category);
           } else if (category === undefined) {
-            $scope.articleRecent.category.push($scope.categories[i]);
+            $scope.article.category.push($scope.categories[i]);
           }
         }
       }
-      for (var i = 0; i < $scope.categories.length; i++) {
-        if (i === value) {
-          var category = _.find($scope.articlePopular.category, function (o) {
-            if ($scope.categories[i] === o) {
-              return o;
-            }
-          });
 
-          if (category !== undefined) {
-            _.pull($scope.articlePopular.category, category);
-          } else if (category === undefined) {
-            $scope.articlePopular.category.push($scope.categories[i]);
-          }
-        }
-      }
-      console.log("category array", $scope.articleRecent.category);
-      console.log("category array", $scope.articlePopular.category);
+      console.log("category array", $scope.article.category);
     }; //End of selectCategory
 
     //Function to apply category
@@ -569,14 +963,56 @@ angular.module('marketplaceController', ['starter.services', 'checklist-model', 
     $scope.applyFilter = function (value) {
       console.log("applyFilter", value);
       $scope.skip = 0; //Reinitialize skip to filter
-      $scope.marketlist = []; //Reinitialize array to handle filter
-      $scope.marketlist = [];
+      $scope.articleList = []; //Reinitialize array to handle filter
 
       $scope.toggleTab($scope.activeTab);
     }; //End of applyFilter
 
+    //Function to get reaction of user
+    $scope.getReaction = function (value, id) {
+
+      $scope.article.reaction = value;
+      if ($scope.userData) {
+        $scope.article.userId = $scope.userData._id;
+        $scope.article.accessType = $scope.userData.userType;
+        $scope.article.accessToken = $scope.userData.accessToken;
+      }
+      console.log("user", $scope.userData);
+      //$scope.article.articleId = id;//If we directly pass object id 
+
+      //Here id is index position of an object inside articleList array.
+      $scope.article.articleId = $scope.articleList[id]._id;
+
+      MyServices.getReaction($scope.article, function (data) {
+        if (data.value) {
+          console.log("getReaction data", data.data);
+          if (!_.isEmpty(data.data)) {
+            var i = 0;
+            //Find article using id and update no of like and dislikes of that artical
+            // _.find($scope.articleList, function (n) {
+            //     if (n._id == id) {
+            //         $scope.articleList[i].noOfLikes = data.data.noOfLikes;
+            //         $scope.articleList[i].noOfDisLikes = data.data.noOfDisLikes;
+            //     }
+            //     i++;
+            // });
+
+            //To avoid find loop we have used $index
+            $scope.articleList[id].noOfLikes = data.data.noOfLikes;
+            $scope.articleList[id].noOfDisLikes = data.data.noOfDisLikes;
+
+          }
+        } // else {
+        //     $scope.articleList = [];
+        // }
+      }); //End of get reaction
+    }
+
+    $scope.toggleTab(1); //On load function call for tab: most recent articals
 
 
+
+    //
     $scope.searchpop = function () {
       $scope.searchopen = $ionicPopup.show({
         templateUrl: 'templates/athlete-modal/search.html',
@@ -586,15 +1022,16 @@ angular.module('marketplaceController', ['starter.services', 'checklist-model', 
       $scope.searchshow = !$scope.searchshow;
     }
     $scope.searchPopup = function () {
+      $scope.applyFilter(1)
       $scope.searchopen.close();
     }
-    $scope.categories = ['Training and performance', 'Nutrition', 'Coaching', 'Parents and Guardians', 'News', 'Tips and Techniques'];
+    // $scope.categories = ['Training and performance', 'Nutrition', 'Coaching', 'Parents and Guardians', 'News', 'Tips and Techniques'];
 
 
 
 
   })
-  .controller('MarketplaceServiceDetailCtrl', function ($scope, $state, $ionicPopup, MyServices, $ionicLoading, $filter, $ionicModal) {
+  .controller('MarketplaceServiceDetailCtrl', function ($scope, $state, $http, $ionicPopup, MyServices, $ionicLoading, $filter, $ionicModal, $timeout) {
     $scope.servicePopup = {
       "image": "img/marketplace/pic2.png",
       "name": "alexi",
@@ -656,7 +1093,10 @@ angular.module('marketplaceController', ['starter.services', 'checklist-model', 
       "urlPlay": ""
     }];
     $scope.eventsGalleryDetaiLlist = _.chunk($scope.eventsGalleryDetaiLlist, 2);
+
+
   })
+
   .controller('MarketplaceEventDetailCtrl', function ($scope, $state, $ionicPopup, MyServices, $ionicLoading, $filter, $ionicModal) {
 
     $scope.data = {
@@ -731,7 +1171,7 @@ angular.module('marketplaceController', ['starter.services', 'checklist-model', 
   })
 
 
-  .controller('MarketplaceArticleDetailCtrl', function ($scope, $ionicModal, $timeout, $stateParams, MyServices) {
+  .controller('MarketplaceArticleDetailCtrl', function ($scope, $state, saveDetail, $ionicModal, $timeout, $stateParams, MyServices) {
 
     $scope._id = $stateParams._id;
     console.log("id", $scope._id);
@@ -745,6 +1185,8 @@ angular.module('marketplaceController', ['starter.services', 'checklist-model', 
     // };
 
     $scope.articleBanner = {};
+
+    $scope.articleBanner = saveDetail.getArticleDetails();
 
     MyServices.getOneArticle($scope._id, function (data) {
       if (data.value === true) {

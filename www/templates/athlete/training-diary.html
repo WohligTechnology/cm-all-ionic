@@ -30,27 +30,29 @@
       <ion-item class="item-text-wrap">Goals &amp; Objectives</ion-item>
     </div>
     <div class="list tp-list" ng-if="currentScreen == 'List'">
-      <div ng-repeat="tpd in trainingPhasesData">
-        <ion-item class="tp-phase item-text-wrap tp-odd"><span ng-bind="tpd.name"></span>
+      <div ng-repeat="tpd in trainingPhases">
+        <ion-item class="tp-phase item-text-wrap tp-odd"><span ng-bind="trainingPlan.name"></span>
           <div class="sub">{{tpd.duration}} week</div>
+          <div class="sub">{{tpd.start|date: 'dd MMM'}} TO {{tpd.end|date: 'dd MMM'}}</div>
         </ion-item>
-        <ion-item class="tp-activity item-text-wrap item-icon-right" ng-repeat="act in tpd.activities">
-          <div ng-click="act[$index].show=!act[$index].show">
-            <span class="date">{{act.startDate|date: 'dd MMM'}} <span class="day">{{act.startDate|date: 'EEE'}}</span></span>
-            <h2 ng-class="{'rest-day': act.name=='Rest Day'}">{{act.name}}</h2>
-            <i class="icon ln-chevron-down ln-fit"></i>
-          </div>
-          <div class="hide-out" ng-show="act[$index].show">
-            <div ng-bind="act.detail">Skills – feet & hips MV ladders 3x (10 cones from 20m run in) [3’] (24, 23) + (22, 21 second runs) from various
-              start points [4’ / 8’] Recovery runs on track in flats</div>
-            <div class="pull-right">
-              <button class="button button-default {{act.intensity}} uppercase button-small">{{act.intensity}}</button>
-              <button class="button button-default button-small"><i class="ln-document"></i></button>
-              <button class="button button-default button-small"><i class="ln-download"></i></button>
+        <div ng-repeat="act in Master_trainingActivityData">
+          <ion-item class="tp-activity item-text-wrap item-icon-right" ng-repeat="i in act">
+            <div ng-click="i[$parent.$index].show=!i[$parent.$index].show">
+              <span class="date">{{i.start|date: 'dd MMM'}} <span class="day">{{i.start|date: 'EEE'}}</span></span>
+              <h2 ng-class="{'rest-day': i.name=='Rest Day'}">{{i.name}}</h2>
+              <i class="icon ln-chevron-down ln-fit"></i>
             </div>
-            <div class="after-text" ng-class="{'opace': act.name=='Rest Day'}"><b>Volume:</b> 400m</div>
-          </div>
-        </ion-item>
+            <div class="hide-out" ng-show="i[$parent.$index].show">
+              <div ng-bind="i.detail">{{i.detail}}</div>
+              <div class="pull-right">
+                <button class="button button-default {{i.intensity}} uppercase button-small">{{i.intensity}}</button>
+                <button class="button button-default button-small"><i class="ln-document"></i></button>
+                <button class="button button-default button-small"><i class="ln-download"></i></button>
+              </div>
+              <div class="after-text" ng-class="{'opace': i.title=='Rest Day'}"><b>Volume:</b> {{i.volume}}</div>
+            </div>
+          </ion-item>
+        </div>
       </div>
     </div>
   </ion-content>
