@@ -14,7 +14,7 @@
                   <label for="" ng-click="searchpop();">
                      <i class="ln-chevron-down item-note"></i>
                     All</label>
-            <div class="search-holder">
+            <!--<div class="search-holder">
               <input type="text" class="form-control" ng-model="article.searchText" ng-change="searchArticle(article)" name="keyword" placeholder="Search Authors, Articles...">
               <div class="search-suggest" ng-if="article.searchText != '' && isText == true">
                 <ul class="list-unstyled">
@@ -51,9 +51,10 @@
                   </li>
                 </ul>
               </div>
-            </div>
-            <!--<input type="text" placeholder="Search" class="form-control" ng-model="article.searchText" ng-change="searchArticle(article)" name="keyword">-->
-            <i class="icon ion-search placeholder-icon" ng-click="applyFilter(article)" type="submit"></i>
+            </div>-->
+            <input type="text" placeholder="Search" class="form-control" ng-model="article.searchText" ng-change="applySearchPopup()"
+              name="keyword">
+            <i class="icon ion-search placeholder-icon" ng-model="article.searchText" ng-change="applySearchPopup()"></i>
 
             </label>
           </div>

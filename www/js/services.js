@@ -47,7 +47,7 @@ angular.module('starter.services', [])
 
       setAthleteUser: function (data) {
         _.assignIn(userProfile, data);
-        $.jStorage.set("userProfile", userProfile);
+        $.jStorage.set("userProfile", data);
         $.jStorage.set("accessToken", data.accessToken[0]);
         $.jStorage.set("accessType", "Athlete");
         requestCredentials = {

@@ -1609,21 +1609,21 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
     $scope.getAthlete = function () {
       if ($.jStorage.get('userProfile')) {
-        console.log("inside jstorage")
+        //console.log("inside jstorage")
         $scope.userData = $.jStorage.get('userProfile');
-        console.log($scope.userData);
+        // console.log($scope.userData);
       }
       if ($scope.userData) {
-        console.log("inside user");
+        // console.log("inside user");
         $scope.paramData.athlete = $scope.userData._id;
         // $scope.paramData.accessType = "Athlete";
         // $scope.paramData.accessToken = $scope.userData.accessToken[0];
-        console.log($scope.paramData);
+        // console.log($scope.paramData);
         $scope.athleteData = [];
         MyServices.getAthletePlans($scope.paramData, function (data) {
           if (data.value) {
             $scope.athleteData = data.data;
-            console.log($scope.athleteData);
+            // console.log($scope.athleteData);
             // $scope.showDiv = false;
             $scope.Aspects = data.data.Aspect;
             $scope.KeyCompetition = data.data.Competition;
@@ -1744,14 +1744,19 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         }
 
         activityDuration = 7;
+        var type;
 
         for (var p = 0; p < activityDuration; p++) {
-
-          console.log("activity", activityDuration);
           if (activitydata[k].type == 'Rest Day') {
             $scope.classColor = 'training-activity rest-day';
           } else {
             $scope.classColor = 'training-activity';
+          }
+
+          if (activitydata[k].name == 'No Activity') {
+            type = 'No Activity';
+          } else {
+            type = activitydata[k].type;
           }
           $scope.phaseActivityData.push({
             day: d + 1,
@@ -1759,14 +1764,14 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
             start: moment(startDate).add(k, 'days').toDate(),
             className: $scope.classColor,
             volume: activitydata[k].volume,
-            type: activitydata[k].type,
+            type: type,
             detail: activitydata[k].detail,
             intensity: activitydata[k].intensity,
             url: activitydata[k].attachment,
             allDay: true,
             sort: "a"
           });
-          console.log("activityData:", $scope.phaseActivityData);
+          // console.log("activityData:", $scope.phaseActivityData);
 
           k++;
         }
@@ -1828,7 +1833,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
         for (var i = 0; i < phaseDuration; i++) {
 
-          console.log("phase", phaseDuration);
+          // console.log("phase", phaseDuration);
           if (activitydata[k].type == 'Rest Day') {
             $scope.classColor = 'training-activity rest-day';
           } else {
@@ -1924,7 +1929,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         //  console.log("trainingActivityData", $scope.Master_trainingActivityData);
         //console.log("trainingActivity", $scope.trainingActivity);
       }
-      console.log("trainingActivityData", $scope.Master_trainingActivityData);
+      // console.log("trainingActivityData", $scope.Master_trainingActivityData);
       // console.log("$scope.trainingActivityData", $scope.trainingActivityData);
     };
 

@@ -1,16 +1,21 @@
 <div class="">
+  <a ng-click="closeSearchPopup();" class="cross-img"><img src="img/marketplace/crose.png"></a>
   <ion-list>
     <div class="filter-mode">
-      <ion-checkbox ng-model="categoryList" ng-change="selectCategory($index)" ng-repeat="list in categories">{{list}}</ion-checkbox>
-    </div>
+      <ion-checkbox class="item-checkbox-right" ng-model="allcategories.checked" ng-checked="allcategories.checked" ng-click="selectAllSearchPopup()">
+        All Categories
+      </ion-checkbox>
+      <ion-checkbox ng-repeat="list in categories" ng-model="category.checked" ng-checked="category.checked" class="item-checkbox-right">
+        <h2>{{list}}</h2>
+      </ion-checkbox>
   </ion-list>
   <div class="search-button">
-    <button class="button button-stable" ng-click="searchPopup();">
+    <button class="button button-stable" ng-click="selectAllSearchPopup();">
   Select All
 </button>
-    <button class="button button-stable apply" ng-click="searchPopup();">
+    <button class="button button-stable apply" ng-click="applySearchPopup();">
   Apply
 </button>
 
   </div>
-</div>
+  </div>

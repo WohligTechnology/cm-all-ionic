@@ -636,6 +636,7 @@ angular.module('marketplaceController', ['starter.services', 'checklist-model', 
     $scope.searchshow = false;
     $scope.search = function () {
       $scope.searchshow = !$scope.searchshow;
+
     };
     $scope.articleListBanner = {
       img: ' img/marketplace/article-list-landing.png',
@@ -867,6 +868,11 @@ angular.module('marketplaceController', ['starter.services', 'checklist-model', 
     $scope.closePopup = function () {
       $scope.articleopen.close();
     };
+    $scope.closeSearchPopup = function () {
+      $scope.searchopen.close();
+    };
+
+
 
     //Function to increment no of views
     $scope.increamentNoOfViews = function (id) {
@@ -1021,9 +1027,25 @@ angular.module('marketplaceController', ['starter.services', 'checklist-model', 
       });
       $scope.searchshow = !$scope.searchshow;
     }
-    $scope.searchPopup = function () {
+    $scope.applySearchPopup = function () {
       $scope.applyFilter(1)
-      $scope.searchopen.close();
+      //$scope.searchopen.close();
+    }
+
+    $scope.allcategories = {};
+    $scope.allcategories.checked = false;
+
+    $scope.selectAllSearchPopup = function () {
+      console.log("inside search all");
+      if ($scope.allcategories.checked) {
+        $scope.allcategories.checked = true;
+      } else {
+        $scope.allcategories.checked = false;
+      }
+      for (var i = 0; i < $scope.category.length; i++) {
+        $scope.category[i].checked = $scope.allcategories.checked;
+      };
+
     }
     // $scope.categories = ['Training and performance', 'Nutrition', 'Coaching', 'Parents and Guardians', 'News', 'Tips and Techniques'];
 
