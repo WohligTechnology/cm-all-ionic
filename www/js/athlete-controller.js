@@ -647,7 +647,8 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
             $scope.messages.push({
               userId: 'me',
               message: key.message,
-              time: key.time
+              time: key.time,
+              sent: true
             });
           } else {
             $scope.messages.push({
@@ -661,6 +662,30 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       })
     }
 
+    //scoket Code
+    io.socket.on("chatAdded", function (data) {
+      console.log(data);
+      var arr = _.filter($scope.message, {
+        randomVal: data.message.randomVal
+      })
+      console.log(arr);
+      if (arr.length > 0) {
+        $scope.messages = _.map($scope.message, function (n) {
+          if (n.randomVal == data.message.randomVal) {
+            n.sent = true;
+          }
+          return n;
+        });
+        $scope.$apply();
+      } else {
+        $scope.messages.push(data.message.messageObj);
+      }
+    });
+
+    io.socket.get(adminurl + "chat/getAthleteSocket", {
+      _id: athleteId
+    }, function (data) {});
+
     $scope.hideTime = true;
 
     $scope.timeStamp = function () {
@@ -672,26 +697,31 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     //Send Message 
     $scope.chatData = {}
     $scope.sendMessage = function () {
-      $scope.messages = [];
+      // $scope.messages = [];
       if ($scope.data.message !== '' && $scope.data.message) {
-        $scope.messages.push({
+        var randomNo = _.random(0, 10000);
+        var obj = _.cloneDeep($scope.data);
+        var messageObj = {
           userId: 'me',
-          message: $scope.data.message,
-          time: $scope.timeStamp()
-        });
+          message: obj.message,
+          time: $scope.timeStamp(),
+          randomVal: randomNo
+        };
       }
+      $scope.messages.push();
+      $scope.data.message = "";
       $ionicScrollDelegate.scrollBottom(true);
       $scope.chatData.coach = $scope.myCoachProfile._id;
       $scope.chatData.athlete = athleteId;
       $scope.chatData.message = {
-        message: $scope.data.message,
+        message: obj.message,
         time: $scope.timeStamp(),
-        from: "athlete"
+        from: "athlete",
+        randomVal: randomNo,
+        messageObj: messageObj
       };
       MyServices.sendChatMessages($scope.chatData, function (data) {
         console.log("send");
-        $scope.getAllMessages();
-        $scope.data.message = "";
       })
     };
 
