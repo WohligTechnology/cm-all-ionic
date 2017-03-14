@@ -3,12 +3,7 @@
     <span ng-if="currentScreen == 'List'">Training Plan</span>
     <span ng-if="currentScreen == 'Diary'">{{viewTitle}}</span>
   </ion-nav-title>
-  <!--<div class="tabs tabs-light tabs-color-positive" ng-if="athleteData.length">
-    <a class="tab-item" ng-click="changeView('agendaDay')" ng-class="{'active': activeView == 'agendaDay'}">Day</a>
-    <a class="tab-item" ng-click="changeView('agendaWeek')" ng-class="{'active': activeView == 'agendaWeek'}">Week</a>
-    <a class="tab-item" ng-click="changeView('month')" ng-class="{'active': activeView == 'month'}">Month</a>
-  </div>-->
-  <div class="tabs tabs-positive tabs-top tabs-color-light" ng-init="currentScreen = 'Diary'">
+  <div class="tabs tabs-positive tabs-top tabs-color-light">
     <a class="tab-item" ng-click="switchView('Diary')" ng-class="{'active': currentScreen == 'Diary'}">Diary View</a>
     <a class="tab-item" ng-click="switchView('List')" ng-class="{'active': currentScreen == 'List'}">List View</a>
   </div>
@@ -25,30 +20,29 @@
     <div ng-if="currentScreen == 'Diary'" class="calendar" ng-model="trainingDiary" calendar="athleteDiary" ui-calendar="uiConfig.calendar"></div>
     <div class="list diary-list" ng-if="currentScreen == 'Diary'">
       <ion-item class="item-divider">Notes</ion-item>
-      <ion-item class="item-text-wrap">Notes</ion-item>
+      <ion-item class="item-text-wrap" ng-bind-html="traniningPlan.notes"></ion-item>
       <ion-item class="item-divider">Goals &amp; Objectives</ion-item>
-      <ion-item class="item-text-wrap">Goals &amp; Objectives</ion-item>
+      <ion-item class="item-text-wrap" ng-bind-html="traniningPlan.goalsAndObjectives"></ion-item>
     </div>
     <div class="list tp-list" ng-if="currentScreen == 'List'">
-      <div ng-repeat="act in trainingPhases">
-        <ion-item class="tp-phase item-text-wrap tp-odd"><span ng-bind="act.title"></span>
-          <div class="sub">Week {{$index}}</div>
-          <div class="sub">{{act.start|date: 'dd MMM'}} To {{act.end|date: 'dd MMM'}}</div>
+      <div ng-repeat="tpd in trainingPhasesData">
+        <ion-item class="tp-phase item-text-wrap tp-odd"><span>Phase {{tpd.phaseNumber}}: {{tpd.name}}</span>
+          <div class="sub">Week {{$index+1}}</div>
         </ion-item>
-        <ion-item class="tp-activity item-text-wrap item-icon-right" ng-repeat="i in act.activity">
-          <div ng-click="i[$parent.$index].show=!i[$parent.$index].show">
-            <span class="date">{{i.start|date: 'dd MMM'}} <span class="day">{{i.start|date: 'EEE'}}</span></span>
-            <h2 ng-class="{'rest-day': i.name=='Rest Day'}">{{i.type}}</h2>
+        <ion-item class="tp-activity item-text-wrap item-icon-right" ng-repeat="act in tpd.activities">
+          <div ng-click="act[$index].show=!act[$index].show">
+            <span class="date">{{act.startDate|date: 'dd MMM'}} <span class="day">{{act.startDate|date: 'EEE'}}</span></span>
+            <h2 ng-class="{'rest-day': act.name=='Rest Day'}">{{act.name}}</h2>
             <i class="icon ln-chevron-down ln-fit"></i>
           </div>
-          <div class="hide-out" ng-show="i[$parent.$index].show">
-            <div ng-bind="i.detail">{{i.detail}}</div>
+          <div class="hide-out" ng-show="act[$index].show">
+            <div> {{act.detail||'No details provided'}}</div>
             <div class="pull-right">
-              <button class="button button-default {{i.intensity}} uppercase button-small">{{i.intensity}}</button>
+              <button class="button button-default {{act.intensity}} uppercase button-small" ng-if="act.name!='Rest Day' && act.name!='No Activity'">{{act.intensity}}</button>
               <button class="button button-default button-small"><i class="ln-document"></i></button>
               <button class="button button-default button-small"><i class="ln-download"></i></button>
             </div>
-            <div class="after-text" ng-class="{'opace': i.title=='Rest Day'}"><b>Volume:</b> {{i.volume}}</div>
+            <div class="after-text" ng-class="{'opace1': act.name == 'Rest Day','opace': act.name == 'No Activity'}"><b>Volume:</b> {{act.volume}}</div>
           </div>
         </ion-item>
       </div>

@@ -92,7 +92,7 @@ angular.module('starter.services', [])
         }).success(callback);
       },
 
-      editProfile: function (formData, callback) {
+      editProfileAthlete: function (formData, callback) {
         $http({
           url: adminurl + 'Athlete/updateAthleteProfile',
           method: 'POST',
@@ -100,7 +100,7 @@ angular.module('starter.services', [])
         }).success(callback);
       },
 
-      getProfile: function (formData, callback) {
+      getProfileAthlete: function (formData, callback) {
         $http({
           url: adminurl + 'Athlete/getAthleteProfile',
           method: 'POST',
@@ -108,7 +108,7 @@ angular.module('starter.services', [])
         }).success(callback);
       },
 
-      changePassword: function (formData, callback) {
+      changePasswordAthlete: function (formData, callback) {
         $http({
           url: adminurl + 'Athlete/resetPasswordAthlete',
           method: 'POST',
@@ -315,14 +315,6 @@ angular.module('starter.services', [])
         return userProfile;
       },
 
-      getStatic: function (formData, callback) {
-        $http({
-          url: adminurl + 'ConfigTwo/getOne',
-          method: 'POST',
-          data: formData
-        }).success(callback);
-      },
-
       registerCoach: function (formData, callback) {
         $http({
           url: adminurl + 'Coach/registerCoach',
@@ -337,21 +329,21 @@ angular.module('starter.services', [])
           data: formData
         }).success(callback);
       },
-      editProfile: function (formData, callback) {
+      editProfileCoach: function (formData, callback) {
         $http({
           url: adminurl + 'Coach/updateCoachProfile',
           method: 'POST',
           data: formData
         }).success(callback);
       },
-      getProfile: function (formData, callback) {
+      getProfileCoach: function (formData, callback) {
         $http({
           url: adminurl + 'Coach/getCoachProfile',
           method: 'POST',
           data: formData
         }).success(callback);
       },
-      changePassword: function (formData, callback) {
+      changePasswordCoach: function (formData, callback) {
         $http({
           url: adminurl + 'Coach/resetPasswordCoach',
           method: 'POST',
@@ -378,8 +370,8 @@ angular.module('starter.services', [])
       },
 
       getAthletePlans: function (formData, callback) {
-
-        $http.post(adminurl + 'Athlete/getCalenderOfAthlete', formData).success(function (data) {
+        formData = _.merge(formData, requestCredentials);
+        $http.post(adminurl + 'Athlete/generateAthleteCalender', formData).success(function (data) {
           callback(data);
         });
       },

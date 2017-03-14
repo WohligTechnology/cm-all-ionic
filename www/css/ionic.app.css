@@ -11118,17 +11118,19 @@ p.bold {
 .tp-activity {
   background-color: #ffebea;
   color: black;
-  padding-left: 65px; }
+  padding-left: 70px; }
   .tp-activity .date {
     position: absolute;
     left: 15px;
     top: 13px;
-    width: 44px;
+    width: 50px;
     font-size: 12px;
     overflow: hidden;
+    padding-right: 5px;
     font-weight: bold;
     text-transform: uppercase;
     line-height: 120%;
+    white-space: nowrap;
     border-right: 1px solid rgba(0, 0, 0, 0.35); }
   .tp-activity .icon {
     opacity: 0.35;
@@ -11158,7 +11160,7 @@ p.bold {
     font-weight: 400; }
 
 .hide-out {
-  margin: 15px -54px -16px -65px;
+  margin: 15px -54px -16px -70px;
   font-size: 14px;
   padding: 10px 15px;
   background-color: #fffcfc; }
@@ -11190,7 +11192,8 @@ p.bold {
 .rest-day {
   color: #c1271c !important; }
 
-.opace {
+.opace,
+.opace1 {
   opacity: 0; }
 
 .phaseOdd {
