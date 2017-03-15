@@ -226,7 +226,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
     //Reload Profile
     $scope.reloadProfile = function () {
-      MyServices.getProfile($scope.profileData, function (data) {
+      MyServices.getProfileCoach($scope.profileData, function (data) {
         if (data.value === true) {
           MyServices.setCoachUser(data.data);
           $scope.$broadcast('scroll.refreshComplete');
@@ -366,7 +366,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     //Submit Form
     $scope.submitData = function (formData) {
       $scope.showLoading('Please wait...', 15000);
-      MyServices.editProfile(formData, function (data) {
+      MyServices.editProfileCoach(formData, function (data) {
         if (data.value === true) {
           $scope.hideLoading();
           MyServices.setCoachUser(data.data);
@@ -415,7 +415,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     };
     $scope.submitPassword = function (formData) {
       $scope.showLoading('Please wait...', 15000);
-      MyServices.changePassword(formData, function (data) {
+      MyServices.changePasswordCoach(formData, function (data) {
         if (data.value === true) {
           $scope.passwordData = {};
           $scope.hideLoading();
