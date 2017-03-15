@@ -665,12 +665,12 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     //scoket Code
     io.socket.on("chatAdded", function (data) {
       console.log(data);
-      var arr = _.filter($scope.message, {
+      var arr = _.filter($scope.messages, {
         randomVal: data.message.randomVal
       });
 
       if (arr.length > 0) {
-        $scope.messages = _.map($scope.message, function (n) {
+        $scope.messages = _.map($scope.messages, function (n) {
           if (n.randomVal == data.message.randomVal) {
             n.sent = true;
           }
