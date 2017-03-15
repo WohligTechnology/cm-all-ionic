@@ -11,7 +11,7 @@
         <label class="item-input-wrapper"><input type="text" placeholder="Search"></label>
         <button class="button button-small icon ln-magnifier"></button>
       </ion-item>
-      <ion-item ng-repeat="athlete in chatathletes" class="small-avatar" ng-click="startChat(athlete.athlete._id)"><img ng-src="{{(athlete.athlete.profilePic | uploadpath) || 'img/img-placeholder.png'}}">{{athlete.athlete.name}}{{athlete.athlete.surname}}</ion-item>
+      <ion-item ng-repeat="athlete in chatathletes" class="small-avatar" ng-click="startChat(athlete.athlete._id)"><img ng-src="{{(athlete.athlete.profilePic | uploadpath) || 'img/img-placeholder.png'}}">{{athlete.athlete.name}} {{athlete.athlete.surname}}</ion-item>
     </ion-list>
   </ion-content>
 </ion-modal-view>
