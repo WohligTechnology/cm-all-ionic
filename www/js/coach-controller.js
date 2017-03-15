@@ -2007,10 +2007,10 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
               sent: true
             });
           }
-        })
+        });
         $ionicScrollDelegate.scrollBottom(true);
-      })
-    }
+      });
+    };
 
     $scope.getAllMessages();
 
@@ -2019,7 +2019,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       console.log(data);
       var arr = _.filter($scope.messages, {
         randomVal: data.message.randomVal
-      })
+      });
       console.log(arr);
       if (arr.length > 0) {
         $scope.messages = _.map($scope.messages, function (n) {
@@ -2028,10 +2028,12 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
           }
           return n;
         });
-        $scope.$apply();
+
       } else {
+        data.message.messageObj.userId = "he";
         $scope.messages.push(data.message.messageObj);
       }
+      $scope.$apply();
     });
 
     io.socket.get(adminurl + "chat/getCoachSocket", {
@@ -2053,7 +2055,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
           time: $scope.timeStamp(),
           randomVal: randomNo
         };
-        $scope.messages.push();
+        $scope.messages.push(messageObj);
         $scope.data.message = "";
         $ionicScrollDelegate.scrollBottom(true);
         $scope.chatData.coach = $scope.coachProfile._id;

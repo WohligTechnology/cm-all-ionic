@@ -623,7 +623,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       MyServices.getMyCoach({
         athleteId: athleteId
       }, function (response) {
-        if (response.value == true) {
+        if (response.value === true) {
           $scope.myCoachProfile = response.data.coach;
           $scope.getAllMessages();
         } else {
@@ -633,7 +633,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     }
 
     // Get all messages
-    $scope.skip = 0
+    $scope.skip = 0;
     $scope.getAllMessages = function () {
       $scope.messages = [];
       $scope.chatData.coach = $scope.myCoachProfile._id;
@@ -667,8 +667,8 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       console.log(data);
       var arr = _.filter($scope.message, {
         randomVal: data.message.randomVal
-      })
-      console.log(arr);
+      });
+
       if (arr.length > 0) {
         $scope.messages = _.map($scope.message, function (n) {
           if (n.randomVal == data.message.randomVal) {
@@ -676,10 +676,12 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
           }
           return n;
         });
-        $scope.$apply();
+
       } else {
+        data.message.messageObj.userId = "he";
         $scope.messages.push(data.message.messageObj);
       }
+      $scope.$apply();
     });
 
     io.socket.get(adminurl + "chat/getAthleteSocket", {
@@ -707,8 +709,9 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
           time: $scope.timeStamp(),
           randomVal: randomNo
         };
+        $scope.messages.push(messageObj);
       }
-      $scope.messages.push();
+
       $scope.data.message = "";
       $ionicScrollDelegate.scrollBottom(true);
       $scope.chatData.coach = $scope.myCoachProfile._id;
@@ -722,7 +725,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       };
       MyServices.sendChatMessages($scope.chatData, function (data) {
         console.log("send");
-      })
+      });
     };
 
     $scope.chatTap = function (m) {
