@@ -629,7 +629,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         } else {
           $scope.myCoachProfile = "";
         }
-      })
+      });
     }
 
     // Get all messages
@@ -650,17 +650,17 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
               time: key.time,
               sent: true
             });
-          } else {
+          } else if (key.from == "coach") {
             $scope.messages.push({
               userId: 'he',
               message: key.message,
               time: key.time
             });
           }
-        })
-        $ionicScrollDelegate.scrollBottom(true);
-      })
-    }
+        });
+        $ionicScrollDelegate.scrollBottom();
+      });
+    };
 
     //scoket Code
     io.socket.on("chatAdded", function (data) {
@@ -697,7 +697,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     };
 
     //Send Message 
-    $scope.chatData = {}
+    $scope.chatData = {};
     $scope.sendMessage = function () {
       // $scope.messages = [];
       if ($scope.data.message !== '' && $scope.data.message) {
@@ -713,7 +713,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       }
 
       $scope.data.message = "";
-      $ionicScrollDelegate.scrollBottom(true);
+      $ionicScrollDelegate.scrollBottom();
       $scope.chatData.coach = $scope.myCoachProfile._id;
       $scope.chatData.athlete = athleteId;
       $scope.chatData.message = {
@@ -799,7 +799,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         });
 
         delete $scope.data.message;
-        $ionicScrollDelegate.scrollBottom(true);
+        $ionicScrollDelegate.scrollBottom();
       }
 
     };

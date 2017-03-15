@@ -1972,7 +1972,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     var coachId = $scope.coachProfile._id;
     $scope.chatData = {};
 
-    $ionicScrollDelegate.scrollBottom(true);
+    $ionicScrollDelegate.scrollBottom();
     $scope.hideTime = true;
 
     $scope.timeStamp = function () {
@@ -1982,9 +1982,9 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     };
     // console.log($stateParams.id);
 
-    var athleteId = $stateParams.id
+    var athleteId = $stateParams.id;
     // Get all chat messages
-    $scope.skip = 0
+    $scope.skip = 0;
     $scope.getAllMessages = function () {
       $scope.messages = [];
       $scope.chatData.coach = $scope.coachProfile._id;
@@ -1999,7 +1999,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
               message: key.message,
               time: key.time,
             });
-          } else {
+          } else if (key.from == "coach") {
             $scope.messages.push({
               userId: 'me',
               message: key.message,
@@ -2008,7 +2008,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
             });
           }
         });
-        $ionicScrollDelegate.scrollBottom(true);
+        $ionicScrollDelegate.scrollBottom();
       });
     };
 
@@ -2057,7 +2057,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
         };
         $scope.messages.push(messageObj);
         $scope.data.message = "";
-        $ionicScrollDelegate.scrollBottom(true);
+        $ionicScrollDelegate.scrollBottom();
         $scope.chatData.coach = $scope.coachProfile._id;
         $scope.chatData.athlete = athleteId;
         $scope.chatData.message = {
@@ -2069,7 +2069,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
         };
         MyServices.sendChatMessages($scope.chatData, function (data) {
           console.log(data);
-        })
+        });
       }
 
     };
@@ -2145,7 +2145,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
         });
 
         delete $scope.data.message;
-        $ionicScrollDelegate.scrollBottom(true);
+        $ionicScrollDelegate.scrollBottom();
       }
 
     };
