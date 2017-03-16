@@ -1,6 +1,5 @@
-// var adminurl = "http://coachmentor.wohlig.com/api/";
+var adminurl = "http://coachmentor.wohlig.com/api/";
 // var adminurl = "http://192.168.0.101:1337/api/";
-var adminurl = "http://wohlig.io:1337/api/";
 var imgurl = adminurl + "upload/";
 
 var imgpath = imgurl + "readFile";
@@ -12,11 +11,11 @@ angular.module('starter.services', [])
     var article = {};
     this.setArticleDetails = function (data) {
       article = data;
-    }
+    };
 
     this.getArticleDetails = function () {
       return article;
-    }
+    };
   })
 
   .factory('MyServices', function ($http, $filter) {
@@ -27,13 +26,13 @@ angular.module('starter.services', [])
     // console.log(requestCredentials);
     //Start Athlete Service
     var userProfile = $.jStorage.get("userProfile");
-    // if (!userProfile) {
-    //   userProfile = {};
-    // } else {
-    //   requestCredentials = {
-    //     accessToken: $.jStorage.get("userProfile").accessToken[0],
-    //   };
-    // }
+    if (!userProfile) {
+      userProfile = {};
+    } else {
+      requestCredentials = {
+        accessToken: $.jStorage.get("userProfile").accessToken[0],
+      };
+    }
 
     var returnval = {};
 
@@ -56,6 +55,21 @@ angular.module('starter.services', [])
         };
       },
 
+      setCoachUser: function (data) {
+        _.assignIn(userProfile, data);
+        $.jStorage.set("userProfile", data);
+        $.jStorage.set("accessToken", data.accessToken[0]);
+        $.jStorage.set("accessType", "Coach");
+        requestCredentials = {
+          accessToken: data.accessToken[0],
+          accessType: "Coach"
+        };
+      },
+
+      getUser: function () {
+        return userProfile;
+      },
+
       setAccessType: function (data) {
         $.jStorage.set("accessType", data);
       },
@@ -64,9 +78,7 @@ angular.module('starter.services', [])
         return $.jStorage.get("accessType");
       },
 
-      getUser: function () {
-        return userProfile;
-      },
+
 
       register: function (formData, callback) {
         $http({
@@ -289,31 +301,6 @@ angular.module('starter.services', [])
         }).success(callback);
       },
 
-
-      // Start Coach Myservices
-
-
-      getCountries: function (callback) {
-        $http({
-          url: "json/countries.json",
-          method: 'GET',
-        }).success(callback);
-      },
-
-      setCoachUser: function (data) {
-        _.assignIn(userProfile, data);
-        $.jStorage.set("userProfile", data);
-        $.jStorage.set("accessToken", data.accessToken[0]);
-        $.jStorage.set("accessType", "Coach");
-        requestCredentials = {
-          accessToken: data.accessToken[0],
-          accessType: "Coach"
-        };
-      },
-
-      getCoachUser: function () {
-        return userProfile;
-      },
 
       registerCoach: function (formData, callback) {
         $http({

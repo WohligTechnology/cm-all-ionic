@@ -8,7 +8,7 @@
   </ion-nav-buttons>
   <ion-content class="white-profile">
     <ion-list class="stripped">
-      <ion-item ng-if="personalgoals.length == 0">No Personal Goals found.</ion-item>
+      <ion-item ng-if="personalgoals.length == 0">No Personal Goals Yet.</ion-item>
       <ion-item ng-if="personalgoals.length > 0" class="item-text-wrap item-long" ng-repeat="p in personalgoals">
         <h3>{{p.name}}</h3>
         <p class="small-font">

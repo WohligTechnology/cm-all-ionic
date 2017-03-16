@@ -553,7 +553,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
     ;
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/landing');
+    $urlRouterProvider.otherwise('/loading');
   })
 
   .filter('ageConvert', function () {

@@ -42,20 +42,6 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     };
 
   })
-  .controller('LoadingCtrl', function ($scope, $ionicModal, $timeout, $state, $rootScope, MyServices, $ionicHistory) {
-    $scope.loadingData = MyServices.getUser();
-    $scope.accessType = MyServices.getAccessType();
-
-    // if ($scope.loadingData.accessToken) {
-    //   if ($scope.accessType == 'Athlete') {
-    //     $state.go('app.athlete-profile');
-    //   } else {
-    //     $state.go('app.coach-profile');
-    //   }
-    // } else {
-    //   $state.go('landing');
-    // }
-  })
 
   .controller('LandingCtrl', function ($scope, $ionicModal, $timeout, $state, $rootScope, MyServices, $ionicHistory, $ionicSlideBoxDelegate) {
     //Athlete Login Modal
@@ -243,7 +229,6 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       MyServices.getProfileAthlete($scope.profileData, function (data) {
         if (data.value === true) {
           MyServices.setAthleteUser(data.data);
-          $scope.modal.hide();
           $scope.$broadcast('scroll.refreshComplete');
         } else {
           $scope.$broadcast('scroll.refreshComplete');
@@ -739,43 +724,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     };
 
     $scope.data = {};
-    // $scope.messages = [{
-    //   userId: 'he',
-    //   text: 'Hi Matt, how did you find the session?',
-    //   time: $scope.timeStamp()
-    // }, {
-    //   userId: 'me',
-    //   text: 'Good, I managed to hit my target times, legs are feeling quite tired now.',
-    //   time: $scope.timeStamp()
-    // }, {
-    //   userId: 'he',
-    //   text: 'Good, I suggest you rehab today ready for tomorrow’s session.',
-    //   time: $scope.timeStamp()
-    // }, {
-    //   userId: 'he',
-    //   text: 'Stretch, foam roll etc, please refer to rehab programme attached with your Training Plan',
-    //   time: $scope.timeStamp()
-    // }, {
-    //   userId: 'me',
-    //   text: 'Will do, thanks.',
-    //   time: $scope.timeStamp()
-    // }, {
-    //   userId: 'me',
-    //   text: 'James, a question regarding the session on the 27th November, you have set three sets however still struggling with the legs from last week, shall I drop a set or take the reps slower and get it finished?',
-    //   time: $scope.timeStamp()
-    // }, {
-    //   userId: 'he',
-    //   text: 'Stick with the two sets, get it done in flats. I will adapt your training plan for you.',
-    //   time: $scope.timeStamp()
-    // }, {
-    //   userId: 'me',
-    //   text: 'Thanks James',
-    //   time: $scope.timeStamp()
-    // }, {
-    //   userId: 'me',
-    //   text: 'Session complete, have submitted my times in session feedback',
-    //   time: $scope.timeStamp()
-    // }];
+
 
   })
 
@@ -890,7 +839,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
               $scope.more.Data = false;
             }
           } else {
-            $scope.showLoading('Error Loading Injurys', 2000);
+            $scope.showLoading('Error Loading Injuries', 2000);
           }
         }
       });

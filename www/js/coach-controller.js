@@ -212,7 +212,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     $ionicHistory.clearCache();
     $ionicHistory.clearHistory();
     $ionicHistory.removeBackView();
-    $scope.profileData = MyServices.getCoachUser();
+    $scope.profileData = MyServices.getUser();
     //Loading
     $scope.showLoading = function (value, time) {
       $ionicLoading.show({
@@ -281,7 +281,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
 
   .controller('CoachEditProfileCtrl', function ($scope, $state, MyServices, $ionicModal, $filter, $ionicLoading, $cordovaFileTransfer, $cordovaCamera) {
-    $scope.formData = MyServices.getCoachUser();
+    $scope.formData = MyServices.getUser();
     $scope.formData.dob = new Date($scope.formData.dob);
     $scope.dummyPassword = '12345678';
 
@@ -1610,7 +1610,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
   })
 
   .controller('CoachAthletesCoachingCtrl', function ($scope, $ionicModal, MyServices, $stateParams) {
-    $scope.profileData = MyServices.getCoachUser();
+    $scope.profileData = MyServices.getUser();
     var coachId = $scope.profileData._id;
     var i = 0;
     $scope.search = {
@@ -1667,7 +1667,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
   })
 
   .controller('CoachAthletesRequestCtrl', function ($scope, $ionicModal, MyServices, $ionicPopup) {
-    $scope.profileData = MyServices.getCoachUser();
+    $scope.profileData = MyServices.getUser();
 
     $scope.reason = function (notificationId) {
       $scope.Id = notificationId;
@@ -1809,7 +1809,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
   })
 
   .controller('CoachNotificationsCtrl', function ($scope, $ionicModal, MyServices, $ionicScrollDelegate, $ionicPopup) {
-    $scope.profileData = MyServices.getCoachUser();
+    $scope.profileData = MyServices.getUser();
     // $scope.notifications = [{
     //   name: 'Matt',
     //   surname: 'Chant',
@@ -1883,7 +1883,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
 
   .controller('CoachChatCtrl', function ($scope, $ionicModal, $state, MyServices, $stateParams) {
-    $scope.coachProfile = MyServices.getCoachUser();
+    $scope.coachProfile = MyServices.getUser();
     var coachId = $scope.coachProfile._id;
     var i = 0;
     $scope.search = {
@@ -1968,7 +1968,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
   })
 
   .controller('CoachChatDetailCtrl', function ($scope, $ionicScrollDelegate, $timeout, $stateParams, MyServices) {
-    $scope.coachProfile = MyServices.getCoachUser();
+    $scope.coachProfile = MyServices.getUser();
     var coachId = $scope.coachProfile._id;
     $scope.chatData = {};
 
