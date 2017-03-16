@@ -667,6 +667,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         $scope.messages.push(data.message.messageObj);
       }
       $scope.$apply();
+      $ionicScrollDelegate.scrollBottom();
     });
 
     io.socket.get(adminurl + "chat/getAthleteSocket", {

@@ -2034,6 +2034,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
         $scope.messages.push(data.message.messageObj);
       }
       $scope.$apply();
+      $ionicScrollDelegate.scrollBottom();
     });
 
     io.socket.get(adminurl + "chat/getCoachSocket", {
