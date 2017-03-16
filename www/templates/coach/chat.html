@@ -1,16 +1,15 @@
 <ion-view view-title="Chats">
   <ion-nav-buttons side="right">
-    <button class="button button-icon icon ln-user ln-fit" ng-click="newChat()"></button>
-    <!--<button class="button button-icon icon ln-users ln-fit" ng-click="newGroupChat()"></button>-->
+    <button class="button button-icon icon ln-user ln-fit" type="button" ng-click="newChat()"></button>
   </ion-nav-buttons>
   <ion-content>
     <ion-list>
       <ion-item ng-repeat="chat in coachChats" class="item-avatar" ui-sref="app.coach-chatdetail({id:chat.athleteId})">
         <img ng-src="{{(chat.profilePic | uploadpath) || 'img/img-placeholder.png'}}">
-        <h2>{{chat.name}}</h2>
+        <h2>{{chat.name}} {{chat.surname}}</h2>
         <p>{{chat.message[0].message}}</p>
-        <!--<span class="badge badge-assertive chat-badge">1</span>
-        <ion-option-button class="button-assertive">Delete</ion-option-button>-->
+        <span class="badge badge-assertive chat-badge" ng-if="chat.unread == 0">{{chat.unread}}</span>
+        <!--<ion-option-button class="button-assertive">Delete</ion-option-button>-->
       </ion-item>
     </ion-list>
   </ion-content>
