@@ -23,16 +23,7 @@ angular.module('starter.services', [])
       accessToken: $.jStorage.get('accessToken'),
       accessType: $.jStorage.get('accessType')
     };
-    // console.log(requestCredentials);
-    //Start Athlete Service
     var userProfile = $.jStorage.get("userProfile");
-    if (!userProfile) {
-      userProfile = {};
-    } else {
-      requestCredentials = {
-        accessToken: $.jStorage.get("userProfile").accessToken[0],
-      };
-    }
 
     var returnval = {};
 
