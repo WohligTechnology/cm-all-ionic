@@ -21,10 +21,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
         console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
       };
 
-      // window.plugins.OneSignal
-      //   .startInit("193cfb85-cbea-4101-b86f-2b1de2109086")
-      //   .handleNotificationOpened(notificationOpenedCallback)
-      //   .endInit();
+      if (window.plugins) {
+        if (window.plugins.OneSignal) {
+          window.plugins.OneSignal
+            .startInit("2e809704-b83d-4db7-b1ae-5e9faeadcc8e")
+            .handleNotificationOpened(notificationOpenedCallback)
+            .endInit();
+          window.plugins.OneSignal.getIds(function (ids) {
+            console.log('getIds: ' + JSON.stringify(ids));
+            alert("userId = " + ids.userId + ", pushToken = " + ids.pushToken);
+            $.jStorage.set('pushData', ids);
+          });
+        }
+      }
+
     });
   })
 
