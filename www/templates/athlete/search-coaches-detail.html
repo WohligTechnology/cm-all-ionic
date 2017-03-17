@@ -21,7 +21,7 @@
         <h3>Country</h3>
         <p>{{coaches.country}}</p>
       </ion-item>
-      <ion-item class="item-text-wrap">
+      <ion-item class="item-text-wrap" ng-if="coaches.dob">
         <h3>Age</h3>
         <p>{{coaches.dob | ageConvert}}</p>
       </ion-item>

@@ -1026,7 +1026,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     $scope.currentPage = 1;
     $scope.filter = {};
     var i = 0;
-    // $scope.allCoaches = [];
+    $scope.allCoaches = [];
     $scope.search = {
       keyword: ""
     };
@@ -1094,8 +1094,8 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
     //Get All coaches
     $scope.showAllCoaches = function (keywordChange) {
-      $scope.allCoaches = [];
       if (keywordChange) {
+        $scope.allCoaches = [];
         $scope.currentPage = 1;
       }
       MyServices.searchAllCoaches({
@@ -1291,22 +1291,37 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     }];
   })
 
-  .controller('AthleteCoachDetailCtrl', function ($scope, $ionicModal, $ionicScrollDelegate, MyServices, $ionicPopup) {
+  .controller('AthleteCoachDetailCtrl', function ($scope, $ionicModal, $ionicScrollDelegate, MyServices, $ionicPopup, $ionicLoading) {
     $scope.athleteData = MyServices.getUser();
     var athleteId = $scope.athleteData._id;
     $scope.unsubscribe = {};
+
+    //Loading
+    $scope.showLoading = function (value, time) {
+      $ionicLoading.show({
+        template: value,
+        duration: time
+      });
+    };
+    $scope.hideLoading = function () {
+      $ionicLoading.hide();
+    };
+    $scope.showLoading('Please wait...', 15000);
 
     $scope.myCoachProfile = undefined;
     if (athleteId) {
       MyServices.getMyCoach({
         athleteId: athleteId
       }, function (response) {
-        if (response.value == true) {
+        if (response.value === true) {
           $scope.myCoachProfile = response.data;
+          $scope.hideLoading();
         } else {
           $scope.myCoachProfile = "";
+          $scope.hideLoading();
+          $scope.showLoading('Error Loading Data!', 3000);
         }
-      })
+      });
     }
 
     $scope.Unsubscription = function (athleteCoachId) {
@@ -1336,8 +1351,8 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         // if (response.value === true) {
         // } else {
         // }
-      })
-    }
+      });
+    };
 
   })
 

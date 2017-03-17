@@ -65,7 +65,7 @@
         <button class="button button-assertive button-block" ng-click="Unsubscription(myCoachProfile._id)">Unsubscribe</button>
       </div>
     </div>
-    <ion-list ng-show="!myCoachProfile">
+    <ion-list ng-show="myCoachProfile == ''">
       <ion-item>You haven't subscribed to any Coach.</ion-item>
     </ion-list>
   </ion-content>
