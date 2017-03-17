@@ -1198,9 +1198,10 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     }
 
     $scope.filterParameteres = function () {
+      $scope.allCoaches = [];
       $scope.showAllCoaches();
       $scope.closeModal();
-    }
+    };
 
   })
 
