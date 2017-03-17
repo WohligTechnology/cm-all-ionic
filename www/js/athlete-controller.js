@@ -1459,10 +1459,11 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         duration: time
       });
     };
-
     $scope.hideLoading = function () {
       $ionicLoading.hide();
     };
+
+    $scope.showLoading('Loading...', 10000);
 
     //Feedback Modal
     $ionicModal.fromTemplateUrl('templates/athlete-modal/notes.html', {
@@ -1527,16 +1528,24 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       $scope.trainingPhasesData = [];
       var k = 0;
       for (var i = 0; i < phases.length; i++) {
-        $scope.trainingPhasesData.push({
-          name: phases[i].title,
-          phaseNumber: i + 1,
-          activities: []
-        });
+        if (i % 2 == 1) {
+          phaseType = 'tp-odd';
+        } else {
+          phaseType = 'tp-even';
+        }
+        for (var l = 0; l < phases[i].duration; l++) {
+          $scope.trainingPhasesData.push({
+            name: phases[i].title,
+            phaseNumber: i + 1,
+            className: phaseType,
+            activities: []
+          });
+        }
+
         var loopStart = 0 + k;
         var loopEnd = (trainingActivity.length / phases.length) + k;
         for (var j = loopStart; j < loopEnd; j++) {
-          console.log(loopStart, j, moment(startDate).add(j, 'days').toDate());
-
+          // console.log(loopStart, j, moment(startDate).add(j, 'days').toDate());
           if (trainingActivity[j].name == 'Rest Day') {
             $scope.trainingPhasesData[i].activities.push({
               name: trainingActivity[j].name,
@@ -1555,32 +1564,43 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
             });
           }
         }
-        k = k + trainingActivity.length / phases;
+        k = k + trainingActivity.length / phases.length;
       }
       console.log($scope.trainingPhasesData);
     };
 
     $scope.formData = {};
     $scope.formData.ID = $.jStorage.get('userProfile')._id;
+    $scope.showPlan = undefined;
+
     MyServices.getAthletePlans($scope.formData, function (data) {
-      if (data.value) {
+      if (data.value === true) {
+        $scope.hideLoading();
         console.log(data);
-        $scope.aspects = data.data.Aspect;
-        $scope.competitions = data.data.Competition;
-        $scope.tests = data.data.Test;
-        $scope.trainingActivity = data.data.TrainingActivity;
-        $scope.trainingPlan = data.data.TrainingPlan[0];
-        $scope.trainingPhases = data.data.TrainingPlan[0].phase;
-        $scope.generatePlan($scope.trainingPlan.startDate, $scope.trainingPhases, $scope.trainingActivity);
-        $scope.generateDiaryPhases($scope.trainingPlan.startDate, $scope.trainingPhases);
-        console.log($scope.trainingPlan.startDate);
+        if (data.data.TrainingPlan) {
+          $scope.showPlan = true;
+          $scope.aspects = data.data.Aspect;
+          $scope.competitions = data.data.Competition;
+          $scope.tests = data.data.Test;
+          $scope.trainingActivity = data.data.TrainingActivity;
+          $scope.trainingPlan = data.data.TrainingPlan[0];
+          $scope.trainingPhases = data.data.TrainingPlan[0].phase;
+          $scope.generatePlan($scope.trainingPlan.startDate, $scope.trainingPhases, $scope.trainingActivity);
+          $scope.generateDiaryPhases($scope.trainingPlan.startDate, $scope.trainingPhases);
+          console.log($scope.trainingPlan.startDate);
+        } else {
+          $scope.showPlan = false;
+        }
+
       } else {
+        $scope.hideLoading();
+        $scope.showLoading('Error loading Training Diary!', 2000)
         console.log(data);
       }
     });
 
     //View Switcher
-    $scope.currentScreen = 'Diary';
+    $scope.currentScreen = 'List';
     $scope.switchView = function (val) {
       $scope.currentScreen = val;
     };
@@ -1759,6 +1779,6 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       $scope.modal.hide();
     };
 
-  })
+  });
 
 //end of Athlete controller

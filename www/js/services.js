@@ -1,6 +1,5 @@
-//var adminurl = "http://coachmentor.wohlig.com/api/";
-//var adminurl = "192.168.43.92:1337/api/";
-var adminurl = "http://wohlig.io/api/";
+var adminurl = "http://coachmentor.wohlig.com/api/";
+// var adminurl = "http://192.168.0.101:1337/api/";
 var imgurl = adminurl + "upload/";
 
 var imgpath = imgurl + "readFile";
@@ -24,16 +23,7 @@ angular.module('starter.services', [])
     accessToken: $.jStorage.get('accessToken'),
     accessType: $.jStorage.get('accessType')
   };
-  // console.log(requestCredentials);
-  //Start Athlete Service
   var userProfile = $.jStorage.get("userProfile");
-  if (!userProfile) {
-    userProfile = {};
-  } else {
-    requestCredentials = {
-      accessToken: $.jStorage.get("userProfile").accessToken[0],
-    };
-  }
 
   var returnval = {};
 
@@ -653,16 +643,6 @@ angular.module('starter.services', [])
       formData = _.merge(formData, requestCredentials);
       $http({
         url: adminurl + 'Chat/getCoachChats',
-        method: 'POST',
-        data: formData
-      }).success(callback);
-    },
-
-    //To get training plan
-    searchTrainingPlan: function (formData, callback) {
-      formData = _.merge(formData, requestCredentials);
-      $http({
-        url: adminurl + 'masterTrainingPlan/search',
         method: 'POST',
         data: formData
       }).success(callback);
