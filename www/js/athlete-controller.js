@@ -1450,7 +1450,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
   })
 
 
-  .controller('AthleteTrainingDiaryCtrl', function ($scope, $ionicModal, $ionicLoading, uiCalendarConfig, MyServices) {
+  .controller('AthleteTrainingDiaryCtrl', function ($scope, $ionicModal, $ionicLoading, uiCalendarConfig, MyServices, $ionicScrollDelegate, $timeout, $filter) {
 
     //Loading
     $scope.showLoading = function (value, time) {
@@ -1475,9 +1475,27 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     $scope.openModal = function () {
       $scope.modal.show();
     };
-
     $scope.closeModal = function () {
       $scope.modal.hide();
+    };
+
+    //Event Click Modal
+    $ionicModal.fromTemplateUrl('templates/modal-event-click.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.modal1 = modal;
+    });
+    $scope.openEvent = function (event) {
+      console.log(event);
+      if (event.type == 'clickable') {
+        $scope.eventInfo = event;
+        $scope.modal1.show();
+      }
+
+    };
+    $scope.closeEvent = function () {
+      $scope.modal1.hide();
     };
 
     $scope.phase = [];
@@ -1503,22 +1521,56 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       }
       console.log($scope.phase);
     };
+    $scope.aspects = [];
+    $scope.competitions = [];
+    $scope.tests = [];
 
-    $scope.generateDiary = function (aspects, competition, tests) {
-      for (var i = 0; i < phases.length; i++) {
-        var compClass;
-        if (i % 2 == 1) {
-          compClass = 'competitions';
-        } else {
-          compClass = 'keyCompetitions';
-        }
+    $scope.generateDiary = function (aspects, competitions, tests) {
+      for (var i = 0; i < aspects.length; i++) {
         $scope.aspects.push({
-          title: aspects[i].title,
-          start: moment(startDate, 'DD-MM-YYYY').toDate(),
-          end: moment(startDate, 'DD-MM-YYYY').add(i, 'days').toDate(),
-          className: phaseClass,
+          type: 'clickable',
+          title: aspects[i].name,
+          start: moment(aspects[i].startDate).toDate(),
+          end: moment(aspects[i].endDate).toDate(),
+          details: aspects[i].details,
+          className: ['aspects'],
           allDay: true,
-          sort: "a"
+          sort: "m"
+        });
+      }
+
+      for (var j = 0; j < competitions.length; j++) {
+        var compClass;
+        var compSort;
+        if (competitions[j].isKey === true) {
+          compClass = 'keyCompetitions';
+          compSort = "g";
+        } else if (competitions[j].isKey === false) {
+          compClass = "competitions";
+          compSort = "h";
+        }
+        $scope.competitions.push({
+          type: 'clickable',
+          title: competitions[j].name,
+          start: moment(competitions[j].startDate).toDate(),
+          end: moment(competitions[j].endDate).toDate(),
+          details: competitions[j].details,
+          className: compClass,
+          allDay: true,
+          sort: compSort
+        });
+      }
+
+      for (var k = 0; k < tests.length; k++) {
+        $scope.tests.push({
+          type: 'clickable',
+          title: tests[k].name,
+          start: moment(tests[k].startDate).toDate(),
+          end: moment(tests[k].endDate).toDate(),
+          details: tests[k].details,
+          className: ['tests'],
+          allDay: true,
+          sort: "j"
         });
       }
     };
@@ -1560,7 +1612,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
               detail: trainingActivity[j].detail,
               volume: trainingActivity[j].volume,
               intensity: trainingActivity[j].intensity,
-              startDate: moment(startDate, 'DD-MM-YYYY').add(j, 'days').toDate(),
+              startDate: moment(startDate).add(j, 'days').toDate(),
             });
           }
         }
@@ -1579,22 +1631,27 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         console.log(data);
         if (data.data.TrainingPlan) {
           $scope.showPlan = true;
-          $scope.aspects = data.data.Aspect;
-          $scope.competitions = data.data.Competition;
-          $scope.tests = data.data.Test;
           $scope.trainingActivity = data.data.TrainingActivity;
           $scope.trainingPlan = data.data.TrainingPlan[0];
           $scope.trainingPhases = data.data.TrainingPlan[0].phase;
           $scope.generatePlan($scope.trainingPlan.startDate, $scope.trainingPhases, $scope.trainingActivity);
           $scope.generateDiaryPhases($scope.trainingPlan.startDate, $scope.trainingPhases);
+          $scope.generateDiary(data.data.Aspect, data.data.Competition, data.data.Test);
           console.log($scope.trainingPlan.startDate);
+          $timeout(function () {
+            var todayScroll = new Date();
+            todayScroll = 'scroll' + $filter('date')(todayScroll, 'ddMMyy');
+            console.log(todayScroll);
+            var delegateHandle = $ionicScrollDelegate.$getByHandle('listScroll');
+            delegateHandle.anchorScroll(todayScroll);
+          }, 2000);
         } else {
           $scope.showPlan = false;
         }
 
       } else {
         $scope.hideLoading();
-        $scope.showLoading('Error loading Training Diary!', 2000)
+        $scope.showLoading('Error loading Training Diary!', 2000);
         console.log(data);
       }
     });
@@ -1631,40 +1688,14 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         firstDay: 1,
         height: 450,
         editable: false,
-        eventClick: $scope.dairyClick,
+        eventClick: $scope.openEvent,
         viewRender: function (view) {
           $scope.viewTitle = view.title;
         }
       }
     };
 
-
-
-
-    $scope.trainingDiary = [$scope.phase];
-
-
-
-    // $scope.trainingPhasesData = [{
-    //   name: 'General Prep (GPE)',
-    //   duration: 1,
-    //   activities: [{
-    //       name: 'Circuits',
-    //       detail: 'Skills – feet & hips MV ladders 3x (10 cones from 20m run in) [3’]  (24, 23) + (22, 21 second runs) from various start points [4’ / 8’] Recovery runs on track in flats',
-    //       volume: '400m',
-    //       intensity: 'Low',
-    //       startDate: moment('13-02-2017', 'DD-MM-YYYY').toDate(),
-    //     },
-    //     {
-    //       name: 'Rest Day',
-    //       detail: 'No Training',
-    //       volume: '',
-    //       intensity: '',
-    //       startDate: moment('13-02-2017', 'DD-MM-YYYY').add(2, 'days').toDate(),
-    //     },
-    //   ]
-    // }];
-
+    $scope.trainingDiary = [$scope.phase, $scope.aspects, $scope.competitions, $scope.tests];
 
   })
 

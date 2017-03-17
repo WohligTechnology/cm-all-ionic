@@ -11168,6 +11168,22 @@ p.bold {
 .after-text {
   padding-top: 10px; }
 
+.tests {
+  background-color: #1a9ae4;
+  border-color: #1a9ae4; }
+
+.competitions {
+  background-color: #eae327;
+  border-color: #eae327; }
+
+.keyCompetitions {
+  background-color: #d6bd19;
+  border-color: #d6bd19; }
+
+.aspects {
+  background-color: #f78963;
+  border-color: #f78963; }
+
 .button.Low {
   background-color: #f3ffe9;
   color: #396316 !important;

@@ -16,7 +16,7 @@
       <button class="button button-clear button-icon ln-download ln-fit"></button>
     </div>
   </ion-nav-buttons>
-  <ion-content ng-class="{'has-tabs-top': showPlan}">
+  <ion-content ng-class="{'has-tabs-top': showPlan}" delegate-handle="listScroll">
     <ion-list ng-if="showPlan == false">
       <ion-item>
         No Training Plan Assigned.
@@ -35,7 +35,7 @@
           <ion-item class="tp-phase item item-text-wrap {{tpd.className}}"><span>Phase {{tpd.phaseNumber}}: {{tpd.name}}</span>
             <div class="sub">Week {{$index+1}}</div>
           </ion-item>
-          <ion-item class="tp-activity item-text-wrap item-icon-right" ng-repeat="act in tpd.activities">
+          <ion-item class="tp-activity item-text-wrap item-icon-right" id="scroll{{act.startDate|date: 'ddMMyy'}}" ng-repeat="act in tpd.activities">
             <div ng-click="act[$index].show=!act[$index].show">
               <span class="date">{{act.startDate|date: 'dd MMM'}} <span class="day">{{act.startDate|date: 'EEE'}}</span></span>
               <h2 ng-class="{'rest-day': act.name=='Rest Day'}">{{act.name}}</h2>

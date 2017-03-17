@@ -1754,6 +1754,26 @@ $mediumBG: #fffdea;
 $mediumColor: #887f27;
 $phaseOdd: #0da183;
 $phaseEven: #14a7ac;
+.tests {
+  background-color: $tests;
+  border-color: $tests;
+}
+
+.competitions {
+  background-color: $competitions;
+  border-color: $competitions;
+}
+
+.keyCompetitions {
+  background-color: $keyCompetitions;
+  border-color: $keyCompetitions;
+}
+
+.aspects {
+  background-color: $aspects;
+  border-color: $aspects;
+}
+
 .button {
   &.Low {
     background-color: $lowBG;
