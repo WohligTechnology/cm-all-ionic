@@ -9,7 +9,7 @@
         <button class="button button-small icon ln-magnifier" type="submit"></button>
       </form>
       <ion-item ng-if="allCoaches.length == 0 && !more.Data">
-        No Injuries found.
+        No Coaches Found.
       </ion-item>
       <ion-item class="item-avatar" ui-sref="app.athlete-search-coaches-detail({id:c._id})" ng-repeat="c in allCoaches">
         <img ng-src="{{(c.profilePic|uploadpath)||'img/img-placeholder.png'}}">
