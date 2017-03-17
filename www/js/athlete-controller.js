@@ -581,27 +581,47 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
   })
 
-  .controller('AthleteChatCtrl', function ($scope, $ionicModal, $state) {
-    $ionicModal.fromTemplateUrl('templates/coach-modal/athlete-chat.html', {
-      id: 1,
-      scope: $scope,
-      animation: 'slide-in-up'
-    }).then(function (modal) {
-      $scope.modalChat = modal;
-    });
-    $scope.newChat = function () {
-      $scope.modalChat.show();
-    };
-
+  .controller('AthleteChatCtrl', function ($scope, $ionicModal, $state, MyServices) {
+    $scope.athleteData = MyServices.getUser();
     $scope.startChat = function () {
       $state.go('app.athlete-chatdetail');
       $scope.modalChat.hide();
     };
+    var athleteId = $scope.athleteData._id;
+    $scope.myCoachProfile = {};
+    if (athleteId) {
+      MyServices.getMyCoach({
+        athleteId: athleteId
+      }, function (response) {
+        if (response.value === true) {
+          $scope.myCoachProfile = response.data.coach;
+        } else {
+          $scope.myCoachProfile = "";
+        }
+      });
+    };
+
+    MyServices.getUnreadChatCount({
+      _id: athleteId
+    }, function (response) {
+      console.log(response);
+      $scope.unreadcount = response.data.UnreadCount;
+      $.jStorage.set('chatID', response.data.latestChat[0]._id);
+    });
+
+
+
   })
 
   .controller('AthleteChatDetailCtrl', function ($scope, $ionicScrollDelegate, $timeout, MyServices) {
     $scope.athleteData = MyServices.getUser();
     var athleteId = $scope.athleteData._id;
+
+    MyServices.updateReadStatus({
+      _id: $.jStorage.get('chatID')
+    }, function (response) {
+      console.log('read');
+    })
 
     // $scope.myCoachProfile = {};
     if (athleteId) {

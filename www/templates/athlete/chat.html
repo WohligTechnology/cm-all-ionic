@@ -2,10 +2,11 @@
   <ion-content>
     <ion-list>
       <ion-item class="item-avatar" ui-sref="app.athlete-chatdetail">
-        <img src="img/coach/james-coney.jpg">
-        <h2>James Coney</h2>
+        <img ng-src="{{(myCoachProfile.profilePic | uploadpath)||'img/img-placeholder.png'}}">
+        <!--<img src="{{(myCoachProfile.coach.profilePic | uploadpath)}}">-->
+        <h2>{{myCoachProfile.name}}{{myCoachProfile.surname}}</h2>
         <p>Session complete, have submitted my times in session feedback</p>
-        <span class="badge badge-assertive chat-badge">1</span>
+        <span class="badge badge-assertive chat-badge">{{unreadcount}}</span>
       </ion-item>
     </ion-list>
   </ion-content>
