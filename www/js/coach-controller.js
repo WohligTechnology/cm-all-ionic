@@ -831,21 +831,35 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
 .controller('CoachCompetitionCreateCtrl', function ($scope, $ionicModal, $ionicLoading, MyServices, $ionicPopup, $stateParams, $filter, $state) {
   $scope.title = 'Create';
-  $scope.selectAthlete = {};
+  //$scope.selectAthlete = {};
+  $scope.selectTrainingPlan = {};
+  $scope.selectTrainingPlan.array = [];
   $scope.formData = {
     iskey: false
   };
   $scope.today = $filter('date')(new Date(), 'yyyy-MM-dd');
-
-  $scope.allMTrainingPlan = ["HIII", "HEllo"];
 
   //Match start date & end date
   $scope.matchDate = function () {
     $scope.formData.endDate = $scope.formData.startDate;
   };
 
-  //Select Athletes Modal
-  $ionicModal.fromTemplateUrl('templates/coach-modal/add-athlete.html', {
+  //Select Athletes Modal 
+  // $ionicModal.fromTemplateUrl('templates/coach-modal/add-athlete.html', {
+  //   scope: $scope,
+  //   animation: 'slide-in-up'
+  // }).then(function (modal) {
+  //   $scope.modal = modal;
+  // });
+  // $scope.closeModal = function () {
+  //   $scope.modal.hide();
+  // };
+  // $scope.addAthlete = function () {
+  //   $scope.modal.show();
+  //   $scope.getAthlete('');
+  // };
+
+  $ionicModal.fromTemplateUrl('templates/coach-modal/add-trainingPlan.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function (modal) {
@@ -854,30 +868,39 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
   $scope.closeModal = function () {
     $scope.modal.hide();
   };
-  $scope.addAthlete = function () {
+  $scope.addTrainingPlan = function () {
     $scope.modal.show();
-    $scope.getAthlete('');
+    $scope.getTrainingPlan('');
   };
   //Search Athlete API
   var j = 0;
-  $scope.getAthlete = function (search) {
-    MyServices.searchAthlete({
+  $scope.getTrainingPlan = function (search) {
+    MyServices.searchTrainingPlan({
       keyword: search
-    }, ++j, function (data, ci) {
-      if (ci == j) {
-        $scope.athletes = data.data.results;
+    }, function (data) {
+      if (data.value) {
+        $scope.trainingPlan = data.data.results;
       }
     });
   };
   //Remove Selected Athlete
-  $scope.removeAthlete = function (pos) {
-    $scope.formData.athlete.splice(pos, 1);
-  };
+  // $scope.removeAthlete = function (pos) {
+  //   $scope.formData.athlete.splice(pos, 1);
+  // };
   //Match Selected
-  $scope.matchAthlete = function () {
-    $scope.formData.athlete = $scope.selectAthlete.array;
-  };
+  // $scope.matchAthlete = function () {
+  //   $scope.formData.athlete = $scope.selectAthlete.array;
+  // };
 
+  $scope.removeTrainingPlan = function (pos) {
+    $scope.formData.masterTrainingPlan.splice(pos, 1);
+  };
+  $scope.formData.masterTrainingPlan = [];
+  $scope.matchTrainingPlan = function (data) {
+    console.log(data);
+    //_.assign($scope.formData.trainingPlan, data)
+    $scope.formData.masterTrainingPlan = data;
+  };
 
   //Loading
   $scope.showLoading = function (value, time) {
@@ -905,38 +928,16 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     });
   };
 
-  var i = 0;
-  $scope.search = {
-    keyword: ""
-  };
-
-  $scope.getMasterTrainingPlan = function (keywordChange) {
-    $scope.totalItems = undefined;
-    if (keywordChange) {
-      $scope.currentPage = 1;
-    }
-    MyServices.searchTrainingPlan({
-      page: $scope.currentPage,
-      keyword: $scope.search.keyword
-    }, ++i, function (data, ini) {
-      if (ini == i) {
-        $scope.allMTrainingPlan = data.data.results;
-        $scope.formData.masetrPlanArray = data.data.results;
-        $scope.totalItems = data.data.total;
-        $scope.maxRow = data.data.options.count;
-      }
-    });
-  };
-
-  $scope.getMasterTrainingPlan(1);
-
 })
 
 .controller('CoachCompetitionDetailCtrl', function ($scope, $ionicModal, $ionicLoading, MyServices, $ionicPopup, $stateParams, $filter, $state) {
   $scope.title = 'Edit';
-  $scope.formData = {};
-  $scope.selectAthlete = {};
+  //$scope.formData = {};
   $scope.competitionId = $stateParams.id;
+  //$scope.selectAthlete = {};
+  $scope.selectTrainingPlan = {};
+  $scope.selectTrainingPlan.array = [];
+  $scope.formData = {};
   $scope.today = $filter('date')(new Date(), 'yyyy-MM-dd');
 
   //Match start date & end date
@@ -944,8 +945,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     $scope.formData.endDate = $scope.formData.startDate;
   };
 
-  //Select Athletes
-  $ionicModal.fromTemplateUrl('templates/coach-modal/add-athlete.html', {
+  $ionicModal.fromTemplateUrl('templates/coach-modal/add-trainingPlan.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function (modal) {
@@ -954,28 +954,38 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
   $scope.closeModal = function () {
     $scope.modal.hide();
   };
-  $scope.addAthlete = function () {
+  $scope.addTrainingPlan = function () {
     $scope.modal.show();
-    $scope.getAthlete('');
+    $scope.getTrainingPlan('');
   };
   //Search Athlete API
   var j = 0;
-  $scope.getAthlete = function (search) {
-    MyServices.searchAthlete({
+  $scope.getTrainingPlan = function (search) {
+    MyServices.searchTrainingPlan({
       keyword: search
-    }, ++j, function (data, ci) {
-      if (ci == j) {
-        $scope.athletes = data.data.results;
+    }, function (data) {
+      if (data.value) {
+        $scope.trainingPlan = data.data.results;
       }
     });
   };
   //Remove Selected Athlete
-  $scope.removeAthlete = function (pos) {
-    $scope.formData.athlete.splice(pos, 1);
-  };
+  // $scope.removeAthlete = function (pos) {
+  //   $scope.formData.athlete.splice(pos, 1);
+  // };
   //Match Selected
-  $scope.matchAthlete = function () {
-    $scope.formData.athlete = $scope.selectAthlete.array;
+  // $scope.matchAthlete = function () {
+  //   $scope.formData.athlete = $scope.selectAthlete.array;
+  // };
+
+  $scope.removeTrainingPlan = function (pos) {
+    $scope.formData.trainingPlan.splice(pos, 1);
+  };
+  $scope.formData.trainingPlan = [];
+  $scope.matchTrainingPlan = function (data) {
+    console.log(data);
+    //_.assign($scope.formData.trainingPlan, data)
+    $scope.formData.trainingPlan = data;
   };
 
   //Loading
@@ -1011,7 +1021,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     }, function (response) {
       if (response.data) {
         $scope.formData = response.data;
-        $scope.selectAthlete.array = $scope.formData.athlete = response.data.athlete;
+        $scope.selectTrainingPlan.array = $scope.formData.trainingPlan = response.data.masterTrainingPlan;
         if ($scope.formData.startDate) {
           $scope.formData.startDate = new Date($scope.formData.startDate);
           $scope.formData.endDate = new Date($scope.formData.endDate);
@@ -1166,10 +1176,10 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
 .controller('CoachTestingCreateCtrl', function ($scope, $ionicModal, $ionicLoading, MyServices, $ionicPopup, $stateParams, $filter, $state) {
   $scope.title = 'Create';
-  $scope.selectAthlete = {};
-  $scope.formData = {
-    iskey: false
-  };
+  //$scope.selectAthlete = {};
+  $scope.selectTrainingPlan = {};
+  $scope.selectTrainingPlan.array = [];
+  $scope.formData = {};
   $scope.today = $filter('date')(new Date(), 'yyyy-MM-dd');
 
   //Match start date & end date
@@ -1177,8 +1187,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     $scope.formData.endDate = $scope.formData.startDate;
   };
 
-  //Select Athletes Modal
-  $ionicModal.fromTemplateUrl('templates/coach-modal/add-athlete.html', {
+  $ionicModal.fromTemplateUrl('templates/coach-modal/add-trainingPlan.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function (modal) {
@@ -1187,34 +1196,31 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
   $scope.closeModal = function () {
     $scope.modal.hide();
   };
-  $scope.addAthlete = function () {
+  $scope.addTrainingPlan = function () {
     $scope.modal.show();
-    $scope.getAthlete('');
+    $scope.getTrainingPlan('');
   };
   //Search Athlete API
   var j = 0;
-  $scope.getAthlete = function (search) {
-    $scope.athletes = [];
-    MyServices.searchAthlete({
+  $scope.getTrainingPlan = function (search) {
+    MyServices.searchTrainingPlan({
       keyword: search
-    }, ++j, function (data, ci) {
-      if (ci == j) {
-        _.each(data.data.results, function (key) {
-            $scope.athletes.push(key.athlete);
-          })
-          // $scope.athletes = data.data.results;
+    }, function (data) {
+      if (data.value) {
+        $scope.trainingPlan = data.data.results;
       }
     });
   };
-  //Remove Selected Athlete
-  $scope.removeAthlete = function (pos) {
-    $scope.formData.newathlete.splice(pos, 1);
-  };
-  //Match Selected
-  $scope.matchAthlete = function () {
-    $scope.formData.newathlete = $scope.selectAthlete.array;
-  };
 
+  $scope.removeTrainingPlan = function (pos) {
+    $scope.formData.masterTrainingPlan.splice(pos, 1);
+  };
+  $scope.formData.masterTrainingPlan = [];
+  $scope.matchTrainingPlan = function (data) {
+    console.log(data);
+    //_.assign($scope.formData.trainingPlan, data)
+    $scope.formData.masterTrainingPlan = data;
+  };
 
   //Loading
   $scope.showLoading = function (value, time) {
@@ -1229,11 +1235,11 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
   //Submit Form
   $scope.submitData = function (formData) {
-    if (formData.newathlete) {
-      formData.athlete = _.map($scope.formData.newathlete, function (key) {
-        return key._id;
-      });
-    }
+    // if (formData.newathlete) {
+    //   formData.athlete = _.map($scope.formData.newathlete, function (key) {
+    //     return key._id;
+    //   });
+    // }
     $scope.showLoading('Please wait...', 15000);
     MyServices.saveTest(formData, function (data) {
       if (data.value === true) {
@@ -1250,9 +1256,12 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
 .controller('CoachTestingDetailCtrl', function ($scope, $ionicModal, $ionicLoading, MyServices, $ionicPopup, $stateParams, $filter, $state) {
   $scope.title = 'Edit';
-  $scope.formData = {};
-  $scope.selectAthlete = {};
+  //$scope.formData = {};
   $scope.testId = $stateParams.id;
+  //$scope.selectAthlete = {};
+  $scope.selectTrainingPlan = {};
+  $scope.selectTrainingPlan.array = [];
+  $scope.formData = {};
   $scope.today = $filter('date')(new Date(), 'yyyy-MM-dd');
 
   //Match start date & end date
@@ -1260,8 +1269,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     $scope.formData.endDate = $scope.formData.startDate;
   };
 
-  //Select Athletes
-  $ionicModal.fromTemplateUrl('templates/coach-modal/add-athlete.html', {
+  $ionicModal.fromTemplateUrl('templates/coach-modal/add-trainingPlan.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function (modal) {
@@ -1270,32 +1278,38 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
   $scope.closeModal = function () {
     $scope.modal.hide();
   };
-  $scope.addAthlete = function () {
+  $scope.addTrainingPlan = function () {
     $scope.modal.show();
-    $scope.getAthlete('');
+    $scope.getTrainingPlan('');
   };
   //Search Athlete API
   var j = 0;
-  $scope.getAthlete = function (search) {
-    $scope.athletes = [];
-    MyServices.searchAthlete({
+  $scope.getTrainingPlan = function (search) {
+    MyServices.searchTrainingPlan({
       keyword: search
-    }, ++j, function (data, ci) {
-      if (ci == j) {
-        _.each(data.data.results, function (key) {
-            $scope.athletes.push(key.athlete);
-          })
-          // $scope.athletes = data.data.results;
+    }, function (data) {
+      if (data.value) {
+        $scope.trainingPlan = data.data.results;
       }
     });
   };
   //Remove Selected Athlete
-  $scope.removeAthlete = function (pos) {
-    $scope.formData.newathlete.splice(pos, 1);
-  };
+  // $scope.removeAthlete = function (pos) {
+  //   $scope.formData.athlete.splice(pos, 1);
+  // };
   //Match Selected
-  $scope.matchAthlete = function () {
-    $scope.formData.newathlete = $scope.selectAthlete.array;
+  // $scope.matchAthlete = function () {
+  //   $scope.formData.athlete = $scope.selectAthlete.array;
+  // };
+
+  $scope.removeTrainingPlan = function (pos) {
+    $scope.formData.trainingPlan.splice(pos, 1);
+  };
+  $scope.formData.trainingPlan = [];
+  $scope.matchTrainingPlan = function (data) {
+    console.log(data);
+    //_.assign($scope.formData.trainingPlan, data)
+    $scope.formData.trainingPlan = data;
   };
 
   //Loading
@@ -1336,7 +1350,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     }, function (response) {
       if (response.data) {
         $scope.formData = response.data;
-        $scope.selectAthlete.array = $scope.formData.newathlete = response.data.athlete;
+        $scope.selectTrainingPlan.array = $scope.formData.trainingPlan = response.data.masterTrainingPlan;
         if ($scope.formData.startDate) {
           $scope.formData.startDate = new Date($scope.formData.startDate);
           $scope.formData.endDate = new Date($scope.formData.endDate);

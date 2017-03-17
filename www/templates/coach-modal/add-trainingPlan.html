@@ -1,0 +1,23 @@
+<ion-modal-view>
+  <ion-header-bar class="bar-positive bar bar-header">
+    <div class="buttons">
+      <button class="button button-clear ln-fit" type="button" ng-click="matchTrainingPlan(selectTrainingPlan.array);closeModal();">Save</button>
+    </div>
+    <h1 class="title">Select Training Plan</h1>
+    <div class="buttons">
+      <button class="button button-clear ln-fit" ng-click="closeModal();">Cancel</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <ion-list>
+      <form ng-click="getTrainingPlan(searchData.keyword)" class="item item-input-inset">
+        <label class="item-input-wrapper"><input type="search" placeholder="Training Plan Name" name="tp" ng-change="getTrainingPlan(searchData.keyword);" ng-model="searchData.keyword"></label>
+        <button class="button button-small icon ln-magnifier" type="submit"></button>
+      </form>
+      <li class="item item-checkbox" ng-repeat="t in trainingPlan">
+        {{t.name}}
+        <label class="checkbox"><input type="checkbox" checklist-model="selectTrainingPlan.array" checklist-value="t"> </label>
+      </li>
+    </ion-list>
+  </ion-content>
+</ion-modal-view>

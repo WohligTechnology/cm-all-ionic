@@ -1,6 +1,6 @@
 <ion-view view-title="{{title}} Test">
   <ion-nav-buttons side="right">
-    <button class="button button-icon ion-ios-trash-outline" ng-click="deletePop(competitionId);" type="buttton" ng-if="title == 'Edit'"></button>
+    <button class="button button-icon ion-ios-trash-outline" ng-click="deletePop(testId);" type="buttton" ng-if="title == 'Edit'"></button>
   </ion-nav-buttons>
   <ion-content>
     <form name="formName" ng-submit="submitData(formData);">
@@ -25,11 +25,16 @@
           <textarea auto-grow type="details" name="details" ng-model="formData.details" ng-maxlength="1200" required></textarea>
           <span class="error-msg" ng-show="formName.details.$invalid && formName.details.$touched">Invalid Competition Details</span>
         </ion-item>
-        <div class="item item-divider item-icon-right" ng-click="addAthlete();">Add Athletes <i class="icon ion-ios-plus-empty"></i></div>
+        <!--<div class="item item-divider item-icon-right" ng-click="addAthlete();">Add Athletes <i class="icon ion-ios-plus-empty"></i></div>
         <ion-item class="item-name item-avatar item-icon-right" ng-repeat="d in formData.newathlete" ng-if="formData.newathlete">
           <img ng-src="{{(d.profilePic|uploadpath) || 'img/img-placeholder.png'}}">
           <h2>{{d.name}} {{d.athlete.surname}}</h2>
           <i class="icon ion-ios-trash-outline" ng-click="removeAthlete($index);"></i>
+        </ion-item>-->
+        <div class="item item-divider item-icon-right" ng-click="addTrainingPlan();">Add Training Plan<i class="icon ion-ios-plus-empty"></i></div>
+        <ion-item class="item-name item-icon-right" ng-repeat="d in formData.masterTrainingPlan" ng-if="formData.masterTrainingPlan">
+          <h2>{{d.name}}</h2>
+          <i class="icon ion-ios-trash-outline" ng-click="removeTrainingPlan($index);"></i>
         </ion-item>
       </ion-list>
       <div class="padding-horizontal">
