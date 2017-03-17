@@ -26,12 +26,19 @@
           <textarea auto-grow type="details" name="details" ng-model="formData.details" ng-maxlength="1200" required></textarea>
           <span class="error-msg" ng-show="formName.details.$invalid && formName.details.$touched">Invalid Competition Details</span>
         </ion-item>
-        <div class="item item-divider item-icon-right" ng-click="addAthlete();">Add Athletes <i class="icon ion-ios-plus-empty"></i></div>
+        <!--<div class="item item-divider item-icon-right" ng-click="addAthlete();">Add Athletes <i class="icon ion-ios-plus-empty"></i></div>
         <ion-item class="item-name item-avatar item-icon-right" ng-repeat="d in formData.athlete" ng-if="formData.athlete">
           <img ng-src="{{(d.profilePic|uploadpath) || 'img/img-placeholder.png'}}">
           <h2>{{d.name}} {{d.surname}}</h2>
           <i class="icon ion-ios-trash-outline" ng-click="removeAthlete($index);"></i>
-        </ion-item>
+        </ion-item>-->
+        <div class="item item-divider item-icon-right">Add Training Plan</div>
+        <ui-select multiple tagging ng-model="formName.masetrPlanArray" theme="bootstrap" on-select="addMTPlan($select)" sortable="true">
+          <ui-select-match placeholder="Select">{{$item.name}}</ui-select-match>
+          <ui-select-choices repeat="t in allMTrainingPlan" refresh="getMasterTrainingPlan($select.search)" refresh-delay="0">
+            <span ng-bind-html="t.name | highlight: $select.search"></span>
+          </ui-select-choices>
+        </ui-select>
       </ion-list>
       <div class="padding-horizontal">
         <button class="button button-positive button-block" type="submit" ng-disabled="formName.$invalid">Save</button>
