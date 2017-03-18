@@ -40,6 +40,17 @@
             <input type="date" name="dob" ng-model="formData.dob" max="{{maxDate}}" required>
             <span class="error-msg" ng-show="formName.dob.$invalid && formName.dob.$touched">Please enter valid Date of Birth</span>
           </label>
+          <ion-item class="item-text-wrap multi-select" ng-class="{'err': formData.athleteFocus == ''}">
+            <h3>Coaching Focus</h3>
+            <p>
+              <div class="tag-box-label" ng-repeat="c in athleteFocus">
+                <input type="checkbox" id="{{c}}" checklist-model="formData.athleteFocus" checklist-value="c" name="athleteFocus">
+                <label for="{{c}}">{{c}}</label>
+              </div>
+            </p>
+            <input type="hidden" name="athleteFocus" ng-model="formData.athleteFocus[0]" required>
+            <span class="error-msg" ng-show="formName.athleteFocus.$invalid && formName.athleteFocus.$touched">Please select Coaching Focus</span>
+          </ion-item>
           <div class="item item-divider small-text" ng-if="profileIncomplete()">
             Please enter below details to complete your profile.
           </div>

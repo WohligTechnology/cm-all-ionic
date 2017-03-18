@@ -130,6 +130,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
         }
       })
 
+      .state('app.athlete-service-form', {
+        url: '/athlete/form/:id',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/athlete/service-form.html',
+            controller: 'ServiceFormCtrl'
+          }
+        }
+      })
+
       .state('app.athlete-chat', {
         url: '/athlete/chat',
         views: {

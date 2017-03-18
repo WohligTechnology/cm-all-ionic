@@ -48,6 +48,15 @@
             <input type="date" name="dob" ng-model="formData.dob" max="{{maxDate}}" required>
             <span class="error-msg" ng-show="formName.dob.$invalid && formName.dob.$touched">Please enter valid Date of Birth</span>
           </label>
+          <ion-item class="item-text-wrap multi-select" ng-class="{'err': formData.athleteFocus == ''}">
+            <h3>Athlete Focus</h3>
+            <div class="tag-box-label" ng-repeat="c in athleteFocus">
+              <input type="checkbox" id="{{c}}" checklist-model="formData.athleteFocus" checklist-value="c" name="{{c}}">
+              <label for="{{c}}">{{c}}</label>
+            </div>
+            <input type="hidden" name="athleteFocus" ng-model="formData.athleteFocus[0]" required>
+            <span class="error-msg" ng-show="formData.athleteFocus == ''">Please select Coaching Focus</span>
+          </ion-item>
           <label class="item item-input item-select" ng-class="{'err': formName.gender.$invalid && formName.gender.$touched}">
             <span class="input-label">Gender</span>
             <select name="gender" ng-model="formData.gender" ng-options="g as g for g in gender" required>

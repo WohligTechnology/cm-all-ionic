@@ -286,6 +286,10 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
     $scope.gender = ['Male', 'Female'];
 
+    $scope.athleteFocus = [
+      'Sprinting', 'Middle Distance', 'Endurance', 'Throws', 'Jumps', 'Hurdles', 'Race Walking', 'Hill/Fell Running', 'Cross Country', 'Triathlon'
+    ];
+
     $scope.onlyAplha = /^[a-zA-Z_]+$/;
     $scope.validEmail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
@@ -1421,7 +1425,21 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
   })
 
-  .controller('AthleteNotificationsCtrl', function ($scope, MyServices, $ionicModal, $ionicScrollDelegate, $ionicPopup) {
+  .controller('AthleteNotificationsCtrl', function ($scope, MyServices, $ionicModal, $ionicScrollDelegate, $ionicPopup, $ionicLoading) {
+
+    //Loading
+    $scope.showLoading = function (value, time) {
+      $ionicLoading.show({
+        template: value,
+        duration: time
+      });
+    };
+    $scope.hideLoading = function () {
+      $ionicLoading.hide();
+    };
+
+    $scope.showLoading('Loading...', 10000);
+
     $scope.athleteData = MyServices.getUser();
     var i = 0;
 
@@ -1437,6 +1455,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       }, ++i, function (response, ini) {
         if (ini == i) {
           if (response.value == true) {
+            $scope.hideLoading();
             $scope.isAthlete = true;
             $scope.athletenotifications = response.data.results;;
             $scope.notificationCount = response.data.unreadcount;
@@ -1445,11 +1464,12 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
           } else {
             $scope.athletenotifications = [];
+            $scope.hideLoading();
           }
         }
 
-      })
-    }
+      });
+    };
     $scope.showAthleteNotification(athlete);
 
     $scope.readNotification = function () {
@@ -1785,6 +1805,10 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
     $scope.gender = ['Male', 'Female'];
 
+    $scope.athleteFocus = [
+      'Sprinting', 'Middle Distance', 'Endurance', 'Throws', 'Jumps', 'Hurdles', 'Race Walking', 'Hill/Fell Running', 'Cross Country', 'Triathlon'
+    ];
+
     $scope.maxDate = $filter('date')(new Date(), 'yyyy-MM-dd');
 
     $scope.onlyAplha = /^[a-zA-Z_]+$/;
@@ -1890,6 +1914,13 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       $scope.modal.hide();
     };
 
-  });
+  })
+
+
+  .controller('ServiceFormCtrl', function ($scope, $state, $ionicPopup, MyServices, $ionicLoading, $filter, $ionicModal) {
+
+  })
+
+;
 
 //end of Athlete controller

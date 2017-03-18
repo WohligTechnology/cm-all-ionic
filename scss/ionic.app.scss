@@ -1826,3 +1826,16 @@ $phaseEven: #14a7ac;
   border-radius: 0px;
   text-align: center;
 }
+
+.html-bind {
+  ol,
+  ul {
+    padding-left: 20px;
+  }
+  ol {
+    list-style: decimal;
+  }
+  ul {
+    list-style: inherit;
+  }
+}
