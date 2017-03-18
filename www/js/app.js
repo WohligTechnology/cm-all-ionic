@@ -29,7 +29,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
             .endInit();
           window.plugins.OneSignal.getIds(function (ids) {
             console.log('getIds: ' + JSON.stringify(ids));
-            alert("userId = " + ids.userId + ", pushToken = " + ids.pushToken);
+            // alert("userId = " + ids.userId + ", pushToken = " + ids.pushToken);
             $.jStorage.set('pushData', ids);
           });
         }
