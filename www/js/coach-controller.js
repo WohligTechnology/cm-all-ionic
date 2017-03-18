@@ -2055,6 +2055,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     };
     // console.log($stateParams.id);
     var athleteId = $stateParams.id;
+    $scope.myAthlete = $stateParams.name;
 
     function updateReadStatus() {
       console.log("$scope.chatId>>>>>>>>>>>>>", $scope.chatId)

@@ -5,8 +5,8 @@
       <ion-item class="item-avatar" ng-click="getChatDetails();">
         <img ng-src="{{(myCoachProfile.profilePic | uploadpath)||'img/img-placeholder.png'}}">
         <!--<img src="{{(myCoachProfile.coach.profilePic | uploadpath)}}">-->
-        <h2>{{myCoachProfile.name}}{{myCoachProfile.surname}}</h2>
-        <p>Session complete, have submitted my times in session feedback</p>
+        <h2>{{myCoachProfile.name}} {{myCoachProfile.surname}}</h2>
+
         <span class="badge badge-assertive chat-badge">{{unreadcount}}</span>
       </ion-item>
     </ion-list>
