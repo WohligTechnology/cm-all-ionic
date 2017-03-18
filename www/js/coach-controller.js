@@ -2038,6 +2038,16 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     };
     // console.log($stateParams.id);
 
+    function updateReadStatus() {
+
+      MyServices.updateReadStatus({
+        _id: $scope.chatId,
+        from: "athlete"
+      }, function (response) {
+        console.log('read');
+      })
+    }
+
 
     //Function to get chat id
 
@@ -2059,12 +2069,14 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
               time: key.time,
             });
 
-            MyServices.updateReadStatus({
-              _id: data.data[0]._id,
-              from: "athlete"
-            }, function (response) {
-              console.log('read');
-            })
+            $scope.chatId = data.data[0]._id;
+            updateReadStatus();
+            // MyServices.updateReadStatus({
+            //   _id: data.data[0]._id,
+            //   from: "athlete"
+            // }, function (response) {
+            //   console.log('read');
+            // })
           } else if (key.from == "coach") {
             $scope.messages.push({
               userId: 'me',
@@ -2080,6 +2092,12 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
     $scope.getAllMessages();
 
+    io.socket.on("statusChangedToRead", function (data) {
+      $scope.messages = _.map($scope.messages, function (n) {
+        n.isRead = true;
+        return n;
+      });
+    });
 
     io.socket.on("chatAdded", function (data) {
       console.log(data);
@@ -2098,6 +2116,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       } else {
         data.message.messageObj.userId = "he";
         $scope.messages.push(data.message.messageObj);
+        updateReadStatus();
       }
       $scope.$apply();
       $ionicScrollDelegate.scrollBottom();
@@ -2134,6 +2153,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
           randomVal: randomNo,
           messageObj: messageObj
         };
+        $scope.chatData.sentMessageTo = "athlete";
         MyServices.sendChatMessages($scope.chatData, function (data) {
           console.log(data);
         });
