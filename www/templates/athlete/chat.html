@@ -1,7 +1,8 @@
 <ion-view view-title="Chats">
   <ion-content>
     <ion-list>
-      <ion-item class="item-avatar" ui-sref="app.athlete-chatdetail">
+      <!--<ion-item class="item-avatar" ui-sref="app.athlete-chatdetail">-->
+      <ion-item class="item-avatar" ng-click="getChatDetails();">
         <img ng-src="{{(myCoachProfile.profilePic | uploadpath)||'img/img-placeholder.png'}}">
         <!--<img src="{{(myCoachProfile.coach.profilePic | uploadpath)}}">-->
         <h2>{{myCoachProfile.name}}{{myCoachProfile.surname}}</h2>

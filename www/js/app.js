@@ -141,7 +141,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
       })
 
       .state('app.athlete-chatdetail', {
-        url: '/athlete/chat/detail',
+        url: '/athlete/chat/detail/:chatId',
         views: {
           'menuContent': {
             templateUrl: 'templates/athlete/chat-detail.html',
