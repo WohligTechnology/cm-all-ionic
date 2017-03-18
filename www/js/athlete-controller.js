@@ -606,8 +606,14 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
             coachId: $scope.myCoachProfile._id
           }, function (response) {
             console.log(response);
-            $scope.unreadcount = response.data.UnreadCount;
-            $scope.chatId = response.data.latestChat[0]._id;
+            if (response.value) {
+              $scope.unreadcount = response.data.UnreadCount;
+              if (response.data.latestChat != undefined) {
+                $scope.chatId = response.data.latestChat[0]._id;
+                console.log("$scope.chatId===========", $scope.chatId);
+              }
+
+            }
             // if (response.data.length > 0) {
             //   $.jStorage.set('chatID', response.data.latestChat[0]._id);
             // }
@@ -660,7 +666,8 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     function updateReadStatus() {
 
       MyServices.updateReadStatus({
-        _id: chatId,
+        athleteId: athleteId,
+        coachId: $scope.chatData.coach,
         from: "coach"
       }, function (response) {
         console.log('read');
@@ -711,6 +718,8 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         n.isRead = true;
         return n;
       });
+      console.log(" $scope.messages", $scope.messages);
+      $scope.$apply();
     });
     //scoket Code
     io.socket.on("chatAdded", function (data) {
@@ -765,7 +774,8 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         $scope.messages.push(messageObj);
       }
 
-      $scope.data.message = "";
+      //$scope.data.message = "";
+      $scope.data.message = undefined;
       $ionicScrollDelegate.scrollBottom();
       $scope.chatData.coach = $scope.myCoachProfile._id;
       $scope.chatData.athlete = athleteId;

@@ -2037,11 +2037,13 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       return d;
     };
     // console.log($stateParams.id);
+    var athleteId = $stateParams.id;
 
     function updateReadStatus() {
-
+      console.log("$scope.chatId>>>>>>>>>>>>>", $scope.chatId)
       MyServices.updateReadStatus({
-        _id: $scope.chatId,
+        athleteId: athleteId,
+        coachId: coachId,
         from: "athlete"
       }, function (response) {
         console.log('read');
@@ -2051,7 +2053,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
     //Function to get chat id
 
-    var athleteId = $stateParams.id;
+
     // Get all chat messages
     $scope.skip = 0;
     $scope.getAllMessages = function () {
@@ -2086,6 +2088,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
             });
           }
         });
+        //updateReadStatus();
         $ionicScrollDelegate.scrollBottom();
       });
     };
@@ -2097,6 +2100,8 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
         n.isRead = true;
         return n;
       });
+      console.log("kjdfkljsadkfjsadf", $scope.messages);
+      $scope.$apply();
     });
 
     io.socket.on("chatAdded", function (data) {
@@ -2142,7 +2147,8 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
           randomVal: randomNo
         };
         $scope.messages.push(messageObj);
-        $scope.data.message = "";
+        //$scope.data.message = "";
+        $scope.data.message = undefined;
         $ionicScrollDelegate.scrollBottom();
         $scope.chatData.coach = $scope.coachProfile._id;
         $scope.chatData.athlete = athleteId;
