@@ -11227,3 +11227,13 @@ p.bold {
   padding: 0 1px;
   border-radius: 0px;
   text-align: center; }
+
+.html-bind ol,
+.html-bind ul {
+  padding-left: 20px; }
+
+.html-bind ol {
+  list-style: decimal; }
+
+.html-bind ul {
+  list-style: inherit; }

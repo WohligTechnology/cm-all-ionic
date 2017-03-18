@@ -9,6 +9,7 @@
       </div>
     </div>
     <ion-list class="stripped">
+
       <ion-item class="item-text-wrap">
         <h3>Asking Price (/mo.)</h3>
         <p>{{coaches.coachAskingPrice | currency:'£':0}}</p>
@@ -28,6 +29,10 @@
       <ion-item class="item-text-wrap">
         <h3>Gender</h3>
         <p>{{coaches.gender}}</p>
+      </ion-item>
+      <ion-item class="item-text-wrap item-long" ng-if="coaches.coachOffers">
+        <h3>Coach Offerings</h3>
+        <div class="html-bind" ng-bind-html="coaches.coachOffers"></div>
       </ion-item>
       <ion-item class="item-text-wrap item-long">
         <h3>Coaching Focus</h3>
