@@ -47,6 +47,12 @@
         <h3>Date of Birth</h3>
         <p>{{profileData.dob | date:'dd MMMM, yyyy'}}</p>
       </ion-item>
+      <ion-item class="item-text-wrap item-long">
+        <h3>Athlete Focus</h3>
+        <p>
+          <span class="tag-box" ng-repeat="c in profileData.athleteFocus">{{c}}</span>
+        </p>
+      </ion-item>
       <ion-item class="item-text-wrap item-long" ng-if="profileData.sports">
         <h3>Sport</h3>
         <p class="text-justified" read-more="profileData.sports" read-more-limit="140"></p>
