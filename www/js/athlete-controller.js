@@ -286,6 +286,10 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
     $scope.gender = ['Male', 'Female'];
 
+    $scope.athleteFocus = [
+      'Sprinting', 'Middle Distance', 'Endurance', 'Throws', 'Jumps', 'Hurdles', 'Race Walking', 'Hill/Fell Running', 'Cross Country', 'Triathlon'
+    ];
+
     $scope.onlyAplha = /^[a-zA-Z_]+$/;
     $scope.validEmail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
@@ -1770,6 +1774,10 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
     $scope.gender = ['Male', 'Female'];
 
+    $scope.athleteFocus = [
+      'Sprinting', 'Middle Distance', 'Endurance', 'Throws', 'Jumps', 'Hurdles', 'Race Walking', 'Hill/Fell Running', 'Cross Country', 'Triathlon'
+    ];
+
     $scope.maxDate = $filter('date')(new Date(), 'yyyy-MM-dd');
 
     $scope.onlyAplha = /^[a-zA-Z_]+$/;
@@ -1875,6 +1883,13 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       $scope.modal.hide();
     };
 
-  });
+  })
+
+
+  .controller('ServiceFormCtrl', function ($scope, $state, $ionicPopup, MyServices, $ionicLoading, $filter, $ionicModal) {
+
+  })
+
+;
 
 //end of Athlete controller
