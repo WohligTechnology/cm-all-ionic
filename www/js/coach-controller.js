@@ -662,11 +662,11 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       MyServices.updateBlog(formData, function (data) {
         if (data.value === true) {
           $scope.hideLoading();
-          $scope.showLoading('Blog Edited', 2000);
+          $scope.showLoading('Coach Updates Edited', 2000);
           $state.go('app.coach-blog');
         } else {
           $scope.hideLoading();
-          $scope.showLoading('Error Editing Blog', 2000);
+          $scope.showLoading('Error Editing Coach Updates', 2000);
         }
       });
     };
