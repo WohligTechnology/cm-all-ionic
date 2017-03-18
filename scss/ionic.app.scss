@@ -1828,9 +1828,25 @@ $phaseEven: #14a7ac;
 }
 
 .html-bind {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #666;
+  }
+  font-size: 14px;
+  color: #666;
   ol,
   ul {
     padding-left: 20px;
+    font-size: 14px;
+    color: #666;
+  }
+  p {
+    font-size: 14px;
+    color: #666;
   }
   ol {
     list-style: decimal;

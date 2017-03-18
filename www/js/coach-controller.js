@@ -213,6 +213,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     $ionicHistory.clearHistory();
     $ionicHistory.removeBackView();
     $scope.profileData = MyServices.getUser();
+    console.log($scope.profileData);
     //Loading
     $scope.showLoading = function (value, time) {
       $ionicLoading.show({
@@ -1850,7 +1851,19 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     };
   })
 
-  .controller('CoachNotificationsCtrl', function ($scope, $ionicModal, MyServices, $ionicScrollDelegate, $ionicPopup) {
+  .controller('CoachNotificationsCtrl', function ($scope, $ionicModal, MyServices, $ionicScrollDelegate, $ionicPopup, $ionicLoading) {
+    //Loading
+    $scope.showLoading = function (value, time) {
+      $ionicLoading.show({
+        template: value,
+        duration: time
+      });
+    };
+    $scope.hideLoading = function () {
+      $ionicLoading.hide();
+    };
+
+    $scope.showLoading('Loading...', 10000);
     $scope.profileData = MyServices.getUser();
     // $scope.notifications = [{
     //   name: 'Matt',
@@ -1878,6 +1891,8 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       }, ++i, function (response, ini) {
         if (ini == i) {
           if (response.value == true) {
+            $scope.hideLoading();
+
             $scope.isAthlete = false;
             $scope.coachnotifications = response.data.results;
             $scope.notificationCount = response.data.unreadcount;
@@ -1885,11 +1900,13 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
             $scope.totalItems = response.data.total;
 
           } else {
+            $scope.hideLoading();
+
             $scope.coachnotifications = [];
           }
         }
 
-      })
+      });
     };
 
     // $scope.showCoachNotification(coach);

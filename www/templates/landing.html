@@ -80,30 +80,26 @@
                 <button class="button button-full button-assertive" ng-click="openModalCoachSignin();">
               Signup as Coach for Free
                 </button>
-                <button class=" button button-full button-clear " ng-click="openModalCoachLogin();">
-                  or <span class="bold ">Login</span>
+                <button class=" button button-full button-clear" ng-click="openModalCoachLogin();">
+                  or <span class="bold">Login</span>
                   </button>
               </div>
             </div>
           </div>
         </ion-slide>
         <ion-slide>
-          <div class="landing-slide marketplace-landing ">
-            <div class="logo text-center mt15 ">
-              <img src="img/logo-landing.png " alt="Coach Mentor ">
+          <div class="landing-slide marketplace-landing">
+            <div class="logo text-center mt15">
+              <img src="img/logo-landing.png" alt="Coach Mentor">
             </div>
-            <div class="text-center mt15 ">
-              <h3 class="upper bold ">Marketplace</h3>
-              <p class="upper ">
+            <div class="text-center mt15">
+              <h3 class="upper bold">Marketplace</h3>
+              <p class="upper">
                 Search and read articles, search our database for service providers or upcoming events and competitions
               </p>
-              <div class="landing-btn p20 ">
-                <button class="button button-full button-assertive " ui-sref="app.marketplace-articles">
-            Get Started
-                </button>
-                <!--<button class="button button-full button-clear ">
-                  <span class="bold ">Login</span> or <span class="bold ">Signup</span>
-                  </button>-->
+              <div class="landing-btn p20">
+                <!--<button class="button button-full button-assertive" ui-sref="app.marketplace-articles">Get Started</button>-->
+                <button class="button button-full button-assertive">Coming Soon</button>
               </div>
             </div>
           </div>
@@ -111,11 +107,11 @@
       </ion-slide-box>
     </div>
   </ion-content>
-  <div class="bar bar-footer landing-footer ">
-    <div class="button-bar ">
-      <button class="button button-positive " ng-class="{active: $index==slideIndex} " ng-click="pagerClicks($index)" ng-repeat="sliderpage in numbermade track by $index ">{{sliderpage.name}}</button>
-      <!--<button class="button button-positive " ng-class="{active: $index==c urrentSlide} " ng-click="pagerClick($index) ">Coach</button>
-      <button class="button button-positive " ng-class="{active: $index==c urrentSlide} " ng-click="pagerClick($index) ">Marketplace</button>-->
+  <div class="bar bar-footer landing-footer">
+    <div class="button-bar">
+      <button class="button button-positive" ng-class="{active: $index==slideIndex}" ng-click="pagerClicks($index)" ng-repeat="sliderpage in numbermade track by $index">{{sliderpage.name}}</button>
+      <!--<button class="button button-positive" ng-class="{active: $index==c urrentSlide}" ng-click="pagerClick($index)">Coach</button>
+      <button class="button button-positive" ng-class="{active: $index==c urrentSlide}" ng-click="pagerClick($index)">Marketplace</button>-->
     </div>
   </div>
 </ion-view>

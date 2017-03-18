@@ -59,7 +59,8 @@ angular.module('starter.services', [])
       },
 
       getUser: function () {
-        return userProfile;
+        var sendUser = $.jStorage.get("userProfile");
+        return sendUser;
       },
 
       setAccessType: function (data) {
