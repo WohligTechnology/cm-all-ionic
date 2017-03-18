@@ -4,7 +4,7 @@
   </ion-nav-buttons>
   <ion-content class="blog-detail">
     <form ng-if="searchBlog" ng-submit="searchChange(search.keyword)" class="item item-input-inset">
-      <label class="item-input-wrapper"><input type="search" ng-change="searchChange(search.keyword)" ng-model="search.keyword" placeholder="Blog Title"></label>
+      <label class="item-input-wrapper"><input type="search" ng-change="searchChange(search.keyword)" ng-model="search.keyword" placeholder="Search here..."></label>
       <button class="button button-small icon ln-magnifier" type="submit"></button>
     </form>
     <div class="list" ng-if="allBlog.length == 0 && !more.Data">
