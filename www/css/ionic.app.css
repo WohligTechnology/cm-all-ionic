@@ -11228,12 +11228,25 @@ p.bold {
   border-radius: 0px;
   text-align: center; }
 
-.html-bind ol,
-.html-bind ul {
-  padding-left: 20px; }
-
-.html-bind ol {
-  list-style: decimal; }
-
-.html-bind ul {
-  list-style: inherit; }
+.html-bind {
+  font-size: 14px;
+  color: #666; }
+  .html-bind h1,
+  .html-bind h2,
+  .html-bind h3,
+  .html-bind h4,
+  .html-bind h5,
+  .html-bind h6 {
+    color: #666; }
+  .html-bind ol,
+  .html-bind ul {
+    padding-left: 20px;
+    font-size: 14px;
+    color: #666; }
+  .html-bind p {
+    font-size: 14px;
+    color: #666; }
+  .html-bind ol {
+    list-style: decimal; }
+  .html-bind ul {
+    list-style: inherit; }

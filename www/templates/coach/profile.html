@@ -80,6 +80,10 @@
         <h3>Coaching Achievements</h3>
         <p class="text-justified" read-more="profileData.achievements" read-more-limit="140"></p>
       </ion-item>
+      <ion-item class="item-text-wrap item-long" ng-if="profileData.coachOffers">
+        <h3>Coach Offerings</h3>
+        <div class="html-bind" ng-bind-html="profileData.coachOffers"></div>
+      </ion-item>
     </ion-list>
   </ion-content>
 </ion-view>

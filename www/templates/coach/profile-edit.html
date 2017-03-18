@@ -71,8 +71,14 @@
           </label>
           <label class="item item-input item-block" ng-class="{'err':formName.name.$invalid && formName.name.$touched}">
             <span class="input-label">Free Text CV</span>
-            <textarea auto-grow rows="2" name="freeTextCV" ng-model="formData.freeTextCV"  maxlength="1200" required></textarea>
-            <span class="error-msg" ng-show="formName.freeTextCV.$invalid && formName.freeTextCV.$touched">Please enter valid Free Text CV</span>
+            <div class="html-bind" ng-bind-html="formData.freeTextCV"></div>
+            <!--<textarea auto-grow rows="2" name="freeTextCV" ng-model="formData.freeTextCV"  maxlength="1200" required></textarea>-->
+            <!--<span class="error-msg" ng-show="formName.freeTextCV.$invalid && formName.freeTextCV.$touched">Please enter valid Free Text CV</span>-->
+          </label>
+          <label class="item item-input item-block" ng-class="{'err':formName.name.$invalid && formName.name.$touched}">
+            <span class="input-label">Coach Offerings</span>
+            <div class="html-bind" ng-bind-html="formData.coachOffers"></div>
+            <!--<textarea auto-grow rows="2" name="freeTextCV" ng-model="formData.freeTextCV"  maxlength="1200" required></textarea>-->
           </label>
           <ion-item class="item-text-wrap multi-select" ng-class="{'err': formData.coachingFocus == ''}">
             <h3>Coaching Focus</h3>
