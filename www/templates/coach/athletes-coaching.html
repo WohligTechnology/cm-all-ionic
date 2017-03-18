@@ -6,10 +6,10 @@
   </ion-nav-buttons>
   <ion-content start-y="53">
     <ion-list>
-      <ion-item class="item-input-inset">
+      <!--<ion-item class="item-input-inset">
         <label class="item-input-wrapper"><input type="text" placeholder="Athlete Name"></label>
         <button class="button button-small icon ln-magnifier"></button>
-      </ion-item>
+      </ion-item>-->
       <ion-item class="item-avatar" ui-sref="app.coach-athletes-coaching-detail({athleteId:myathletes.athlete._id})" ng-repeat="myathletes in athletecoaching">
         <img ng-src="{{(myathletes.athlete.profilePic | uploadpath) || 'img/img-placeholder.png'}}">
         <h2>{{myathletes.athlete.name}} {{myathletes.athlete.surname}}</h2>
