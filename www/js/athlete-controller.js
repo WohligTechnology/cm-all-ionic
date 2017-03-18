@@ -595,33 +595,49 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       }, function (response) {
         if (response.value === true) {
           $scope.myCoachProfile = response.data.coach;
+
+          //To get chat id. Because outsite this coach id is undefined
+          MyServices.getUnreadChatCount({
+            athleteId: athleteId,
+            coachId: $scope.myCoachProfile._id
+          }, function (response) {
+            console.log(response);
+            $scope.unreadcount = response.data.UnreadCount;
+            $scope.chatId = response.data.latestChat[0]._id;
+            // if (response.data.length > 0) {
+            //   $.jStorage.set('chatID', response.data.latestChat[0]._id);
+            // }
+          });
         } else {
           $scope.myCoachProfile = "";
         }
       });
     };
 
-    MyServices.getUnreadChatCount({
-      _id: athleteId
-    }, function (response) {
-      console.log(response);
-      $scope.unreadcount = response.data.UnreadCount;
-      $.jStorage.set('chatID', response.data.latestChat[0]._id);
-    });
+    $scope.getChatDetails = function () {
+      $state.go('app.athlete-chatdetail', {
+        chatId: $scope.chatId
+      });
+    }
+
+    // console.log("$scope.myCoachProfile._id", $scope.myCoachProfile._id);
+    // console.log("athleteId", athleteId);
+    // MyServices.getUnreadChatCount({
+    //   athleteId: athleteId,
+    //   coachId: $scope.myCoachProfile._id
+    // }, function (response) {
+    //   console.log(response);
+    //   $scope.unreadcount = response.data.UnreadCount;
+    //   $.jStorage.set('chatID', response.data.latestChat[0]._id);
+    // });
 
 
 
   })
 
-  .controller('AthleteChatDetailCtrl', function ($scope, $ionicScrollDelegate, $timeout, MyServices) {
+  .controller('AthleteChatDetailCtrl', function ($scope, $ionicScrollDelegate, $stateParams, $timeout, MyServices) {
     $scope.athleteData = MyServices.getUser();
     var athleteId = $scope.athleteData._id;
-
-    MyServices.updateReadStatus({
-      _id: $.jStorage.get('chatID')
-    }, function (response) {
-      console.log('read');
-    })
 
     // $scope.myCoachProfile = {};
     if (athleteId) {
@@ -645,25 +661,38 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       $scope.chatData.athlete = athleteId;
       $scope.chatData.skip = $scope.skip;
       MyServices.getAllmessages($scope.chatData, function (data) {
-        $scope.chatMsgs = data.data[0].message;
-        console.log("$scope.chatMsgs", $scope.chatMsgs);
-        _.each($scope.chatMsgs, function (key) {
-          if (key.from == "athlete") {
-            $scope.messages.push({
-              userId: 'me',
-              message: key.message,
-              time: key.time,
-              sent: true
-            });
-          } else if (key.from == "coach") {
-            $scope.messages.push({
-              userId: 'he',
-              message: key.message,
-              time: key.time
-            });
-          }
-        });
-        $ionicScrollDelegate.scrollBottom();
+        if (data.data.length > 0) {
+          $scope.chatMsgs = data.data[0].message;
+          console.log("$scope.chatMsgs", $scope.chatMsgs);
+          _.each($scope.chatMsgs, function (key) {
+            if (key.from == "athlete") {
+              $scope.messages.push({
+                userId: 'me',
+                message: key.message,
+                time: key.time,
+                sent: true
+              });
+            } else if (key.from == "coach") {
+              $scope.messages.push({
+                userId: 'he',
+                message: key.message,
+                time: key.time
+              });
+              var chatId = $stateParams.chatId;
+              MyServices.updateReadStatus({
+                _id: chatId,
+                from: "coach"
+              }, function (response) {
+                console.log('read');
+              })
+
+            }
+          });
+          $ionicScrollDelegate.scrollBottom();
+        } else {
+          $scope.chatMsgs = [];
+        }
+
       });
     };
 

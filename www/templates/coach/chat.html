@@ -4,7 +4,7 @@
   </ion-nav-buttons>
   <ion-content>
     <ion-list>
-      <ion-item ng-repeat="chat in coachChats" class="item-avatar" ui-sref="app.coach-chatdetail({id:chat.athleteId})">
+      <ion-item ng-repeat="chat in coachChats" ng-if="coachChats.length>0" class="item-avatar" ui-sref="app.coach-chatdetail({id:chat.athleteId})">
         <img ng-src="{{(chat.profilePic | uploadpath) || 'img/img-placeholder.png'}}">
         <h2>{{chat.name}} {{chat.surname}}</h2>
         <p>{{chat.message[0].message}}</p>
