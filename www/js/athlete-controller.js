@@ -1630,16 +1630,17 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
     //Feedback Modal
     $ionicModal.fromTemplateUrl('templates/athlete-modal/notes.html', {
+      id: 1,
       scope: $scope,
       animation: 'slide-in-up'
     }).then(function (modal) {
-      $scope.modal = modal;
+      $scope.noteModal = modal;
     });
-    $scope.openModal = function () {
-      $scope.modal.show();
+    $scope.openNotes = function () {
+      $scope.noteModal.show();
     };
-    $scope.closeModal = function () {
-      $scope.modal.hide();
+    $scope.closeNotes = function () {
+      $scope.noteModal.hide();
     };
 
     //Event Click Modal
@@ -1823,6 +1824,19 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     $scope.currentScreen = 'List';
     $scope.switchView = function (val) {
       $scope.currentScreen = val;
+    };
+
+    //Note Switcher
+    $scope.currentNote = 'Athlete';
+    $scope.switchNote = function (val) {
+      $scope.currentNote = val;
+      $scope.currentType = 'Shared';
+    };
+
+    //Type Switcher
+    $scope.currentType = 'Shared';
+    $scope.switchType = function (val) {
+      $scope.currentType = val;
     };
 
     // $scope.showLoading('Loading...', 10000);

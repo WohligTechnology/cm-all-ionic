@@ -1,1 +1,28 @@
-
+<ion-modal-view>
+  <ion-header-bar class="bar-positive bar bar-header">
+    <h1 class="title">Notes</h1>
+    <div class="buttons">
+      <button class="button button-clear button-icon ln-cross ln-fit" type="button" ng-click="closeNotes()"></button>
+    </div>
+  </ion-header-bar>
+  <div class="tabs tabs-positive tabs-top tabs-color-light">
+    <a class="tab-item" ng-click="switchNote('Athlete')" ng-class="{'active': currentNote == 'Athlete'}">Athlete</a>
+    <a class="tab-item" ng-click="switchNote('Coach')" ng-class="{'active': currentNote == 'Coach'}">Coach</a>
+  </div>
+  <ion-content class="has-tabs-top">
+    <div class="row text-center nopad">
+      <div class="col" ng-click="switchType('Shared');" ng-class="{'checkd': currentType == 'Shared'}"><i class="icon ion-android-arrow-dropright" ng-if="currentType=='Shared'"></i> Shared</div>
+      <div class="col" ng-click="switchType('Personal');" ng-class="{'checkd': currentType == 'Personal'}" ng-if="currentNote !='Coach'"><i class="icon ion-android-arrow-dropright" ng-if="currentType=='Personal'"></i> Personal</div>
+    </div>
+    <form name="noteBox" ng-submit="submitnote(noteData.data);closeModal();">
+      <ion-list>
+        <ion-item class="item-input item-stacked-label" ng-class="{'err': noteBox.data.$invalid && noteBox.data.$touched}">
+          <textarea auto-grow name="data" ng-model="noteData.data" rows="7" maxlength="1600" required></textarea>
+          <span class="error-msg" ng-show="noteBox.data.$invalid && noteBox.data.$touched">Please enter valid Notes</span>
+        </ion-item>
+      </ion-list>
+      <div class="padding">
+        <button class="button button-positive button-block" type="submit" ng-disabled="noteBox.$invalid">Save</button>
+      </div>
+    </form>
+</ion-modal-view>

@@ -1872,3 +1872,28 @@ $phaseEven: #14a7ac;
 .floating-right {
   text-align: center;
 }
+
+.ic-document {
+  background-image: url(../img/notes.png);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-position: center;
+  background-size: 16px auto;
+  background-repeat: no-repeat;
+}
+
+.button-relative {
+  position: relative;
+  z-index: 9;
+}
+
+.nopad {
+  padding: 0;
+}
+
+.checkd {
+  background-color: #eaeaea;
+}
