@@ -859,6 +859,11 @@ p.bold {
 
 .item.item-block {
   display: block;
+  .input-label {
+    max-width: 100%;
+    width: 100%;
+    white-space: normal;
+  }
 }
 
 .item-input-inset .item-input-wrapper input {
@@ -1854,4 +1859,16 @@ $phaseEven: #14a7ac;
   ul {
     list-style: inherit;
   }
+}
+
+.btn {
+  border: none;
+  color: white;
+  padding: 3px 10px;
+  min-width: 50%;
+  float: left;
+}
+
+.floating-right {
+  text-align: center;
 }

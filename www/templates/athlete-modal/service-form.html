@@ -1,0 +1,162 @@
+<ion-modal-view>
+  <ion-header-bar class="bar bar-header bar-positive">
+    <h1 class="title">Athlete Service Request Commencement</h1>
+    <span class="right-badge-modal ln ln-cross ln-fit" ng-click="closeModal();">
+  </ion-header-bar>
+  <ion-content>
+    <!--<pre>{{formData|json}}</pre>-->
+    <form name="formName" ng-submit="submitServiceForm(formData);">
+      <div class="pro-edit text-rite">
+        <div class="list">
+          <div class="item item-divider item-text-wrap small-text text-justified">
+            General Details <br><span>Fields marked with (*) are mandatory</span> </div>
+    <label class="item item-input" ng-class="{'err': formName.name.$invalid && formName.name.$touched}">
+            <span class="input-label">Forename</span>
+            <input type="text" name="name" ng-model="formData.name" readonly>
+            <span class="error-msg" ng-show="formName.name.$invalid && formName.name.$touched">Please enter valid Forename</span>
+          </label>
+    <label class="item item-input" ng-class="{'err': formName.surname.$invalid && formName.surname.$touched}">
+            <span class="input-label">Surname</span>
+            <input type="text" name="surname" ng-model="formData.surname" readonly>
+            <span class="error-msg" ng-show="formName.surname.$invalid && formName.surname.$touched">Please enter valid Surname</span>
+      </label>
+    <label class="item item-input">
+            <span class="input-label">Date of Birth</span>
+        <input type="date" ng-model="formData.dob" name="dob" readonly/>
+      </label>
+    <label class="item item-input" ng-class="{'err': formName.emergency.$invalid && formName.emergency.$touched}">
+        <span class="input-label">Emergency Contact*</span>
+        <input type="tel" name="emergency" ng-model="formData.emergency" replace="[^0-9+]" with="" required>
+        <div class="error-msg" ng-show="formName.emergency.$touched && formName.emergency.$invalid"> Please enter valid Emergency Contact</div>
+      </label>
+    <label class="item item-input" ng-class="{'err': formName.height.$invalid && formName.height.$touched}">
+      <span class="input-label">Height*: (in metres)</span>
+      <input type="text" name="height" ng-model="formData.height" replace="[^0-9.]" with="" required>
+      <div class="error-msg" ng-show="formName.height.$touched && formName.height.$invalid"> Please enter valid Height </div>
+    </label>
+    <label class="item item-input" ng-class="{'err': formName.heartRate.$invalid && formName.heartRate.$touched}">
+      <span class="input-label">Resting heart rate*: (in bpm)</span>
+      <input type="text" name="heartRate" ng-model="formData.heartRate" replace="[^0-9.]" with=""  required>
+      <div class="error-msg" ng-show="formName.heartRate.$touched && formName.heartRate.$invalid"> Please enter valid Heart Rate </div>
+    </label>
+    <label class="item item-input item-block" ng-class="{'err': formName.mainEvents.$invalid && formName.mainEvents.$touched}">
+      <span class="input-label">Main event(s)*</span>
+      <textarea auto-grow name="mainEvents" rows="3" ng-model="formData.mainEvents" required></textarea>
+      <div class="error-msg" ng-show="formName.mainEvents.$touched && formName.mainEvents.$invalid"> Please enter valid Main Event(s) </div>
+    </label>
+    <label class="item item-input item-block" ng-class="{'err': formName.priorityEvents.$invalid && formName.priorityEvents.$touched}">
+      <span class="input-label">Priority event for next season*</span>
+      <textarea auto-grow name="priorityEvents" rows="3" ng-model="formData.priorityEvents" required></textarea>
+      <div class="error-msg" ng-show="formName.priorityEvents.$touched && formName.priorityEvents.$invalid"> Please enter valid Priority Events </div>
+    </label>
+    <div class="item item-divider item-text-wrap small-text text-justified">Other sporting / leisure interests <br>
+      <span>Please highlight what other activities you are involved in (when not at athletics) and on what day, also include
+          intensity of these activities</span></div>
+    <div class="field-repeat" ng-repeat="other in formData.otherSporting">
+      <div class="floating-right">
+        <button class="btn positive-bg" type="button" ng-click="addSporting();"><i class=" icon ion-plus"></i></button>
+        <button class="btn assertive-bg" type="button" ng-click="removeSporting($index);"><i class="icon ion-minus"></i></button>
+      </div>
+      <label class="item item-input" ng-class="{'err': formName['activity' + $index].$invalid && formName['activity' + $index].$touched}">
+        <span class="input-label">Activity*</span>
+        <input type="text" name="activity{{$index}}" ng-model="formData.otherSporting[$index].activity"  required>
+        <div class="error-msg" ng-show="formName['activity' + $index].$invalid && formName['activity' + $index].$touched"> Please enter valid activity </div>
+      </label>
+      <label class="item item-input" ng-class="{'err': formName['day' + $index].$invalid && formName['day' + $index].$touched}">
+        <span class="input-label">Day(s)*</span>
+        <input type="text" name="day{{$index}}" ng-model="formData.otherSporting[$index].day"  required>
+        <div class="error-msg" ng-show="formName['day' + $index].$invalid && formName['day' + $index].$touched"> Please enter valid Days </div>
+      </label>
+      <label class="item item-input item-select" ng-class="{'err': formName['intensity' + $index].$invalid && formName['intensity' + $index].$touched}">
+        <span class="input-label">Intensity*</span>
+        <select name="intensity{{$index}}" ng-model="formData.otherSporting[$index].intensity"  required>
+            <option value="">Please Select</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select>
+        <div class="error-msg" ng-show="formName['intensity' + $index].$invalid && formName['intensity' + $index].$touched"> Please enter valid Intensity </div>
+      </label>
+    </div>
+    <div class="item item-divider item-text-wrap small-text text-justified">Previous season/service review (if applicable) <br>
+      <span>Briefly explain how you feel the last season went and detail any highlights or lowlights</span></div>
+    <label class="item item-input item-block">
+      <span class="input-label">What was your main target for last season?</span>
+      <textarea auto-grow name="mainTarget" ng-model="formData.previousSeason.mainTarget" ></textarea>
+    </label>
+    <label class="item item-input item-select">
+      <span class="input-label">Was this target achieved / exceeded?</span>
+      <select name="targetAchieved" ng-model="formData.previousSeason.targetAchieved" > 
+        <option value="">Please Select</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
+    </label>
+    <label class="item item-input item-block" ng-if="formData.previousSeason.targetAchieved == 'No'" ng-class="{'err': formName.notAchievedReason.$invalid && formName.notAchievedReason.$touched}">
+      <span class="input-label">Two reasons why you feel this goal was not achieved* </span>
+      <textarea auto-grow name="notAchievedReason" ng-model="formData.previousSeason.notAchievedReason"  required></textarea>
+      <label class="error-msg" ng-show="formName.notAchievedReason.$touched && formName.notAchievedReason.$invalid"> Please enter valid Input </label>
+    </label>
+    <label class="item item-input item-block">
+      <span class="input-label">Highlights</span>
+      <textarea auto-grow name="highlights" ng-model="formData.previousSeason.highlights" ></textarea>
+    </label>
+    <label class="item item-input item-block">
+      <span class="input-label">Low Points</span>
+      <textarea auto-grow name="lowPoints" ng-model="formData.previousSeason.lowPoints" ></textarea>
+    </label>
+    <div class="item item-divider item-text-wrap small-text text-justified">Targets and goals for next season (MAIN EVENT ONLY) <br>
+      <span>Please complete the section below, this is an important exercise so be as specific as possible. Highlight the goal,
+          identify how intend to achieve it and what support you need from me in return</span></div>
+
+    <div class="item item-divider small-text"><span>Stretch Targets</span></div>
+    <label class="item item-input item-block" ng-class="{'err': formName.stretchTarget.$invalid && formName.stretchTarget.$touched}">
+          <span class="input-label">Identify a distance / time &amp; a date when you want to achieve this target by*</span>
+          <textarea name="stretchTarget" ng-model="formData.nextSeason.stretchTarget"  required></textarea>
+          <div class="error-msg" ng-show="formName.stretchTarget.$touched && formName.stretchTarget.$invalid"> Please enter valid Input </div>
+      </label>
+    <label class="item item-input item-block" ng-class="{'err': formName.stretchSupport.$invalid && formName.stretchSupport.$touched}">
+          <span class="input-label">What support do you need from me to achieve this target?*</span>
+          <textarea name="stretchSupport" ng-model="formData.nextSeason.stretchSupport"  required></textarea>
+          <div class="error-msg" ng-show="formName.stretchSupport.$touched && formName.stretchSupport.$invalid"> Please enter valid Input </div>
+      </label>
+
+    <div class="item item-divider small-text"><span>Main Targets</span></div>
+    <label class="item item-input item-block" ng-class="{'err': formName.mainTarget.$invalid && formName.mainTarget.$touched}">
+          <span class="input-label">Identify a distance / time &amp; a date when you want to achieve this target by*</span>
+          <textarea name="mainTarget" ng-model="formData.nextSeason.mainTarget"  required></textarea>
+          <div class="error-msg" ng-show="formName.mainTarget.$touched && formName.mainTarget.$invalid"> Please enter valid Input </div>
+      </label>
+    <label class="item item-input item-block" ng-class="{'err': formName.mainSupport.$invalid && formName.mainSupport.$touched}">
+          <span class="input-label">What support do you need from me to achieve this target?*</span>
+          <textarea name="mainSupport" ng-model="formData.nextSeason.mainSupport"  required></textarea>
+          <div class="error-msg" ng-show="formName.mainSupport.$touched && formName.mainSupport.$invalid"> Please enter valid Input </div>
+      </label>
+
+    <div class="item item-divider item-text-wrap small-text text-justified">Personal bests (If applicable) <br>
+      <span>Please provide the coach an indication of your best known performances.</span></div>
+    <div class="field-repeat" ng-repeat="pb in formData.personalBests">
+      <div class="floating-right">
+        <button class="btn positive-bg" type="button" ng-click="addBests();"><i class=" icon ion-plus"></i></button>
+        <button class="btn assertive-bg" type="button" ng-click="removeBests($index);"><i class="icon ion-minus"></i></button>
+      </div>
+      <label class="item item-input">
+            <span class="input-label">Event Name</span>
+            <input type="text" name="pbEvent" ng-model="formData.personalBests[$index].event">
+        </label>
+      <label class="item item-input">
+            <span class="input-label">Personal best performance</span>
+            <input type="text" name="pbPerformance" ng-model="formData.personalBests[$index].performance" required>
+        </label>
+      <label class="item item-input">
+            <span class="input-label">Year Achieved</span>
+            <input type="text" minlength="4" maxlength="4" replace="[^0-9]" with="" name="pbYear" ng-model="formData.personalBests[$index].year">
+        </label>
+    </div>
+    </div>
+    <div class="text-center m20 padding-horizontal">
+      <button class="button button-positive button-block" ng-disabled="formName.$invalid" type="submit">Submit</button>
+    </div>
+    </form>
+    </ion-content>
+</ion-modal-view>

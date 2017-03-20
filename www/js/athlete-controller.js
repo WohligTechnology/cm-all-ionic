@@ -1313,6 +1313,67 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       });
     }
 
+
+
+    $ionicModal.fromTemplateUrl('templates/athlete-modal/service-form.html', {
+      scope: $scope,
+      animation: 'slide-in-up',
+    }).then(function (modal) {
+      $scope.modal = modal;
+    });
+    $scope.subscribeNow = function () {
+      $scope.modal.show();
+    };
+    $scope.closeModal = function () {
+      $scope.modal.hide();
+    };
+
+    $scope.formData = {};
+    $scope.formData.name = $scope.athleteData.name;
+    $scope.formData.surname = $scope.athleteData.surname;
+    $scope.formData.dob = moment($scope.athleteData.dob).toDate();
+    $scope.formData.otherSporting = [{}];
+    $scope.formData.personalBests = [{}];
+
+    $scope.addSporting = function () {
+      $scope.formData.otherSporting.push({});
+      $ionicScrollDelegate.resize();
+    };
+    $scope.removeSporting = function (pos) {
+      if ($scope.formData.otherSporting.length > 1) {
+        $scope.formData.otherSporting.splice(pos, 1);
+        $ionicScrollDelegate.resize();
+      } else {
+        $scope.formData.otherSporting = [{}];
+      }
+    };
+
+    $scope.addBests = function () {
+      $scope.formData.personalBests.push({});
+      $ionicScrollDelegate.resize();
+    };
+    $scope.removeBests = function (pos) {
+      if ($scope.formData.personalBests.length > 1) {
+        $scope.formData.personalBests.splice(pos, 1);
+        $ionicScrollDelegate.resize();
+      } else {
+        $scope.formData.personalBests = [{}];
+      }
+    };
+
+    $scope.submitServiceForm = function (ServiceData) {
+      console.log("ServiceData", ServiceData);
+      ServiceData.athlete = $scope.athleteData._id;
+      ServiceData.coach = $stateParams.id;
+      MyServices.saveAthleteServiceForm(ServiceData, function (response) {
+        if (response.value) {
+          $scope.reqestToCoach();
+        } else {
+          $scope.showLoading('Error sending request!', 2000);
+        }
+      });
+    };
+
     $scope.reqestToCoach = function (data) {
       $scope.showLoading('Please wait...', 15000);
       $scope.reqData = {
@@ -1324,30 +1385,9 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         if (response.value === true) {
           $scope.hideLoading();
           $scope.showLoading('Request Sent Successfully!', 2000);
-          $state.go('app.athlete-search-coaches');
+          $state.go('app.athlete-profile');
         }
       });
-    };
-
-    $ionicModal.fromTemplateUrl('templates/athlete-modal/message-box.html', {
-      scope: $scope,
-      animation: 'slide-in-up'
-    }).then(function (modal) {
-      $scope.modal = modal;
-      $scope.messageInfo = {
-        title: 'Request Subscription',
-        subTitle: 'Please enter some message!'
-      };
-    });
-    $scope.subscribeNow = function () {
-      $scope.modal.show();
-    };
-    $scope.closeModal = function () {
-      $scope.modal.hide();
-    };
-
-    $scope.submitMessage = function (data) {
-      $scope.reqestToCoach(data);
     };
 
   })

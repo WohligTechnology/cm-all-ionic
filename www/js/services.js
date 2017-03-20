@@ -669,6 +669,16 @@ angular.module('starter.services', [])
         }).success(callback);
       },
 
+      //Save athlete service form
+      saveAthleteServiceForm: function (formData, callback) {
+        formData = _.merge(formData, requestCredentials);
+        $http({
+          url: adminurl + 'CommencementForm/save',
+          method: 'POST',
+          data: formData
+        }).success(callback);
+      },
+
       //To get updateReadStatus count
       updateReadStatus: function (formData, callback) {
         formData = _.merge(formData, requestCredentials);

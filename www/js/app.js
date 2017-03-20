@@ -130,15 +130,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
         }
       })
 
-      .state('app.athlete-service-form', {
-        url: '/athlete/form/:id',
-        views: {
-          'menuContent': {
-            templateUrl: 'templates/athlete/service-form.html',
-            controller: 'ServiceFormCtrl'
-          }
-        }
-      })
+      // .state('app.athlete-service-form', {
+      //   url: '/athlete/form/:id',
+      //   views: {
+      //     'menuContent': {
+      //       templateUrl: 'templates/athlete/service-form.html',
+      //       controller: 'ServiceFormCtrl'
+      //     }
+      //   }
+      // })
 
       .state('app.athlete-chat', {
         url: '/athlete/chat',
@@ -753,6 +753,30 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
   .filter('localurl', function () {
     return function (url) {
       return 'img/coach/' + url + '.jpg';
+    };
+  })
+
+  .directive('replace', function () {
+    return {
+      require: 'ngModel',
+      scope: {
+        regex: '@replace',
+        with: '@with'
+      },
+      link: function (scope, element, attrs, model) {
+        model.$parsers.push(function (val) {
+          if (!val) {
+            return;
+          }
+          var regex = new RegExp(scope.regex);
+          var replaced = val.replace(regex, scope.with);
+          if (replaced !== val) {
+            model.$setViewValue(replaced);
+            model.$render();
+          }
+          return replaced;
+        });
+      }
     };
   })
 
