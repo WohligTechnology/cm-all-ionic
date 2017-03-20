@@ -12,7 +12,8 @@
     "ngCordova": "^0.1.27-alpha",
     "lodash": "^4.17.2",
     "moment": "^2.16.0",
-    "angular-ui-calendar": "^1.0.2"
+    "angular-ui-calendar": "^1.0.2",
+    "font-awesome": "^4.7.0"
   },
   "resolutions": {
     "angular-sanitize": "1.5.3",
