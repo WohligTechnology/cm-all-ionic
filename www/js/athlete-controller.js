@@ -188,13 +188,25 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
   })
 
   .controller('AthletePersonalGoalsCtrl', function ($scope, $state, $ionicPopup, MyServices, $ionicLoading, $ionicModal, $ionicHistory) {
-    $scope.personalgoals = [];
+    //Loading
+    $scope.showLoading = function (value, time) {
+      $ionicLoading.show({
+        template: value,
+        duration: time
+      });
+    };
+    $scope.hideLoading = function () {
+      $ionicLoading.hide();
+    };
+    $scope.showLoading('Loading...', 15000);
     $scope.getPersonalGoals = function () {
       $scope.personalgoals = undefined;
       MyServices.getKeyAthleteCompetitions(function (data) {
         if (data.value) {
+          $scope.hideLoading();
           $scope.personalgoals = data.data;
         } else {
+          $scope.hideLoading();
           $scope.personalgoals = [];
         }
       });
@@ -1385,7 +1397,8 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         if (response.value === true) {
           $scope.hideLoading();
           $scope.showLoading('Request Sent Successfully!', 2000);
-          $state.go('app.athlete-profile');
+          $scope.closeModal();
+          $state.go('app.athlete-search-coaches');
         }
       });
     };
