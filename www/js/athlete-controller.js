@@ -1649,12 +1649,11 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     };
     $scope.closeNotes = function () {
       $scope.noteModal.hide();
+      $scope.currentType = 'Shared';
+      $scope.switchType($scope.currentType);
     };
 
     // Function for Save Notes
-    $scope.tabNote = 'Athlete';
-    $scope.type = 'Personal';
-
 
     //Note Switcher
     $scope.currentNote = 'Athlete';
