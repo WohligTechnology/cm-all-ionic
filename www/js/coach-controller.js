@@ -75,7 +75,8 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
         if (data.value === true) {
           $scope.formData = {};
           $scope.hideLoading();
-          $scope.showLoading('Registration Successful', 2000);
+          $scope.registerMsg = "Thank you for registering with coach mentor. We have received your registration and you will shortly receive a message on your registered email with a verification link. Please follow the verification link to activate your athlete account. Please fill out your other personal details in your own time.";
+          $scope.showLoading($scope.registerMsg, 3000);
           $scope.modal4.hide();
           $state.go('landing');
         } else {
@@ -375,7 +376,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
           $state.go('app.coach-profile');
         } else {
           $scope.hideLoading();
-          $scope.showLoading('Please Try Again', 2000);
+          $scope.showLoading('Profile is not updated,please try again', 2000);
         }
       });
     };
@@ -420,12 +421,12 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
         if (data.value === true) {
           $scope.passwordData = {};
           $scope.hideLoading();
-          $scope.showLoading('Password Updated', 2000);
+          $scope.showLoading('Password is Updated', 2000);
           $state.go('app.coach-profile');
           $scope.closeModal();
         } else {
           $scope.hideLoading();
-          $scope.showLoading('Please Try Again', 2000);
+          $scope.showLoading('Password is not updated,please try again', 2000);
         }
       });
     };
@@ -1006,7 +1007,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       MyServices.updateCompetition(formData, function (data) {
         if (data.value === true) {
           $scope.hideLoading();
-          $scope.showLoading('Competition Edited', 2000);
+          $scope.showLoading('Competition Updated', 2000);
           $state.go('app.coach-competition');
         } else {
           $scope.hideLoading();
@@ -1335,7 +1336,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       MyServices.updateTest(formData, function (data) {
         if (data.value === true) {
           $scope.hideLoading();
-          $scope.showLoading('Test Edited', 2000);
+          $scope.showLoading('Test Updated', 2000);
           $state.go('app.coach-testing');
         } else {
           $scope.hideLoading();

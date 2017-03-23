@@ -35,6 +35,7 @@
         <div ng-if="d.type == 'competition'">
           <p>{{d.name}} {{d.surname}} rejected your competition.</p>
         </div>
+        <div ng-if="coachnotifications.length == 0">No Notification</div>
       </ion-item>
     </ion-list>
   </ion-content>

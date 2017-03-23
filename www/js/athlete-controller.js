@@ -364,7 +364,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
           $state.go('app.athlete-profile');
         } else {
           $scope.hideLoading();
-          $scope.showLoading('Please Try Again!', 2000);
+          $scope.showLoading('Profile is not updated, please Try Again!', 2000);
         }
       });
     };
@@ -395,11 +395,11 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
           $scope.passwordData = {};
           $scope.hideLoading();
           $scope.showLoading('Password Updated!', 2000);
-          $state.go('app.athelte-profile');
+          $state.go('app.athlete-profile');
           $scope.closeModal();
         } else {
           $scope.hideLoading();
-          $scope.showLoading(data.data.message, 2000);
+          $scope.showLoading('Password is not updated,please try again', 2000);
         }
       });
     };
@@ -1047,11 +1047,11 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       MyServices.updateInjury(formData, function (data) {
         if (data.value === true) {
           $scope.hideLoading();
-          $scope.showLoading('Injury Edited', 2000);
+          $scope.showLoading('Injury Updated', 2000);
           $state.go('app.athlete-injuries');
         } else {
           $scope.hideLoading();
-          $scope.showLoading('Error Editing Injury', 2000);
+          $scope.showLoading('Error while Updated Injury', 2000);
         }
       });
     };
@@ -1978,7 +1978,8 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         if (data.value === true) {
           $scope.formData = {};
           $scope.hideLoading();
-          $scope.showLoading('Registration Successful!', 2000);
+          $scope.registerMsg = "Thank you for registering with coach mentor. We have received your registration and you will shortly receive a message on your registered email with a verification link. Please follow the verification link to activate your athlete account. Please fill out your other personal details in your own time.";
+          $scope.showLoading($scope.registerMsg, 3000);
           $scope.modal2.hide();
           $state.go('landing');
         } else {
