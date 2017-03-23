@@ -1,6 +1,6 @@
-var adminurl = "http://coachmentor.wohlig.com/api/";
+// var adminurl = "http://coachmentor.wohlig.com/api/";
 // var adminurl = "http://192.168.0.101:1337/api/";
-// var adminurl = "http://wohlig.io/api/";
+var adminurl = "http://wohlig.io/api/";
 var imgurl = adminurl + "upload/";
 
 var imgpath = imgurl + "readFile";
@@ -226,7 +226,7 @@ angular.module('starter.services', [])
       searchAllCoaches: function (formData, i, callback) {
         formData = _.merge(formData, requestCredentials);
         $http({
-          url: adminurl + 'coach/search',
+          url: adminurl + 'coach/searchCoach',
           method: 'POST',
           data: formData
         }).success(function (data) {
@@ -684,6 +684,16 @@ angular.module('starter.services', [])
         formData = _.merge(formData, requestCredentials);
         $http({
           url: adminurl + 'Chat/updateReadStatus',
+          method: 'POST',
+          data: formData
+        }).success(callback);
+      },
+
+      //save notes
+      saveNote: function (formData, callback) {
+        formData = _.merge(formData, requestCredentials);
+        $http({
+          url: adminurl + 'trainingActivity/saveNotes',
           method: 'POST',
           data: formData
         }).success(callback);

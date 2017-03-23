@@ -1615,6 +1615,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
   .controller('AthleteTrainingDiaryCtrl', function ($scope, $ionicModal, $ionicLoading, uiCalendarConfig, MyServices, $ionicScrollDelegate, $timeout, $filter) {
 
+    // console.log($scope.athleteData);
     //Loading
     $scope.showLoading = function (value, time) {
       $ionicLoading.show({
@@ -1628,6 +1629,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
     $scope.showLoading('Loading...', 10000);
 
+    $scope.athleteNoteData = {};
     //Feedback Modal
     $ionicModal.fromTemplateUrl('templates/athlete-modal/notes.html', {
       id: 1,
@@ -1636,13 +1638,66 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     }).then(function (modal) {
       $scope.noteModal = modal;
     });
-    $scope.openNotes = function () {
+    $scope.openNotes = function (activity) {
+      // console.log(activity);
+      $scope.athleteNoteData = activity.athleteNoteData;
+      $scope.coachNoteData = activity.coachNoteData;
+      $scope.activityID = activity._id;
+      $scope.userAthlete = true;
+      $scope.showAthleteShared = true;
       $scope.noteModal.show();
     };
     $scope.closeNotes = function () {
       $scope.noteModal.hide();
     };
 
+    // Function for Save Notes
+    $scope.tabNote = 'Athlete';
+    $scope.type = 'Personal';
+
+
+    //Note Switcher
+    $scope.currentNote = 'Athlete';
+    $scope.switchNote = function (val) {
+      $scope.currentNote = val;
+      $scope.currentType = 'Shared';
+    };
+
+    //Type Switcher
+    $scope.currentType = 'Shared';
+    $scope.switchType = function (val) {
+      $scope.currentType = val;
+      if (val === 'Personal') {
+        $scope.showAthletePersonal = true;
+        $scope.showAthleteShared = false;
+      } else {
+        $scope.showAthletePersonal = false;
+        $scope.showAthleteShared = true;
+      }
+    };
+
+
+    //Saving Notes
+    $scope.saveAthleteNotes = function (notedata) {
+      $scope.athleteData = MyServices.getUser();
+      $scope.athleteNoteData.athleteId = $scope.athleteData._id,
+        $scope.athleteNoteData.activityID = $scope.activityID,
+        $scope.athleteNoteData.notesAthlete = {
+          sharedNote: notedata.sharedNote,
+          personalNote: notedata.personalNote
+        }
+      MyServices.saveNote($scope.athleteNoteData, function (data) {
+        if (data.value == true) {
+          $scope.closeNotes();
+          console.log("Note saved successfully");
+        } else {
+          $scope.closeNotes();
+          console.log("Error while saving Note.");
+
+        }
+      })
+    }
+    // Function for Save Notes End
     //Event Click Modal
     $ionicModal.fromTemplateUrl('templates/modal-event-click.html', {
       scope: $scope,
@@ -1764,19 +1819,25 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
           // console.log(loopStart, j, moment(startDate).add(j, 'days').toDate());
           if (trainingActivity[j].name == 'Rest Day') {
             $scope.trainingPhasesData[i].activities.push({
+              _id: trainingActivity[j]._id,
               name: trainingActivity[j].name,
               detail: 'No Training',
               volume: '',
               intensity: '',
               startDate: moment(startDate).add(j, 'days').toDate(),
+              athleteNoteData: trainingActivity[j].notesAthlete,
+              coachNoteData: trainingActivity[j].notesCoach
             });
           } else {
             $scope.trainingPhasesData[i].activities.push({
+              _id: trainingActivity[j]._id,
               name: trainingActivity[j].name,
               detail: trainingActivity[j].detail,
               volume: trainingActivity[j].volume,
               intensity: trainingActivity[j].intensity,
               startDate: moment(startDate).add(j, 'days').toDate(),
+              athleteNoteData: trainingActivity[j].notesAthlete,
+              coachNoteData: trainingActivity[j].notesCoach
             });
           }
         }
@@ -1824,19 +1885,6 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     $scope.currentScreen = 'List';
     $scope.switchView = function (val) {
       $scope.currentScreen = val;
-    };
-
-    //Note Switcher
-    $scope.currentNote = 'Athlete';
-    $scope.switchNote = function (val) {
-      $scope.currentNote = val;
-      $scope.currentType = 'Shared';
-    };
-
-    //Type Switcher
-    $scope.currentType = 'Shared';
-    $scope.switchType = function (val) {
-      $scope.currentType = val;
     };
 
     // $scope.showLoading('Loading...', 10000);
