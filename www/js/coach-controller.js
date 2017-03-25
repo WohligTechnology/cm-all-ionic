@@ -29,7 +29,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     $scope.onlyAplha = /^[a-zA-Z_]+$/;
     $scope.validTel = /^[+0-9]{10,15}$/;
     $scope.validNum = /^[0-9]+$/;
-    $scope.validEmail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    $scope.validEmail = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
     MyServices.getCountries(function (data) {
       $scope.countries = data;
@@ -75,13 +75,18 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
         if (data.value === true) {
           $scope.formData = {};
           $scope.hideLoading();
-          $scope.registerMsg = "Thank you for registering with coach mentor. We have received your registration and you will shortly receive a message on your registered email with a verification link. Please follow the verification link to activate your athlete account. Please fill out your other personal details in your own time.";
+          $scope.registerMsg = "Successfully registed";
           $scope.showLoading($scope.registerMsg, 3000);
           $scope.modal4.hide();
           $state.go('landing');
         } else {
+          console.log(data.error.error);
           $scope.hideLoading();
-          $scope.showLoading('Registration Failed', 2000);
+          if (_.isEmpty(data.error.error)) {
+            $scope.showLoading('Registration Faild', 2000);
+          } else {
+            $scope.showLoading(data.error.error, 2000);
+          }
         }
       });
     };
@@ -175,7 +180,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     //Coach Sign Modal End
 
 
-    $scope.validEmail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    $scope.validEmail = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
     //Loading
     $scope.showLoading = function (value, time) {

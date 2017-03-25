@@ -225,6 +225,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     $ionicHistory.removeBackView();
     $scope.profileData = MyServices.getUser();
     console.log($scope.profileData);
+    $scope.validTel = /^\+?\d{2}[- ]?\d{3}[- ]?\d{5}$/;
     //Loading
     $scope.showLoading = function (value, time) {
       $ionicLoading.show({
@@ -303,7 +304,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     ];
 
     $scope.onlyAplha = /^[a-zA-Z_]+$/;
-    $scope.validEmail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    $scope.validEmail = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
     MyServices.getCountries(function (data) {
       $scope.countries = data;
@@ -1113,6 +1114,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
   })
 
   .controller('AthleteSearchCoachesCtrl', function ($scope, $ionicModal, MyServices, $ionicLoading, $ionicPopup) {
+    $scope.profileData = MyServices.getUser();
     $scope.currentPage = 1;
     $scope.filter = {};
     var i = 0;
@@ -1135,6 +1137,21 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     $scope.openFilter = function () {
       $scope.modal.show();
     };
+
+
+    $scope.myCoachProfile = {};
+    if ($scope.profileData) {
+      MyServices.getMyCoach({
+        athleteId: $scope.profileData._id
+      }, function (response) {
+        if (response.value == true) {
+          $scope.myCoachProfile = response.data;
+          $scope.coachId = $scope.myCoachProfile.coach._id;
+          console.log($scope.myCoachProfile);
+        } else {}
+        $scope.showAllCoaches();
+      })
+    }
 
     $scope.filterData = [{
       name: 'Age',
@@ -1182,6 +1199,11 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       }
     };
 
+    //console.log("$scope.myCoachProfile._id", $scope.myCoachProfile.coach._id);
+    // if (!_.isEmpty($scope.myCoachProfile)) {
+    //   var coachId = $scope.myCoachProfile.coach._id;
+    // }
+    console.log($scope.coachId);
     //Get All coaches
     $scope.showAllCoaches = function (keywordChange) {
       if (keywordChange) {
@@ -1191,7 +1213,8 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       MyServices.searchAllCoaches({
         page: $scope.currentPage,
         keyword: $scope.search.keyword,
-        filter: $scope.filter
+        filter: $scope.filter,
+        myCoachId: $scope.coachId
       }, ++i, function (data, ini) {
         if (ini == i) {
           if (data.value) {
@@ -1325,6 +1348,53 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       });
     }
 
+    //check if the request is already send or not start
+    $scope.checkRequestStatus = function () {
+      $scope.coachConstraints = {};
+      $scope.coachConstraints.athlete = $scope.athleteData._id;
+      $scope.coachConstraints.coach = $stateParams.id;
+      console.log($scope.coachConstraints);
+      MyServices.checkRequestStatus($scope.coachConstraints, function (response) {
+        console.log(response);
+        if (response.value == true) {
+          // toastr.success("Request is send successfully.");
+          if (response.data.statusCode == 1) {
+            //toastr.warning("Request already sent.");
+            $scope.disableSubscribe = true
+          } else if (response.data.statusCode == 2) {
+            //toastr.warning("zdfasdfasdfsfsd.");
+            $scope.disableSubscribe = false;
+          }
+          // else {
+          //     $state.go("athlete.serviceForm");
+          // }
+        } else {
+          //toastr.warning("Requestsgsdfgsf already sent.");
+          $scope.disableSubscribe = true;
+        }
+      })
+    }
+    //check if the request is already send or not end
+
+    $scope.checkRequestStatus();
+    console.log($scope.athleteData._id);
+    //function to check if the athlete filled the service form or not start
+    if ($scope.athleteData._id) {
+      MyServices.getMyServiceform({
+        athleteId: $scope.athleteData._id
+      }, function (response) {
+        if (response.value == true) {
+          // $scope.myServiceForm = response.data;
+          $scope.formData = response.data;
+          console.log($scope.formData);
+          $scope.formData.dob = moment($scope.formData.dob).toDate();
+        } else {
+          // $scope.formData = {};
+        }
+      })
+    }
+    //function to check if the athlete filled the service form or not end
+
 
 
     $ionicModal.fromTemplateUrl('templates/athlete-modal/service-form.html', {
@@ -1451,7 +1521,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         } else {
           $scope.myCoachProfile = "";
           $scope.hideLoading();
-          $scope.showLoading('Error Loading Data!', 3000);
+          // $scope.showLoading('Error Loading Data!', 3000);
         }
       });
     }
@@ -1936,7 +2006,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     $scope.maxDate = $filter('date')(new Date(), 'yyyy-MM-dd');
 
     $scope.onlyAplha = /^[a-zA-Z_]+$/;
-    $scope.validEmail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    $scope.validEmail = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
     //Loading
     $scope.showLoading = function (value, time) {
@@ -1978,13 +2048,18 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         if (data.value === true) {
           $scope.formData = {};
           $scope.hideLoading();
-          $scope.registerMsg = "Thank you for registering with coach mentor. We have received your registration and you will shortly receive a message on your registered email with a verification link. Please follow the verification link to activate your athlete account. Please fill out your other personal details in your own time.";
+          $scope.registerMsg = "Successfully Register";
           $scope.showLoading($scope.registerMsg, 3000);
           $scope.modal2.hide();
           $state.go('landing');
         } else {
+          console.log(data.error.error);
           $scope.hideLoading();
-          $scope.showLoading('Registration Failed!', 2000);
+          if (_.isEmpty(data.error.error)) {
+            $scope.showLoading('Registration Faild', 2000);
+          } else {
+            $scope.showLoading(data.error.error, 2000);
+          }
         }
       });
     };

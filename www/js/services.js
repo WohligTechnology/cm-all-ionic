@@ -1,6 +1,6 @@
-var adminurl = "http://coachmentor.wohlig.com/api/";
+// var adminurl = "http://coachmentor.wohlig.com/api/";
 // var adminurl = "http://192.168.0.101:1337/api/";
-// var adminurl = "http://wohlig.io/api/";
+var adminurl = "http://wohlig.io/api/";
 var imgurl = adminurl + "upload/";
 
 var imgpath = imgurl + "readFile";
@@ -697,6 +697,27 @@ angular.module('starter.services', [])
           method: 'POST',
           data: formData
         }).success(callback);
+      },
+      //To check status of sent request
+      checkRequestStatus: function (formData, callback) {
+        formData = _.merge(formData, requestCredentials);
+        $http({
+          url: adminurl + 'athleteCoaching/checkRequestStatus',
+          method: 'POST',
+          data: formData
+        }).success(callback);
+      },
+
+      //Get one service form of athlete
+      getMyServiceform: function (formData, callback) {
+        formData = _.merge(formData, requestCredentials);
+        $http({
+          url: adminurl + 'CommencementForm/getMyServiceform',
+          method: 'POST',
+          data: formData
+        }).success(function (data) {
+          callback(data);
+        });
       },
     };
   });

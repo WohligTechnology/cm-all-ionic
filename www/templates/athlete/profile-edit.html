@@ -56,7 +56,7 @@
           </div>
           <label class="item item-input" ng-class="{'err': formName.mobile.$invalid && formName.mobile.$touched}">
             <span class="input-label">Phone Number</span>
-            <input type="tel" name="mobile" ng-model="formData.mobile" required>
+            <input type="tel" name="mobile" ng-model="formData.mobile" ng-pattern="/^\+?\d{2}[- ]?\d{3}[- ]?\d{5}$/" required>
             <span class="error-msg" ng-show="formName.mobile.$invalid && formName.mobile.$touched">Please enter valid Phone Number</span>
           </label>
           <label class="item item-input item-select" ng-class="{'err': formName.gender.$invalid && formName.gender.$touched}">

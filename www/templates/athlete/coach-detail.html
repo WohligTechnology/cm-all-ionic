@@ -18,13 +18,13 @@
           <h3>Next Renewal</h3>
           <p>{{(myCoachProfile.renewalDate | date:'dd MMMM, yyyy') || '-'}}</p>
         </ion-item>
+        <ion-item class="item-text-wrap">
+          <h3>Country</h3>
+          <p>{{myCoachProfile.coach.country}}</p>
+        </ion-item>
         <!--<ion-item class="item-text-wrap">
         <h3>Years of Coaching</h3>
         <p>{{coach.yearsCoaching}} years</p>
-      </ion-item>
-      <ion-item class="item-text-wrap">
-        <h3>Country</h3>
-        <p>{{coach.country}}</p>
       </ion-item>
       <ion-item class="item-text-wrap">
         <h3>Age</h3>

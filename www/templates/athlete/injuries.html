@@ -9,7 +9,7 @@
         <button class="button button-small icon ln-magnifier" type="submit"></button>
       </form>
       <ion-item ng-if="allInjury.length == 0 && !more.Data">
-        No Injuries found.
+        No Injuries available.
       </ion-item>
       <ion-item class="item-icon-left icon-c-l" ui-sref="app.athlete-injuries-detail({id:d._id})" ng-repeat="d in allInjury">
         <i class="icon icon-circled ln-first-aid" ng-class="{'assertive': live==true}"></i>

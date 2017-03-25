@@ -61,7 +61,8 @@
       </ion-item>
     </ion-list>
     <div class="padding-horizontal">
-      <button class="button button-balanced button-block" ng-click="subscribeNow();" ng-if="!subscriptionFull">Subscribe Now</button>
+      <button class="button button-balanced button-block" ng-click="subscribeNow();" ng-if="disableSubscribe">Subscribe Now</button>
+      <button class="button button-balanced button-block" ng-if="!disableSubscribe" ng-disabled="!disableSubscribe">Subscribe Now</button>
       <button class="button button-assertive button-block" ng-if="subscriptionFull" disabled>Fully Subscribed</button>
     </div>
   </ion-content>
