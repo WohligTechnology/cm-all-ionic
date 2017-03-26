@@ -1,11 +1,11 @@
 <ion-modal-view class="bg-login" ng-controller="AthleteLoginCtrl">
-    <!--<ion-header-bar class="bar bar-header">
+  <!--<ion-header-bar class="bar bar-header">
 
   </ion-header-bar>-->
   <ion-content>
-     <div class="padding">
-    <div class="pull-right" ng-click="closeModalAthleteLogin()">
-       <span class="right-badge-modal ln ln-cross ln-fit">
+    <div class="padding">
+      <div class="pull-right" ng-click="closeModalAthleteLogin()">
+        <span class="right-badge-modal ln ln-cross ln-fit">
      </div>
      </div>
     <div class="logo mt20">
@@ -18,24 +18,25 @@
             <i class="ln-envelope"></i>
             <input type="email" placeholder="Email Address" ng-model="formData.email" name="email" required>
             <span class="error-msg" ng-show="formName.email.$invalid && formName.email.$touched">Please enter valid Email Address</span>
-          </label>
-          <label class="item item-input ps-relative" ng-class="{'err': formName.password.$invalid && formName.password.$touched}">
+        </label>
+        <label class="item item-input ps-relative" ng-class="{'err': formName.password.$invalid && formName.password.$touched}">
             <i class="ln-lock"></i>
             <input type="password" placeholder="Password" ng-model="formData.password" name="password" required>
             <span class="error-msg" ng-show="formName.password.$invalid && formName.password.$touched">Please enter valid Password</span>
           </label>
-          <div class="pull-right pr15">
-            <a class="color-primary" ng-click="openModal()">Forgot Password ?</a>
-          </div>
-          <div class="pl15">
-            <a class="color-primary" ng-click="openModalAthleteSignin()">Register Now</a>
-          </div>
-        </div>
         <div class="text-center mt30 padding-horizontal sb-btn">
           <button class="button button-positive button-block" ng-disabled="formName.$invalid" type="submit">
             Login
           </button>
         </div>
+        <div class="pull-right pr15">
+          <a class="color-primary" ng-click="openModal()">Forgot Password ?</a>
+        </div>
+        <div class="pl15">
+          <a class="color-primary" ng-click="openModalAthleteSignin()">Register Now</a>
+        </div>
+      </div>
+
       </form>
     </div>
   </ion-content>

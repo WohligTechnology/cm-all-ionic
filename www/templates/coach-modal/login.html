@@ -1,15 +1,15 @@
 <ion-modal-view class="bg-login" ng-controller="CoachLoginCtrl">
-    <!--<ion-header-bar class="bar bar-header">
+  <!--<ion-header-bar class="bar bar-header">
    <div class="button" ng-click="closeModalCoachLogin()">
      <span class="icon ion-close"></span>
      </div>
      </ion-header-bar>-->
-       <ion-content>
+  <ion-content>
     <div class="padding">
-    <div class="pull-right" ng-click="closeModalCoachLogin()">
-      <span class="right-badge-modal ln ln-cross ln-fit">
+      <div class="pull-right" ng-click="closeModalCoachLogin()">
+        <span class="right-badge-modal ln ln-cross ln-fit">
     </span>
-     </div>
+      </div>
     </div>
 
     <div class="logo mt20">
@@ -28,6 +28,9 @@
             <input type="password" no-paste placeholder="Password" name="password" ng-model="formData.password" required>
             <span class="error-msg" ng-show="formName.password.$invalid && formName.password.$touched">Please enter valid Password</span>
           </label>
+          <div class="text-center mt30 padding-horizontal sb-btn">
+            <button class="button button-positive button-block" ng-disabled="formName.$invalid" type="submit">Login</button>
+          </div>
           <div class="pull-right pr15">
             <a class="color-primary" ng-click="openModal()">Forgot Password?</a>
           </div>
@@ -35,9 +38,7 @@
             <a class="color-primary" ng-click="openModalCoachSignin()">Register Now</a>
           </div>
         </div>
-        <div class="text-center mt30 padding-horizontal sb-btn">
-          <button class="button button-positive button-block" ng-disabled="formName.$invalid" type="submit">Login</button>
-        </div>
+
       </form>
     </div>
   </ion-content>
