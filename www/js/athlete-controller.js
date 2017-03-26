@@ -605,34 +605,20 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       $scope.modalChat.hide();
     };
     var athleteId = $scope.athleteData._id;
+    $scope.hideChat = false;
     $scope.myCoachProfile = {};
     if (athleteId) {
       MyServices.getMyCoach({
         athleteId: athleteId
       }, function (response) {
         if (response.value === true) {
+          $scope.hideChat = true;
           $scope.myCoachProfile = response.data.coach;
-
-          //To get chat id. Because outsite this coach id is undefined
-          MyServices.getUnreadChatCount({
-            athleteId: athleteId,
-            coachId: $scope.myCoachProfile._id
-          }, function (response) {
-            console.log(response);
-            if (response.value) {
-              $scope.unreadcount = response.data.UnreadCount;
-              if (response.data.latestChat != undefined) {
-                $scope.chatId = response.data.latestChat[0]._id;
-                console.log("$scope.chatId===========", $scope.chatId);
-              }
-
-            }
-            // if (response.data.length > 0) {
-            //   $.jStorage.set('chatID', response.data.latestChat[0]._id);
-            // }
-          });
+          $scope.getAllMessages($scope.myCoachProfile._id);
+          $scope.getUnreadChatCount($scope.myCoachProfile._id);
         } else {
           $scope.myCoachProfile = "";
+          $scope.hideChat = false;
         }
       });
     };
@@ -643,18 +629,39 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       });
     }
 
-    // console.log("$scope.myCoachProfile._id", $scope.myCoachProfile._id);
-    // console.log("athleteId", athleteId);
-    // MyServices.getUnreadChatCount({
-    //   athleteId: athleteId,
-    //   coachId: $scope.myCoachProfile._id
-    // }, function (response) {
-    //   console.log(response);
-    //   $scope.unreadcount = response.data.UnreadCount;
-    //   $.jStorage.set('chatID', response.data.latestChat[0]._id);
-    // });
+    $scope.getUnreadChatCount = function (coachID) {
+      //To get chat id. Because outsite this coach id is undefined
+      MyServices.getUnreadChatCount({
+        athleteId: athleteId,
+        coachId: coachID
+      }, function (response) {
+        console.log(response);
+        if (response.value) {
+          $scope.unreadcount = response.data.UnreadCount;
+          if (response.data.latestChat != undefined) {
+            $scope.chatId = response.data.latestChat[0]._id;
+          }
+        }
+      });
+    }
 
 
+    // Get all messages
+    $scope.skip = 0;
+    $scope.chatData = {};
+    $scope.getAllMessages = function (coach) {
+      $scope.messages = [];
+      $scope.chatData.coach = coach;
+      $scope.chatData.athlete = athleteId;
+      $scope.chatData.skip = $scope.skip;
+      MyServices.getAllmessages($scope.chatData, function (data) {
+        if (data.data.length > 0) {
+          $scope.chatMsg = data.data[0].message[0].message;
+        } else {
+          $scope.chatMsg = "Start a chat with coach";
+        }
+      });
+    };
 
   })
 
@@ -677,7 +684,6 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     }
 
     function updateReadStatus() {
-
       MyServices.updateReadStatus({
         athleteId: athleteId,
         coachId: $scope.chatData.coach,
@@ -685,9 +691,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       }, function (response) {
         console.log('read');
       });
-
     }
-
     // Get all messages
     $scope.skip = 0;
     $scope.getAllMessages = function () {
@@ -726,14 +730,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       });
     };
 
-    io.socket.on("statusChangedToRead", function (data) {
-      $scope.messages = _.map($scope.messages, function (n) {
-        n.isRead = true;
-        return n;
-      });
-      console.log(" $scope.messages", $scope.messages);
-      $scope.$apply();
-    });
+
     //scoket Code
     io.socket.on("chatAdded", function (data) {
       console.log(data);
@@ -770,7 +767,15 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       d = d.toLocaleTimeString().replace(/:\d+ /, ' ');
       return d;
     };
-
+    //Cahange status of message
+    io.socket.on("statusChangedToRead", function (data) {
+      $scope.messages = _.map($scope.messages, function (n) {
+        n.isRead = true;
+        return n;
+      });
+      console.log(" $scope.messages", $scope.messages);
+      $scope.$apply();
+    });
     //Send Message 
     $scope.chatData = {};
     $scope.sendMessage = function () {

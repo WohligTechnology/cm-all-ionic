@@ -1516,6 +1516,12 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
           $scope.athleteData = data.data;
           console.log($scope.athleteData);
           parsePlanToCalender(data.data);
+          //training plan and phase data
+          $scope.trainingPlan = data.data.TrainingPlan;
+          $scope.trainingActivity = data.data.TrainingActivity;
+          $scope.test = data.data.Test;
+          $scope.aspect = data.data.aspect;
+          $scope.competition = data.data.Competition;
         } else {
           $scope.athleteData = [];
         }
@@ -2027,10 +2033,12 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       $scope.modalChat.hide();
     };
 
-    $scope.startChat = function (athleteId) {
+    $scope.startChat = function (athleteId, athleteName) {
       $scope.athleteId = athleteId;
+      $scope.athleteName = athleteName;
       $state.go('app.coach-chatdetail', {
-        id: athleteId
+        id: athleteId,
+        name: athleteName
       });
       $scope.modalChat.hide();
     };
@@ -2059,7 +2067,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       d = d.toLocaleTimeString().replace(/:\d+ /, ' ');
       return d;
     };
-    // console.log($stateParams.id);
+    console.log($stateParams);
     var athleteId = $stateParams.id;
     $scope.myAthlete = $stateParams.name;
 
@@ -2086,47 +2094,49 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       $scope.chatData.athlete = athleteId;
       $scope.chatData.skip = $scope.skip;
       MyServices.getAllmessages($scope.chatData, function (data) {
-        $scope.chatMsgs = data.data[0].message;
-        _.each($scope.chatMsgs, function (key) {
-          if (key.from == "athlete") {
-            $scope.messages.push({
-              userId: 'he',
-              message: key.message,
-              time: key.time,
-            });
+        if (data.data.length > 0) {
+          $scope.chatMsgs = data.data[0].message;
+          console.log($scope.chatMsgs);
+          _.each($scope.chatMsgs, function (key) {
+            if (key.from == "athlete") {
+              $scope.messages.push({
+                userId: 'he',
+                message: key.message,
+                time: key.time,
+              });
 
-            $scope.chatId = data.data[0]._id;
-            updateReadStatus();
-            // MyServices.updateReadStatus({
-            //   _id: data.data[0]._id,
-            //   from: "athlete"
-            // }, function (response) {
-            //   console.log('read');
-            // })
-          } else if (key.from == "coach") {
-            $scope.messages.push({
-              userId: 'me',
-              message: key.message,
-              time: key.time,
-              sent: true
-            });
-          }
-        });
+              $scope.chatId = data.data[0]._id;
+              updateReadStatus();
+
+            } else if (key.from == "coach") {
+              $scope.messages.push({
+                userId: 'me',
+                message: key.message,
+                time: key.time,
+                sent: true
+              });
+            }
+          });
+
+          //check if read or not
+          _.each($scope.chatMsgs, function (key) {
+            if (key.from == "coach" && key.isRead == true) {
+              $scope.messages = _.map($scope.messages, function (n) {
+                n.isRead = true;
+                return n;
+              });
+            }
+          })
+        } else {
+          $scope.messages = [];
+        }
+
         //updateReadStatus();
         $ionicScrollDelegate.scrollBottom();
       });
     };
 
     $scope.getAllMessages();
-
-    io.socket.on("statusChangedToRead", function (data) {
-      $scope.messages = _.map($scope.messages, function (n) {
-        n.isRead = true;
-        return n;
-      });
-      console.log("kjdfkljsadkfjsadf", $scope.messages);
-      $scope.$apply();
-    });
 
     io.socket.on("chatAdded", function (data) {
       console.log(data);
@@ -2156,6 +2166,15 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     }, function (data) {
 
 
+    });
+
+    io.socket.on("statusChangedToRead", function (data) {
+      $scope.messages = _.map($scope.messages, function (n) {
+        n.isRead = true;
+        return n;
+      });
+      // console.log("kjdfkljsadkfjsadf", $scope.messages);
+      $scope.$apply();
     });
 
     //Send chat message from coach 
@@ -2202,44 +2221,9 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     };
 
     $scope.data = {};
-    //   $scope.messages = [{
-    //     userId: 'me',
-    //     text: 'Hi Matt, how did you find the session?',
-    //     time: $scope.timeStamp()
-    //   }, {
-    //     userId: 'he',
-    //     text: 'Good, I managed to hit my target times, legs are feeling quite tired now.',
-    //     time: $scope.timeStamp()
-    //   }, {
-    //     userId: 'me',
-    //     text: 'Good, I suggest you rehab today ready for tomorrow’s session.',
-    //     time: $scope.timeStamp()
-    //   }, {
-    //     userId: 'me',
-    //     text: 'Stretch, foam roll etc, please refer to rehab programme attached with your Training Plan',
-    //     time: $scope.timeStamp()
-    //   }, {
-    //     userId: 'he',
-    //     text: 'Will do, thanks.',
-    //     time: $scope.timeStamp()
-    //   }, {
-    //     userId: 'he',
-    //     text: 'James, a question regarding the session on the 27th November, you have set three sets however still struggling with the legs from last week, shall I drop a set or take the reps slower and get it finished?',
-    //     time: $scope.timeStamp()
-    //   }, {
-    //     userId: 'me',
-    //     text: 'Stick with the two sets, get it done in flats. I will adapt your training plan for you.',
-    //     time: $scope.timeStamp()
-    //   }, {
-    //     userId: 'he',
-    //     text: 'Thanks James',
-    //     time: $scope.timeStamp()
-    //   }, {
-    //     userId: 'he',
-    //     text: 'Session complete, have submitted my times in session feedback  ',
-    //     time: $scope.timeStamp()
-    //   }];
   })
+
+
 
   .controller('CoachChatGroupCtrl', function ($scope, $ionicScrollDelegate, $timeout) {
 

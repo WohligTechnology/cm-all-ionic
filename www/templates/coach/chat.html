@@ -4,12 +4,15 @@
   </ion-nav-buttons>
   <ion-content>
     <ion-list>
-      <ion-item ng-repeat="chat in coachChats" ng-if="coachChats.length>0" class="item-avatar" ui-sref="app.coach-chatdetail({id:chat.athleteId,name:chat.name})">
+      <ion-item ng-if="coachChats.length>0" ng-repeat="chat in coachChats" ng-if="coachChats.length>0" class="item-avatar" ui-sref="app.coach-chatdetail({id:chat.athleteId,name:chat.name})">
         <img ng-src="{{(chat.profilePic | uploadpath) || 'img/img-placeholder.png'}}">
         <h2>{{chat.name}} {{chat.surname}}</h2>
         <p>{{chat.message[0].message}}</p>
         <span class="badge badge-assertive chat-badge" ng-if="chat.unread == 0">{{chat.unread}}</span>
         <!--<ion-option-button class="button-assertive">Delete</ion-option-button>-->
+      </ion-item>
+      <ion-item ng-if="coachChats.length == 0">
+        Tap on <i class="icon ln-user"></i> to select an athlete to caht with.
       </ion-item>
     </ion-list>
   </ion-content>

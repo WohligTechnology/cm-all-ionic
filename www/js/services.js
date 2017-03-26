@@ -351,7 +351,7 @@ angular.module('starter.services', [])
 
       getAthletePlans: function (formData, callback) {
         formData = _.merge(formData, requestCredentials);
-        $http.post(adminurl + 'Athlete/generateAthleteCalender', formData).success(function (data) {
+        $http.post(adminurl + 'Athlete/getCalenderOfAthlete', formData).success(function (data) {
           callback(data);
         });
       },
