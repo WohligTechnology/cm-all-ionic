@@ -1,12 +1,10 @@
 <ion-view view-title="Notifications">
   <ion-content>
     <ion-list class="no-pad-list">
+
       <ion-item class="item-text-wrap" ng-repeat="notification in athletenotifications">
-        <div ng-if="notification.type === 'athleteSubscriptionAccept'">
-          <div class="pull-right" ng-if="notification.athletecoach.status == 'Payment Pending'">
-            <button ng-click="openPayNow(notification.athletecoach)" class="btn btn-small btn-blue">Pay Now</button>
-            <!-- <button class="btn btn-small btn-danger" ng-click="reason()" tooltip-placement="top" uib-tooltip="Reject"><i class="fa fa-times" aria-hidden="true"></i></button> -->
-          </div>
+        <div ng-if="notification.type === 'athleteSubscriptionAccept'" ng-click="openPayNow(notification.athletecoach)">
+          <span class="item-note">Pay Now</span>
           <p><span class=" notify-name ">{{notification.athletecoach.coach.name}} {{notification.athletecoach.coach.surname}} </span>accepted
             your request.
           </p>
@@ -22,27 +20,27 @@
         <!--unsubscribe-->
         <div ng-if="notification.type === 'Unsubscribe' ">
           <p><span class="notify-name ">{{notification.athletecoach.coach.name}} {{notification.athletecoach.coach.surname}} </span>has
-            unsubsribe you.
+            unsubsribed you.
           </p>
           <p>{{notification.createdAt | date:"dd/MM/yyyy 'at' h:mma "}}</p>
         </div>
         <!--Test-->
         <div ng-if="notification.type === 'testAssign'">
           <p><span class="notify-name">{{notification.test.coach.name}} {{notification.test.coach.surname}} </span>assigned
-            you a test.
+            you to a test.
           </p>
           <p>{{notification.createdAt | date:"dd/MM/yyyy 'at' h:mma "}}</p>
         </div>
         <!--Blog-->
         <div ng-if="notification.type=='blogAssign' ">
           <p><span class="notify-name ">{{notification.blog.author.name}} {{notification.blog.author.surname}} </span>shared
-            a blog.
+            a Coach Update.
           </p>
           <p>{{notification.createdAt | date:"dd/MM/yyyy 'at' h:mma "}}</p>
         </div>
         <!-- Competition -->
         <div ng-if="notification.type == 'Competition'">
-          <p ui-sref="app.athlete-competition-detail">You have been assigned to the following competition: <span class="strong">{{notification.name}}</span>.</p>
+          <p>You have been assigned to the following competition: <span class="strong">{{notification.name}}</span>.</p>
           <div class="button-bar hide">
             <button class="button button-small button-positive">Accept</button>
             <button class="button button-small button-assertive" ng-click="reason()">Reject</button>
