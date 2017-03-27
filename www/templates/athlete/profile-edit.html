@@ -1,5 +1,6 @@
 <ion-view view-title="Edit Profile">
   <ion-content>
+    <pre>{{formName.$valid|json}}</pre>
     <form name="formName" ng-submit="submitData(formData);">
       <div class="pic-edit">
         <div class="ch-relative" ng-click="selectImage()">
@@ -49,14 +50,14 @@
               </div>
             </p>
             <input type="hidden" name="athleteFocus" ng-model="formData.athleteFocus[0]" required>
-            <span class="error-msg" ng-show="formName.athleteFocus.$invalid && formName.athleteFocus.$touched">Please select Coaching Focus</span>
+            <span class="error-msg" ng-show="formName.athleteFocus.$invalid && formName.athleteFocus.$touched">Please select Athlete Focus</span>
           </ion-item>
           <div class="item item-divider small-text" ng-if="profileIncomplete()">
             Please enter below details to complete your profile.
           </div>
           <label class="item item-input" ng-class="{'err': formName.mobile.$invalid && formName.mobile.$touched}">
             <span class="input-label">Phone Number</span>
-            <input type="tel" name="mobile" ng-model="formData.mobile" ng-pattern="/^\+?\d{2}[- ]?\d{3}[- ]?\d{5}$/" required>
+            <input type="tel" name="mobile" ng-model="formData.mobile"  replace="[^0-9+]" with="" required>
             <span class="error-msg" ng-show="formName.mobile.$invalid && formName.mobile.$touched">Please enter valid Phone Number</span>
           </label>
           <label class="item item-input item-select" ng-class="{'err': formName.gender.$invalid && formName.gender.$touched}">

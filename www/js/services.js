@@ -22,8 +22,12 @@ angular.module('starter.services', [])
   .factory('MyServices', function ($http, $filter) {
     var requestCredentials = {
       accessToken: $.jStorage.get('accessToken'),
-      accessType: $.jStorage.get('accessType')
+      accessType: $.jStorage.get('accessType'),
     };
+    if ($.jStorage.get('pushData')) {
+      requestCredentials.playerID = $.jStorage.get('pushData').userID;
+      requestCredentials.pushToken = $.jStorage.get('pushData').pushToken;
+    }
     var userProfile = $.jStorage.get("userProfile");
 
     var returnval = {};
@@ -43,8 +47,12 @@ angular.module('starter.services', [])
         $.jStorage.set("accessType", "Athlete");
         requestCredentials = {
           accessToken: $.jStorage.get("userProfile").accessToken[0],
-          accessType: "Athlete"
+          accessType: "Athlete",
         };
+        if ($.jStorage.get('pushData')) {
+          requestCredentials.playerID = $.jStorage.get('pushData').userID;
+          requestCredentials.pushToken = $.jStorage.get('pushData').pushToken;
+        }
       },
 
       setCoachUser: function (data) {
@@ -54,8 +62,12 @@ angular.module('starter.services', [])
         $.jStorage.set("accessType", "Coach");
         requestCredentials = {
           accessToken: data.accessToken[0],
-          accessType: "Coach"
+          accessType: "Coach",
         };
+        if ($.jStorage.get('pushData')) {
+          requestCredentials.playerID = $.jStorage.get('pushData').userID;
+          requestCredentials.pushToken = $.jStorage.get('pushData').pushToken;
+        }
       },
 
       getUser: function () {

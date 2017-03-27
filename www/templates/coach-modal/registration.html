@@ -1,7 +1,7 @@
 <ion-modal-view ng-controller="CoachRegistrationCtrl">
   <ion-header-bar class="bar bar-header bar-positive">
-      <h1 class="title">Register Now</h1>
-      <span class="right-badge-modal ln ln-cross ln-fit" ng-click="closeModalCoachSignin()">
+    <h1 class="title">Register Now</h1>
+    <span class="right-badge-modal ln ln-cross ln-fit" ng-click="closeModalCoachSignin()">
     </span>
   </ion-header-bar>
   <ion-content>
@@ -62,7 +62,7 @@
           </label>
           <label class="item item-input" ng-class="{'err':formName.contact.$invalid && formName.contact.$touched}">
             <span class="input-label">Phone Number</span>
-            <input type="tel" name="contact" ng-model="formData.mobile" ng-pattern="validTel" required>
+            <input type="tel" name="mobile" ng-model="formData.mobile"  replace="[^0-9+]" with="" required>
             <span class="error-msg" ng-show="formName.contact.$invalid && formName.contact.$touched">Please enter valid Phone Number</span>
           </label>
           <label class="item item-input" ng-class="{'err':formName.dob.$invalid && formName.dob.$touched}">
