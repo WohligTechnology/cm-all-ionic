@@ -167,9 +167,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       $ionicLoading.hide();
     };
 
-    //Submit Form
-    $scope.submitData = function (formData) {
-      $scope.showLoading('Please wait...', 15000);
+    $scope.callAPI = function (formData) {
       MyServices.athletelogin(formData, function (data) {
         if (data.value === true) {
           $scope.formData = {};
@@ -184,6 +182,24 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
           $scope.showLoading(data.error.message, 2000);
         }
       });
+    };
+    //Submit Form
+    $scope.submitData = function (formData) {
+      $scope.showLoading('Please wait...', 15000);
+      if (window.plugins) {
+        if (window.plugins.OneSignal) {
+          window.plugins.OneSignal.getIds(function (ids) {
+            formData.deviceId = ids.userId;
+            if (formData.deviceId) {
+              $scope.callAPI(formData);
+            } else {
+              $scope.callAPI(formData);
+            }
+          });
+        }
+      } else {
+        $scope.callAPI(formData);
+      }
     };
   })
 

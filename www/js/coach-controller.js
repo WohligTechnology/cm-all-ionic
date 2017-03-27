@@ -193,10 +193,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       $ionicLoading.hide();
     };
 
-    //Submit Form
-    $scope.submitData = function (formData) {
-      $scope.showLoading('Please wait...', 15000);
-
+    $scope.callAPI = function (formData) {
       MyServices.login(formData, function (data) {
         if (data.value === true) {
           $scope.formData = {};
@@ -211,6 +208,26 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
           $scope.showLoading(data.data.message, 2000);
         }
       });
+    };
+    //Submit Form
+    $scope.submitData = function (formData) {
+      $scope.showLoading('Please wait...', 15000);
+      if (window.plugins) {
+        if (window.plugins.OneSignal) {
+          window.plugins.OneSignal.getIds(function (ids) {
+            console.log(ids.userId);
+            formData.deviceId = ids.userId;
+            if (formData.deviceId) {
+              $scope.callAPI(formData);
+            } else {
+              $scope.callAPI(formData);
+            }
+          });
+        }
+      } else {
+        $scope.callAPI(formData);
+      }
+
     };
   })
 
