@@ -24,10 +24,6 @@ angular.module('starter.services', [])
       accessToken: $.jStorage.get('accessToken'),
       accessType: $.jStorage.get('accessType'),
     };
-    if ($.jStorage.get('pushData')) {
-      requestCredentials.playerID = $.jStorage.get('pushData').userID;
-      requestCredentials.pushToken = $.jStorage.get('pushData').pushToken;
-    }
     var userProfile = $.jStorage.get("userProfile");
 
     var returnval = {};
@@ -49,10 +45,6 @@ angular.module('starter.services', [])
           accessToken: $.jStorage.get("userProfile").accessToken[0],
           accessType: "Athlete",
         };
-        if ($.jStorage.get('pushData')) {
-          requestCredentials.playerID = $.jStorage.get('pushData').userID;
-          requestCredentials.pushToken = $.jStorage.get('pushData').pushToken;
-        }
       },
 
       setCoachUser: function (data) {
@@ -64,10 +56,6 @@ angular.module('starter.services', [])
           accessToken: data.accessToken[0],
           accessType: "Coach",
         };
-        if ($.jStorage.get('pushData')) {
-          requestCredentials.playerID = $.jStorage.get('pushData').userID;
-          requestCredentials.pushToken = $.jStorage.get('pushData').pushToken;
-        }
       },
 
       getUser: function () {

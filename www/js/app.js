@@ -143,6 +143,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.athlete-chat', {
         url: '/athlete/chat',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/athlete/chat.html',
@@ -153,6 +154,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.athlete-chatdetail', {
         url: '/athlete/chat/detail/:chatId',
+        cache: false,
+
         views: {
           'menuContent': {
             templateUrl: 'templates/athlete/chat-detail.html',
@@ -336,6 +339,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.coach-chat', {
         url: '/coach/chat',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/coach/chat.html',
@@ -356,6 +360,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.coach-chatdetail', {
         url: '/coach/chat-detail/:id/:name',
+        cache: false,
+
         views: {
           'menuContent': {
             templateUrl: 'templates/coach/chat-detail.html',
