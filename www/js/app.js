@@ -17,12 +17,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
       if (window.StatusBar) {
         StatusBar.styleBlackTranslucent();
       }
-      var notificationOpenedCallback = function (jsonData) {
-        console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
-      };
 
       if (window.plugins) {
         if (window.plugins.OneSignal) {
+          var notificationOpenedCallback = function (result) {
+            console.log(result);
+            var data = result.notification.payload.additionalData;
+            console.log(data);
+            if (data && data.targetUrl) {
+              var state = $injector.get($state);
+              state.go(data.targetUrl);
+            }
+          };
           window.plugins.OneSignal
             .startInit("2e809704-b83d-4db7-b1ae-5e9faeadcc8e")
             .handleNotificationOpened(notificationOpenedCallback)
