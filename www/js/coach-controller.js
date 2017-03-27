@@ -288,19 +288,19 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
 
   .controller('CoachEditProfileCtrl', function ($scope, $state, MyServices, $ionicModal, $filter, $ionicLoading, $cordovaFileTransfer, $cordovaCamera) {
-    $scope.formData = MyServices.getUser();
-    $scope.formData.dob = new Date($scope.formData.dob);
+    $scope.editData = MyServices.getUser();
+    $scope.editData.dob = new Date($scope.editData.dob);
     $scope.dummyPassword = '12345678';
 
-    if ($scope.formData.specialisationOther) {
-      $scope.formData.specialisations.otherVal = true;
+    if ($scope.editData.specialisationOther) {
+      $scope.editData.specialisations.otherVal = true;
     }
     //Toggle Other Specialisations
     $scope.toggleOthers = function () {
-      if ($scope.formData.specialisations.otherVal === true) {
-        $scope.formData.specialisationOther = 'Others';
+      if ($scope.editData.specialisations.otherVal === true) {
+        $scope.editData.specialisationOther = 'Others';
       } else {
-        $scope.formData.specialisationOther = '';
+        $scope.editData.specialisationOther = '';
       }
     };
 
@@ -340,7 +340,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
     //Profile Incomplete Check
     $scope.profileIncomplete = function () {
-      if (!$scope.formData.experience || !$scope.formData.expertise || !$scope.formData.achievements) {
+      if (!$scope.editData.experience || !$scope.editData.expertise || !$scope.editData.achievements) {
         return true;
       } else {
         return false;
@@ -417,7 +417,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     // Update Password
     $scope.passwordData = {};
     $scope.changePassword = function () {
-      $scope.passwordData.accessToken = $scope.formData.accessToken;
+      $scope.passwordData.accessToken = $scope.editData.accessToken;
       $scope.modalPassword.show();
     };
     $scope.submitPassword = function (formData) {
@@ -445,7 +445,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     //Update Price
     $scope.priceData = {};
     $scope.changePrice = function () {
-      $scope.priceData.coachAskingPrice = $scope.formData.coachAskingPrice;
+      $scope.priceData.coachAskingPrice = $scope.editData.coachAskingPrice;
       $scope.modalPrice.show();
     };
     $scope.rangePrice = function (val) {
@@ -455,14 +455,14 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       }
     };
     $scope.submitPrice = function (data) {
-      $scope.formData.coachAskingPrice = data.coachAskingPrice;
-      $scope.submitData($scope.formData);
+      $scope.editData.coachAskingPrice = data.coachAskingPrice;
+      $scope.submitData($scope.editData);
     };
 
     //Update Coaching Limit
     $scope.limitData = {};
     $scope.changeLimit = function () {
-      $scope.limitData.coachingLimit = $scope.formData.coachingLimit;
+      $scope.limitData.coachingLimit = $scope.editData.coachingLimit;
       $scope.modalLimit.show();
     };
     $scope.rangeLimit = function (val) {
@@ -472,9 +472,9 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       }
     };
     $scope.submitLimit = function (data) {
-      $scope.formData.coachingLimit = data.coachingLimit;
-      console.log($scope.formData);
-      $scope.submitData($scope.formData);
+      $scope.editData.coachingLimit = data.coachingLimit;
+      console.log($scope.editData);
+      $scope.submitData($scope.editData);
     };
 
     // Upload Profile Pic
@@ -506,8 +506,8 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
           // Success!
           console.log(result.response);
           result.response = JSON.parse(result.response);
-          $scope.formData.profilePic = result.response.data[0];
-          $scope.submitData($scope.formData);
+          $scope.editData.profilePic = result.response.data[0];
+          $scope.submitData($scope.editData);
         }, function (err) {
           // Error
           $scope.hideLoading();
@@ -668,11 +668,11 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       MyServices.updateBlog(formData, function (data) {
         if (data.value === true) {
           $scope.hideLoading();
-          $scope.showLoading('Coach Updates Edited', 2000);
+          $scope.showLoading('Coach Updates shared successfully', 2000);
           $state.go('app.coach-blog');
         } else {
           $scope.hideLoading();
-          $scope.showLoading('Error Editing Coach Updates', 2000);
+          // $scope.showLoading('Error Editing Coach Updates', 2000);
         }
       });
     };
@@ -1953,7 +1953,18 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
   })
 
 
-  .controller('CoachChatCtrl', function ($scope, $ionicModal, $state, MyServices, $stateParams) {
+  .controller('CoachChatCtrl', function ($scope, $ionicModal, $state, MyServices, $stateParams, $ionicLoading) {
+    //Loading
+    $scope.showLoading = function (value, time) {
+      $ionicLoading.show({
+        template: value,
+        duration: time
+      });
+    };
+    $scope.hideLoading = function () {
+      $ionicLoading.hide();
+    };
+    $scope.showLoading("Loading...", 10000);
     $scope.coachProfile = MyServices.getUser();
     var coachId = $scope.coachProfile._id;
     var i = 0;
@@ -1965,6 +1976,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     }
     //Get all athletes By coach
     $scope.getMyAthletes = function (keywordChange) {
+
       $scope.totalItems = undefined;
       $scope.athletes = undefined;
       if (keywordChange) {
@@ -1974,6 +1986,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
         page: $scope.currentPage,
         keyword: $scope.search.keyword
       }, ++i, function (response, ini) {
+
         if (ini == i) {
           if (response.value) {
             $scope.chatathletes = response.data.results;
@@ -1994,13 +2007,13 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       MyServices.getMyChats({
         coach: coachId
       }, function (response) {
+        $scope.hideLoading();
         if (response.data != "No chat Found") {
           $scope.coachChats = response.data;
         } else {
           $scope.coachChats = [];
         }
-
-      })
+      });
     };
 
     $scope.getMyChats();
@@ -2054,7 +2067,18 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
   })
 
-  .controller('CoachChatDetailCtrl', function ($scope, $ionicScrollDelegate, $timeout, $stateParams, MyServices) {
+  .controller('CoachChatDetailCtrl', function ($scope, $ionicScrollDelegate, $timeout, $stateParams, MyServices, $ionicLoading) {
+    //Loading
+    $scope.showLoading = function (value, time) {
+      $ionicLoading.show({
+        template: value,
+        duration: time
+      });
+    };
+    $scope.hideLoading = function () {
+      $ionicLoading.hide();
+    };
+    $scope.showLoading("Loading...", 10000);
     $scope.coachProfile = MyServices.getUser();
     var coachId = $scope.coachProfile._id;
     $scope.chatData = {};
@@ -2072,14 +2096,14 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     $scope.myAthlete = $stateParams.name;
 
     function updateReadStatus() {
-      console.log("$scope.chatId>>>>>>>>>>>>>", $scope.chatId)
+      console.log("$scope.chatId =", $scope.chatId)
       MyServices.updateReadStatus({
         athleteId: athleteId,
         coachId: coachId,
         from: "athlete"
       }, function (response) {
         console.log('read');
-      })
+      });
     }
 
 
@@ -2094,6 +2118,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       $scope.chatData.athlete = athleteId;
       $scope.chatData.skip = $scope.skip;
       MyServices.getAllmessages($scope.chatData, function (data) {
+        $scope.hideLoading();
         if (data.data.length > 0) {
           $scope.chatMsgs = data.data[0].message;
           console.log($scope.chatMsgs);

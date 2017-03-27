@@ -291,8 +291,8 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
   })
 
   .controller('AthleteEditProfileCtrl', function ($scope, $state, MyServices, $ionicModal, $filter, $ionicLoading, $cordovaCamera, $cordovaFileTransfer) {
-    $scope.formData = MyServices.getUser();
-    $scope.formData.dob = new Date($scope.formData.dob);
+    $scope.editData = MyServices.getUser();
+    $scope.editData.dob = new Date($scope.editData.dob);
     $scope.dummyPassword = '12345678';
 
     $scope.maxDate = $filter('date')(new Date(), 'yyyy-MM-dd');
@@ -312,7 +312,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
     //Profile Incomplete Check
     $scope.profileIncomplete = function () {
-      if (!$scope.formData.country || !$scope.formData.mobile || !$scope.profileData.sports || !$scope.formData.about || !$scope.formData.events || !$scope.formData.achievements || !$scope.formData.previousSeasonReview) {
+      if (!$scope.editData.country || !$scope.editData.mobile || !$scope.editData.sports || !$scope.editData.about || !$scope.editData.events || !$scope.editData.achievements || !$scope.editData.previousSeasonReview) {
         return true;
       } else {
         return false;
@@ -386,7 +386,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
     $scope.passwordData = {};
     $scope.changePassword = function () {
-      $scope.passwordData.accessToken = $scope.formData.accessToken;
+      $scope.passwordData.accessToken = $scope.editData.accessToken;
       $scope.modalPassword.show();
     };
     $scope.submitPassword = function (formData) {
@@ -461,8 +461,8 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         .then(function (result) {
           // Success!
           result.response = JSON.parse(result.response);
-          $scope.formData.profilePic = result.response.data[0];
-          $scope.submitData($scope.formData);
+          $scope.editData.profilePic = result.response.data[0];
+          $scope.submitData($scope.editData);
         }, function (err) {
           // Error
           $scope.hideLoading();
@@ -598,14 +598,25 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
   })
 
-  .controller('AthleteChatCtrl', function ($scope, $ionicModal, $state, MyServices) {
+  .controller('AthleteChatCtrl', function ($scope, $ionicModal, $state, MyServices, $ionicLoading) {
+    //Loading
+    $scope.showLoading = function (value, time) {
+      $ionicLoading.show({
+        template: value,
+        duration: time
+      });
+    };
+    $scope.hideLoading = function () {
+      $ionicLoading.hide();
+    };
+    $scope.showLoading("Loading...", 10000);
     $scope.athleteData = MyServices.getUser();
     $scope.startChat = function () {
       $state.go('app.athlete-chatdetail');
       $scope.modalChat.hide();
     };
     var athleteId = $scope.athleteData._id;
-    $scope.hideChat = false;
+    $scope.hideChat = undefined;
     $scope.myCoachProfile = {};
     if (athleteId) {
       MyServices.getMyCoach({
@@ -655,6 +666,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       $scope.chatData.athlete = athleteId;
       $scope.chatData.skip = $scope.skip;
       MyServices.getAllmessages($scope.chatData, function (data) {
+        $scope.hideLoading();
         if (data.data.length > 0) {
           $scope.chatMsg = data.data[0].message[0].message;
         } else {
@@ -665,7 +677,19 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
   })
 
-  .controller('AthleteChatDetailCtrl', function ($scope, $ionicScrollDelegate, $stateParams, $timeout, MyServices) {
+  .controller('AthleteChatDetailCtrl', function ($scope, $ionicScrollDelegate, $stateParams, $timeout, MyServices, $ionicLoading) {
+    //Loading
+    $scope.showLoading = function (value, time) {
+      $ionicLoading.show({
+        template: value,
+        duration: time
+      });
+    };
+    $scope.hideLoading = function () {
+      $ionicLoading.hide();
+    };
+    $scope.showLoading("Loading...", 10000);
+
     $scope.athleteData = MyServices.getUser();
     var athleteId = $scope.athleteData._id;
     var chatId = $stateParams.chatId;
@@ -700,6 +724,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       $scope.chatData.athlete = athleteId;
       $scope.chatData.skip = $scope.skip;
       MyServices.getAllmessages($scope.chatData, function (data) {
+        $scope.hideLoading();
         if (data.data.length > 0) {
           $scope.chatMsgs = data.data[0].message;
           console.log("$scope.chatMsgs", $scope.chatMsgs);
@@ -2053,7 +2078,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         if (data.value === true) {
           $scope.formData = {};
           $scope.hideLoading();
-          $scope.registerMsg = "Successfully Register";
+          $scope.registerMsg = "Thank you for registering with coach mentor. We have received your registration and you will shortly receive a message on your registered email with a verification link. Please follow the verification link to activate your athlete account. Please fill out your other personal details in your own time.";
           $scope.showLoading($scope.registerMsg, 3000);
           $scope.modal2.hide();
           $state.go('landing');

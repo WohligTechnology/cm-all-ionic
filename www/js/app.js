@@ -93,14 +93,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
         controller: 'AthleteLoginCtrl'
       })
 
-      .state('athlete-registration', {
-        url: '/athlete/registration',
-        templateUrl: 'templates/athlete/registration.html',
-        controller: 'AthleteRegistrationCtrl'
-      })
+      // .state('athlete-registration', {
+      //   url: '/athlete/registration',
+      //   templateUrl: 'templates/athlete/registration.html',
+      //   controller: 'AthleteRegistrationCtrl'
+      // })
 
       .state('app.athlete-edit-profile', {
         url: '/athlete/edit-profile',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/athlete/profile-edit.html',
@@ -303,6 +304,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.coach-edit-profile', {
         url: '/coach/edit-profile',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/coach/profile-edit.html',
