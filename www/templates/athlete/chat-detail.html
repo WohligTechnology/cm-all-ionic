@@ -1,10 +1,13 @@
 <ion-view>
   <ion-nav-title>
+
     {{myCoachProfile.name}}
   </ion-nav-title>
   <ion-content class="has-footer">
+    <pre>{{messages|json}}</pre>
     <div class="chat-holder">
       <div class="bubble" ng-class="{'me': m.userId == 'me'}" ng-repeat="m in messages" on-tap="chatTap(m);">
+        <pre>{{m|json}}</pre>
         <div class="tick" ng-show="m.sent"><i class="icon ion-android-done" ng-class="{'ion-android-done-all': m.isRead==true}"></i></div>
         <div class="msg">{{m.message}}</div>
         <div class="time-stamp" ng-show="m.showTime">{{m.time}}</div>

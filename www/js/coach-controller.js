@@ -2067,8 +2067,9 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
   })
 
-  .controller('CoachChatDetailCtrl', function ($scope, $ionicScrollDelegate, $timeout, $stateParams, MyServices, $ionicLoading) {
-    //Loading
+  .controller('CoachChatDetailCtrl', function ($scope, $state, $ionicScrollDelegate, $timeout, $stateParams, MyServices, $ionicLoading) {
+    //Loading+
+    $scope.messages = [];
     $scope.showLoading = function (value, time) {
       $ionicLoading.show({
         template: value,
@@ -2094,6 +2095,21 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     console.log($stateParams);
     var athleteId = $stateParams.id;
     $scope.myAthlete = $stateParams.name;
+
+
+    io.socket.on("statusChangedToRead" + coachId + athleteId, function (data) {
+      console.log("Read is called");
+      if ($state.current.name == "app.coach-chatdetail") {
+        MyServices.getAllmessages($scope.chatData, function (data) {});
+      }
+      $scope.messages = _.map($scope.messages, function (n) {
+        n.sent = true;
+        n.isRead = true;
+        return n;
+      });
+      console.log(" $scope.messages", $scope.messages);
+      $scope.$apply();
+    });
 
     function updateReadStatus() {
       console.log("$scope.chatId =", $scope.chatId)
@@ -2165,6 +2181,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
     io.socket.on("chatAdded", function (data) {
       console.log(data);
+      MyServices.getAllmessages($scope.chatData, function () {});
       var arr = _.filter($scope.messages, {
         randomVal: data.message.randomVal
       });
