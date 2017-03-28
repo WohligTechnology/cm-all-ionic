@@ -11285,3 +11285,20 @@ p.bold {
 
 .checkd {
   background-color: #eaeaea; }
+
+.icon.show-today {
+  display: none; }
+
+.today .icon.show-today {
+  display: inline-block;
+  opacity: 1;
+  color: #004a9b;
+  font-size: 12px;
+  left: 2px;
+  top: 14px;
+  width: auto;
+  right: auto;
+  bottom: auto;
+  height: auto; }
+  .today .icon.show-today:before {
+    width: auto; }

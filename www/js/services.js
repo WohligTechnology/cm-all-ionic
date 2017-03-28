@@ -356,6 +356,13 @@ angular.module('starter.services', [])
         });
       },
 
+      getMyPlan: function (formData, callback) {
+        formData = _.merge(formData, requestCredentials);
+        $http.post(adminurl + 'Athlete/generateAthleteCalender', formData).success(function (data) {
+          callback(data);
+        });
+      },
+
 
       saveComment: function (formData, callback) {
         formData = _.merge(formData, requestCredentials);

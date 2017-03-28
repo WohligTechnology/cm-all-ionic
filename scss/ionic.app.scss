@@ -103,8 +103,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
       background-color: rgba(0, 0, 0, 0.2);
       border-left: 4px solid white;
     }
-  }
-  //   .item {
+  } //   .item {
   //   &.on,
   //   .activated {
   //     background-color: rgba(0, 0, 0, 0.2);
@@ -1331,8 +1330,7 @@ p.bold {
 
 .tab-button {
   .tab-nav.tabs {
-    background-color: $positive;
-    // border-bottom: 1px solid white;
+    background-color: $positive; // border-bottom: 1px solid white;
     padding-bottom: 2px;
   }
   .tab-item {
@@ -1896,4 +1894,26 @@ $phaseEven: #14a7ac;
 
 .checkd {
   background-color: #eaeaea;
+}
+
+.icon.show-today {
+  display: none;
+}
+
+.today {
+  .icon.show-today {
+    display: inline-block;
+    opacity: 1;
+    color: #004a9b;
+    font-size: 12px;
+    left: 2px;
+    top: 14px;
+    width: auto;
+    right: auto;
+    bottom: auto;
+    height: auto;
+    &:before {
+      width: auto;
+    }
+  }
 }

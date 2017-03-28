@@ -1630,7 +1630,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
   })
 
 
-  .controller('AthleteTrainingDiaryCtrl', function ($scope, $ionicModal, $ionicLoading, uiCalendarConfig, MyServices, $ionicScrollDelegate, $timeout, $filter) {
+  .controller('AthleteTrainingDiaryCtrl', function ($scope, $ionicModal, $ionicLoading, uiCalendarConfig, MyServices, $ionicScrollDelegate, $timeout, $filter, $location) {
 
     // console.log($scope.athleteData);
     //Loading
@@ -1866,7 +1866,14 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     $scope.formData.ID = $.jStorage.get('userProfile')._id;
     $scope.showPlan = undefined;
 
-    MyServices.getAthletePlans($scope.formData, function (data) {
+    $scope.scrollTo = function (target) {
+      $location.hash(target); //set the location hash
+      var handle = $ionicScrollDelegate.$getByHandle('listScroll');
+      handle.anchorScroll(true); // 'true' for animation
+    };
+
+
+    MyServices.getMyPlan($scope.formData, function (data) {
       if (data.value === true) {
         $scope.hideLoading();
         console.log(data);
@@ -1881,15 +1888,12 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
           console.log($scope.trainingPlan.startDate);
           $timeout(function () {
             var todayScroll = new Date();
-            todayScroll = 'scroll' + $filter('date')(todayScroll, 'ddMMyy');
-            console.log(todayScroll);
-            var delegateHandle = $ionicScrollDelegate.$getByHandle('listScroll');
-            delegateHandle.anchorScroll(todayScroll);
-          }, 2000);
+            $scope.todayScroll = 'scroll' + $filter('date')(todayScroll, 'ddMMyy');
+            $scope.scrollTo($scope.todayScroll);
+          }, 300);
         } else {
           $scope.showPlan = false;
         }
-
       } else {
         $scope.hideLoading();
         $scope.showLoading('Error loading Training Diary!', 2000);
@@ -1897,9 +1901,22 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       }
     });
 
+    $scope.checkToday = function (data) {
+      if ($scope.todayScroll == 'scroll' + $filter('date')(data, 'ddMMyy')) {
+        return true;
+      } else {
+        return false;
+      }
+    };
+
     //View Switcher
     $scope.currentScreen = 'List';
     $scope.switchView = function (val) {
+      if (val == 'Diary') {
+        $scope.scrollTo('diaryId');
+      } else if (val == 'List') {
+        $scope.scrollTo($scope.todayScroll);
+      }
       $scope.currentScreen = val;
     };
 
