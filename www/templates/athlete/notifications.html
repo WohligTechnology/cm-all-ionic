@@ -3,8 +3,8 @@
     <ion-list class="no-pad-list">
 
       <ion-item class="item-text-wrap" ng-repeat="notification in athletenotifications">
-        <div ng-if="notification.type === 'athleteSubscriptionAccept'" ng-click="openPayNow(notification.athletecoach)">
-          <span class="item-note">Pay Now</span>
+        <div ng-if="notification.type === 'athleteSubscriptionAccept'">
+          <span ng-if="notification.athletecoach.status == 'Payment Pending'" class="item-note" ng-click="openPayNow(notification.athletecoach)">Pay Now</span>
           <p><span class=" notify-name ">{{notification.athletecoach.coach.name}} {{notification.athletecoach.coach.surname}} </span>accepted
             your request.
           </p>

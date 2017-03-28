@@ -8,7 +8,7 @@
         <img ng-src="{{(chat.profilePic | uploadpath) || 'img/img-placeholder.png'}}">
         <h2>{{chat.name}} {{chat.surname}}</h2>
         <p>{{chat.message[0].message}}</p>
-        <span class="badge badge-assertive chat-badge" ng-if="chat.unread == 0">{{chat.unread}}</span>
+        <span class="badge badge-assertive chat-badge" ng-if="chat.unread != 0">{{unreadcount}}</span>
         <!--<ion-option-button class="button-assertive">Delete</ion-option-button>-->
       </ion-item>
       <ion-item ng-if="coachChats.length == 0">

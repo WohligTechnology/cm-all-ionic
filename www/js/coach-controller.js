@@ -1738,7 +1738,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     $scope.getMyAthletes();
   })
 
-  .controller('CoachAthletesRequestCtrl', function ($scope, $ionicModal, MyServices, $ionicPopup) {
+  .controller('CoachAthletesRequestCtrl', function ($scope, $ionicModal, MyServices, $ionicPopup, $ionicLoading) {
     $scope.profileData = MyServices.getUser();
 
     $scope.reason = function (notificationId) {
@@ -1803,8 +1803,10 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
     $scope.acceptRejectRequest = function (athleteCoaching, data) {
       MyServices.updateAthleteCoaching(athleteCoaching, function (response) {
+        $scope.showLoading('Loading...', 10000);
         if (response.value == true) {
           if (data == 'accept') {
+            $scope.hideLoading();
             // toastr.success('Request accepted', 'Thank you');
           } else {
             // $scope.modalInstance.close();
@@ -1865,14 +1867,27 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
   })
 
-  .controller('CoachAthleteDetailCtrl', function ($scope, $ionicModal, $stateParams, MyServices) {
+  .controller('CoachAthleteDetailCtrl', function ($scope, $ionicModal, $stateParams, MyServices, $ionicLoading) {
+    $scope.showLoading = function (value, time) {
+      $ionicLoading.show({
+        template: value,
+        duration: time
+      });
+    };
+    $scope.hideLoading = function () {
+      $ionicLoading.hide();
+    };
+
     if ($stateParams.athleteId) {
       $scope.athleteProfile = undefined;
       MyServices.getOneAthleteProfile({
         _id: $stateParams.athleteId
       }, function (response) {
+        $scope.showLoading('Loading...', 10000);
         if (response.value) {
+          $scope.hideLoading();
           $scope.athleteProfile = response.data;
+          // console.log($scope.athleteProfile)
         } else {
           $scope.athleteProfile = [];
         }
@@ -2027,6 +2042,17 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
         $scope.hideLoading();
         if (response.data != "No chat Found") {
           $scope.coachChats = response.data;
+          $scope.athleteId = response.data[0].athleteId;
+          //service to get unread chat count
+          MyServices.getUnreadChatCount({
+            athleteId: $scope.athleteId,
+            coachId: coachId
+          }, function (response) {
+            if (response.data.UnreadCount.length > 0) {
+              $scope.unreadcount = response.data.UnreadCount[0].count;
+            }
+            // $.jStorage.set('chatID', response.data.latestChat[0]._id);
+          });
         } else {
           $scope.coachChats = [];
         }
@@ -2072,15 +2098,6 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       });
       $scope.modalChat.hide();
     };
-
-    // MyServices.getUnreadChatCount({
-    //   athleteId: $scope.athleteId,
-    //   coachId: coachId
-    // }, function (response) {
-    //   console.log(response);
-    //   $scope.unreadcount = response.data.UnreadCount;
-    //   $.jStorage.set('chatID', response.data.latestChat[0]._id);
-    // });
 
   })
 
