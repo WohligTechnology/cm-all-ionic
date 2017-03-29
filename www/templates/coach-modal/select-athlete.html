@@ -7,10 +7,10 @@
   </ion-header-bar>
   <ion-content>
     <ion-list>
-      <form name="formName" class="item item-input-inset">
+      <!--<form name="formName" class="item item-input-inset">
         <label class="item-input-wrapper"><input type="search" placeholder="Athlete Name" name="athlete" ng-change="getAthlete()" ng-model="formData.athleteSearch"></label>
         <button class="button button-small icon ln-magnifier" type="submit"></button>
-      </form>
+      </form>-->
       <div class="item" ng-repeat="t in athletes" ng-click="matchName(t);changeAthlete();closeModal();">{{t.athlete.name}} {{t.athlete.surname}}</div>
     </ion-list>
   </ion-content>
