@@ -1920,50 +1920,56 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     $scope.generatePlan = function (startDate, phases, trainingActivity) {
       $scope.trainingPhasesData = [];
       var k = 0;
+
       for (var i = 0; i < phases.length; i++) {
+
         if (i % 2 == 1) {
           phaseType = 'tp-odd';
         } else {
           phaseType = 'tp-even';
         }
+
         for (var l = 0; l < phases[i].duration; l++) {
+
           $scope.trainingPhasesData.push({
             name: phases[i].title,
-            phaseNumber: i + 1,
+            phaseNumber: i + l + 1,
             className: phaseType,
             activities: []
           });
-        }
 
-        var loopStart = 0 + k;
-        var loopEnd = (trainingActivity.length / phases.length) + k;
-        for (var j = loopStart; j < loopEnd; j++) {
-          // console.log(loopStart, j, moment(startDate).add(j, 'days').toDate());
-          if (trainingActivity[j].name == 'Rest Day') {
-            $scope.trainingPhasesData[i].activities.push({
-              _id: trainingActivity[j]._id,
-              name: trainingActivity[j].name,
-              detail: 'No Training',
-              volume: '',
-              intensity: '',
-              startDate: moment(startDate).add(j, 'days').toDate(),
-              athleteNoteData: trainingActivity[j].notesAthlete,
-              coachNoteData: trainingActivity[j].notesCoach
-            });
-          } else {
-            $scope.trainingPhasesData[i].activities.push({
-              _id: trainingActivity[j]._id,
-              name: trainingActivity[j].name,
-              detail: trainingActivity[j].detail,
-              volume: trainingActivity[j].volume,
-              intensity: trainingActivity[j].intensity,
-              startDate: moment(startDate).add(j, 'days').toDate(),
-              athleteNoteData: trainingActivity[j].notesAthlete,
-              coachNoteData: trainingActivity[j].notesCoach
-            });
+          var loopStart = 0 + k;
+          var loopDuration = 7;
+          var loopEnd = loopDuration + k;
+          console.log('Loop Start', loopStart);
+          console.log('Loop End', loopEnd);
+          for (var j = loopStart; j < loopEnd; j++) {
+            if (trainingActivity[j].name == 'Rest Day') {
+              $scope.trainingPhasesData[l].activities.push({
+                _id: trainingActivity[j]._id,
+                name: trainingActivity[j].name,
+                detail: 'No Training',
+                volume: '',
+                intensity: '',
+                startDate: moment(startDate).add(j, 'days').toDate(),
+                athleteNoteData: trainingActivity[j].notesAthlete,
+                coachNoteData: trainingActivity[j].notesCoach
+              });
+            } else {
+              $scope.trainingPhasesData[l].activities.push({
+                _id: trainingActivity[j]._id,
+                name: trainingActivity[j].name,
+                detail: trainingActivity[j].detail,
+                volume: trainingActivity[j].volume,
+                intensity: trainingActivity[j].intensity,
+                startDate: moment(startDate).add(j, 'days').toDate(),
+                athleteNoteData: trainingActivity[j].notesAthlete,
+                coachNoteData: trainingActivity[j].notesCoach
+              });
+            }
           }
+          k = k + loopDuration;
         }
-        k = k + trainingActivity.length / phases.length;
       }
       console.log($scope.trainingPhasesData);
     };
