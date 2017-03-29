@@ -1485,10 +1485,9 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     $scope.athleteDetails = [];
 
     $scope.getAthlete = function () {
+      $scope.showLoading('Loading...', 20000);
       if ($.jStorage.get('userProfile')) {
-        console.log("inside jstorage")
         $scope.userData = $.jStorage.get('userProfile');
-        console.log($scope.userData);
       }
       if ($scope.userData) {
         console.log("inside user");
@@ -1497,6 +1496,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
         console.log($scope.paramData);
         MyServices.searchAthlete($scope.paramData, function (data) {
           if (data.value) {
+            $scope.hideLoading();
             $scope.athletes = data.data.results;
             console.log($scope.athletes);
           }
@@ -1712,7 +1712,6 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
 
     $scope.generatePlan = function (startDate, phases, trainingActivity) {
-      console.log(phases);
       $scope.trainingPhasesData = [];
       var k = 0;
 
@@ -1725,21 +1724,22 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
         }
 
         for (var l = 0; l < phases[i].duration; l++) {
+
           $scope.trainingPhasesData.push({
             name: phases[i].title,
-            phaseNumber: i + 1,
+            phaseNumber: i + l + 1,
             className: phaseType,
             activities: []
           });
 
           var loopStart = 0 + k;
-          var loopDuration = (trainingActivity.length / (phases.length * phases[i].duration));
+          var loopDuration = 7;
           var loopEnd = loopDuration + k;
           console.log('Loop Start', loopStart);
-          console.log('Loop End', trainingActivity.length / (phases.length * phases[i].duration));
+          console.log('Loop End', loopEnd);
           for (var j = loopStart; j < loopEnd; j++) {
             if (trainingActivity[j].name == 'Rest Day') {
-              $scope.trainingPhasesData[i].activities.push({
+              $scope.trainingPhasesData[l].activities.push({
                 _id: trainingActivity[j]._id,
                 name: trainingActivity[j].name,
                 detail: 'No Training',
@@ -1750,7 +1750,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
                 coachNoteData: trainingActivity[j].notesCoach
               });
             } else {
-              $scope.trainingPhasesData[i].activities.push({
+              $scope.trainingPhasesData[l].activities.push({
                 _id: trainingActivity[j]._id,
                 name: trainingActivity[j].name,
                 detail: trainingActivity[j].detail,
@@ -1763,10 +1763,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
             }
           }
           k = k + loopDuration;
-
         }
-
-
       }
       console.log($scope.trainingPhasesData);
     };
