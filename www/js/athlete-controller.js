@@ -1102,19 +1102,124 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
     $scope.filterData = [{
       name: 'Age',
-      value: ['Less than 20 years', '21 - 25 years', '26 - 30 years', '31 - 35 years', '36 - 40 years', 'More than 40 years']
+      arrayName: 'age',
+      data: [{
+          name: 'Less than 20 years',
+          value: '20'
+        },
+        {
+          name: '6 - 10 years',
+          value: '21 - 25'
+        },
+        {
+          name: '26 - 30 years',
+          value: '26 - 30'
+        },
+        {
+          name: '31 - 35 years',
+          value: '31 - 35'
+        },
+        {
+          name: '36 - 40 years',
+          value: '36 - 40'
+        },
+        {
+          name: 'More than 40 years',
+          value: '40'
+        }
+      ]
     }, {
       name: 'Coaching Focus',
-      value: ['Sprinting', 'Middle Distance', 'Endurance', 'Throws', 'Jumps', 'Hurdles', 'Hill/Fell Running', 'Cross Country']
+      arrayName: 'coachingFocus',
+      data: [{
+          name: 'Sprinting',
+          value: 'Sprinting'
+        },
+        {
+          name: 'Middle Distance',
+          value: 'Middle Distance'
+        },
+        {
+          name: 'Endurance',
+          value: 'Endurance'
+        },
+        {
+          name: 'Throws',
+          value: 'Throws'
+        },
+        {
+          name: 'Jumps',
+          value: 'Jumps'
+        },
+        {
+          name: 'Hurdles',
+          value: 'Hurdles'
+        },
+        {
+          name: 'Hill/Fell Running',
+          value: 'Hill/Fell Running'
+        },
+        {
+          name: 'Cross Country',
+          value: 'Cross Country'
+        },
+      ]
     }, {
       name: 'Gender',
-      value: ['Male', 'Female']
+      arrayName: 'gender',
+      data: [{
+          name: 'Male',
+          value: 'Male'
+        },
+        {
+          name: 'Female',
+          value: 'Female'
+        }
+      ]
     }, {
       name: 'Credentials',
-      value: ['Level 1', 'Level 2', 'Level 3', 'Level 4']
+      arrayName: 'credentials',
+      data: [{
+          name: 'Level 1',
+          value: 'Level 1'
+        },
+        {
+          name: 'Level 2',
+          value: 'Level 2'
+        },
+        {
+          name: 'Level 3',
+          value: 'Level 3'
+        },
+        {
+          name: 'Level 4',
+          value: 'Level 4'
+        },
+      ]
     }, {
       name: 'Coaching Experience',
-      value: ['0 - 5 years', '6 - 10 years', '11 - 15 years', '16 - 20 years', 'More than 20 years']
+      arrayName: 'experience',
+      data: [{
+          name: '0 - 5 years',
+          value: '0 - 5'
+        },
+        {
+          name: '6 - 10 years',
+          value: '6 - 10'
+        },
+        {
+          name: '11 - 15 years',
+          value: '11 - 15'
+        },
+        {
+          name: '16 - 20 years',
+          value: '16 - 20'
+        },
+        {
+          name: 'More than 20 years',
+          value: '20'
+        }
+      ]
     }];
 
     $scope.filterActive = 0;
@@ -1258,6 +1363,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     }
 
     $scope.filterParameteres = function () {
+      $.jStorage.set("setFilter");
       $scope.allCoaches = [];
       $scope.showAllCoaches();
       $scope.closeModal();
