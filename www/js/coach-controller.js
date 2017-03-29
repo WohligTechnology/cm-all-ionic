@@ -1434,7 +1434,8 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
 
 
-  .controller('CoachTrainingDiaryCtrl', function ($scope, $ionicModal, $ionicLoading, uiCalendarConfig, MyServices) {
+
+  .controller('CoachTrainingDiaryCtrl', function ($scope, $ionicModal, $ionicLoading, uiCalendarConfig, MyServices, $ionicScrollDelegate, $timeout, $filter, $location) {
     //Loading
     $scope.showLoading = function (value, time) {
       $ionicLoading.show({
@@ -1452,53 +1453,36 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       scope: $scope,
       animation: 'slide-in-up'
     }).then(function (modal) {
-      $scope.modal1 = modal;
+      $scope.modal2 = modal;
     });
     $scope.openSelect = function () {
-      $scope.modal1.show();
+      $scope.modal2.show();
       $scope.getAthlete('');
     };
 
-    //Feedback Modal
-    $ionicModal.fromTemplateUrl('templates/coach-modal/feedback.html', {
-      id: 2,
-      scope: $scope,
-      animation: 'slide-in-up'
-    }).then(function (modal) {
-      $scope.modal2 = modal;
-    });
-    $scope.openModal = function () {
-      $scope.modal2.show();
-    };
-
     $scope.closeModal = function () {
-      $scope.modal1.hide();
       $scope.modal2.hide();
     };
 
     //Selector data
     $scope.formData = {};
     $scope.matchName = function (data) {
-      $scope.formData.athlete = data;
+      console.log(data);
+      $scope.formData = data;
     };
 
     $scope.athleteData = [];
     $scope.paramData = {};
     $scope.userData = [];
 
-
-
-    $scope.commentData = {};
     var j = 0;
-
-
 
     $scope.getsearch = function (search) {
       if (search) {
         $scope.paramData.keyword = search;
       }
       $scope.getAthlete();
-    }
+    };
 
     // $scope.paramData.keyword = "";
     $scope.athleteDetails = [];
@@ -1511,7 +1495,6 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       }
       if ($scope.userData) {
         console.log("inside user");
-        //$scope.paramData.userId = $scope.userData._id;
         $scope.paramData.accessType = "Coach";
         $scope.paramData.accessToken = $scope.userData.accessToken[0];
         console.log($scope.paramData);
@@ -1519,121 +1502,318 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
           if (data.value) {
             $scope.athletes = data.data.results;
             console.log($scope.athletes);
-
           }
         });
       }
 
     };
-    $scope.changeAthlete = function () {
 
+    $scope.reloadData = function () {
+      $scope.phase = [];
+      $scope.aspects = [];
+      $scope.competitions = [];
+      $scope.tests = [];
+    };
+
+    $scope.changeAthlete = function () {
       $scope.athleteData = [];
+      $scope.reloadData();
+      $scope.showLoading('Loading...', 10000);
       MyServices.getAthletePlans($scope.athletes[0], function (data) {
-        if (data.value) {
-          $scope.athleteData = data.data;
-          console.log($scope.athleteData);
-          parsePlanToCalender(data.data);
-          //training plan and phase data
-          $scope.trainingPlan = data.data.TrainingPlan;
-          $scope.trainingActivity = data.data.TrainingActivity;
-          $scope.test = data.data.Test;
-          $scope.aspect = data.data.aspect;
-          $scope.competition = data.data.Competition;
+        if (data.value === true) {
+          $scope.hideLoading();
+          console.log(data);
+          if (data.data.TrainingPlan) {
+            $scope.showPlan = true;
+            $scope.trainingActivity = data.data.TrainingActivity;
+            $scope.trainingPlan = data.data.TrainingPlan[0];
+            $scope.trainingPhases = data.data.TrainingPlan[0].phase;
+            $scope.generatePlan($scope.trainingPlan.startDate, $scope.trainingPhases, $scope.trainingActivity);
+            $scope.generateDiaryPhases($scope.trainingPlan.startDate, $scope.trainingPhases);
+            $scope.generateDiary(data.data.Aspect, data.data.Competition, data.data.Test);
+            console.log($scope.trainingPlan.startDate);
+            $scope.trainingDiary = [$scope.phase, $scope.aspects, $scope.competitions, $scope.tests];
+            $timeout(function () {
+              var todayScroll = new Date();
+              $scope.todayScroll = 'scroll' + $filter('date')(todayScroll, 'ddMMyy');
+              $scope.scrollTo($scope.todayScroll);
+            }, 300);
+          } else {
+            $scope.showPlan = false;
+          }
         } else {
-          $scope.athleteData = [];
+          $scope.hideLoading();
+          $scope.showLoading('Error loading Training Diary!', 2000);
+          console.log(data);
         }
       });
     };
-
     $scope.athletes = [];
 
-    function parsePlanToCalender(Plans) {
-      $scope.trainingDiary = [];
-      _.each(Plans, function (plan) {
-        console.log("inside Plans", plan);
-        var startDays = 0;
-        _.each(plan.trainingForms, function (form) {
-          console.log("inside trainingForm", form);
-          form.trainingPlan = plan._id;
-          var obj = {
-            color: form.form.colorCode,
-            events: [{
-              title: "•" + form.form.name + " - " + plan.name,
-              start: moment(plan.startDate).add(startDays, "days").toDate(),
-              end: moment(plan.startDate).add(startDays, "days").add(form.duration, 'days').toDate(),
-              allDay: true,
-              planForm: form,
-              colorCode: form.form.colorCode
-            }],
-          };
-          startDays += form.duration;
-          if (!_.isEmpty(form.comment)) {
-            var obj2 = _.cloneDeep(obj);
-            obj2.color = "#444";
-            obj2.events[0].title = "Comment: " + form.comment;
-            $scope.trainingDiary.push(obj2);
-            console.log($scope.trainingDiary);
-          }
-          $scope.trainingDiary.push(obj);
-        });
-      });
-      changePendingForm();
-    }
-
-    /* Change View */
-    $scope.renderCalendar = function (calendar) {
-      $timeout(function () {
-        if (uiCalendarConfig.calendars[calendar]) {
-          uiCalendarConfig.calendars[calendar].fullCalendar('render');
-        }
-      });
+    $scope.athleteNoteData = {};
+    //Feedback Modal
+    $ionicModal.fromTemplateUrl('templates/athlete-modal/notes.html', {
+      id: 1,
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.noteModal = modal;
+    });
+    $scope.openNotes = function (activity) {
+      // console.log(activity);
+      $scope.athleteNoteData = activity.athleteNoteData;
+      $scope.coachNoteData = activity.coachNoteData;
+      $scope.activityID = activity._id;
+      $scope.userAthlete = true;
+      $scope.showAthleteShared = true;
+      $scope.noteModal.show();
+    };
+    $scope.closeNotes = function () {
+      $scope.noteModal.hide();
+      $scope.currentType = 'Shared';
+      $scope.switchType($scope.currentType);
     };
 
-    var m;
+    // Function for Save Notes
+
+    //Note Switcher
+    $scope.currentNote = 'Athlete';
+    $scope.switchNote = function (val) {
+      $scope.currentNote = val;
+      $scope.currentType = 'Shared';
+    };
+
+    //Type Switcher
+    $scope.currentType = 'Shared';
+    $scope.switchType = function (val) {
+      $scope.currentType = val;
+      if (val === 'Personal') {
+        $scope.showAthletePersonal = true;
+        $scope.showAthleteShared = false;
+      } else {
+        $scope.showAthletePersonal = false;
+        $scope.showAthleteShared = true;
+      }
+    };
+
+
+    //Saving Notes
+    $scope.saveAthleteNotes = function (notedata) {
+      $scope.athleteData = MyServices.getUser();
+      $scope.athleteNoteData.athleteId = $scope.athleteData._id,
+        $scope.athleteNoteData.activityID = $scope.activityID,
+        $scope.athleteNoteData.notesAthlete = {
+          sharedNote: notedata.sharedNote,
+          personalNote: notedata.personalNote
+        }
+      MyServices.saveNote($scope.athleteNoteData, function (data) {
+        if (data.value == true) {
+          $scope.closeNotes();
+          console.log("Note saved successfully");
+        } else {
+          $scope.closeNotes();
+          console.log("Error while saving Note.");
+
+        }
+      })
+    }
+    // Function for Save Notes End
+    //Event Click Modal
+    $ionicModal.fromTemplateUrl('templates/modal-event-click.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.modal1 = modal;
+    });
+    $scope.openEvent = function (event) {
+      console.log(event);
+      if (event.type == 'clickable') {
+        $scope.eventInfo = event;
+        $scope.modal1.show();
+      }
+
+    };
+    $scope.closeEvent = function () {
+      $scope.modal1.hide();
+    };
+
+    $scope.phase = [];
+    $scope.generateDiaryPhases = function (startDate, data) {
+      var k = 0;
+      for (var i = 0; i < data.length; i++) {
+        if (i % 2 == 1) {
+          phaseType = 'phaseOdd';
+        } else {
+          phaseType = 'phaseEven';
+        }
+        for (var j = 0; j < data[i].duration; j++) {
+          $scope.phase.push({
+            type: 'phase',
+            title: data[i].title,
+            start: moment(startDate).add(k, 'week').toDate(),
+            end: moment(startDate).add(++k, 'week').toDate(),
+            className: phaseType,
+            allDay: true,
+            sort: "a"
+          });
+        }
+      }
+      console.log($scope.phase);
+    };
+    $scope.aspects = [];
+    $scope.competitions = [];
+    $scope.tests = [];
+
+    $scope.generateDiary = function (aspects, competitions, tests) {
+      for (var i = 0; i < aspects.length; i++) {
+        $scope.aspects.push({
+          type: 'clickable',
+          title: aspects[i].name,
+          start: moment(aspects[i].startDate).toDate(),
+          end: moment(aspects[i].endDate).toDate(),
+          details: aspects[i].details,
+          className: ['aspects'],
+          allDay: true,
+          sort: "m"
+        });
+      }
+
+      for (var j = 0; j < competitions.length; j++) {
+        var compClass;
+        var compSort;
+        if (competitions[j].isKey === true) {
+          compClass = 'keyCompetitions';
+          compSort = "g";
+        } else if (competitions[j].isKey === false) {
+          compClass = "competitions";
+          compSort = "h";
+        }
+        $scope.competitions.push({
+          type: 'clickable',
+          title: competitions[j].name,
+          start: moment(competitions[j].startDate).toDate(),
+          end: moment(competitions[j].endDate).toDate(),
+          details: competitions[j].details,
+          className: compClass,
+          allDay: true,
+          sort: compSort
+        });
+      }
+
+      for (var k = 0; k < tests.length; k++) {
+        $scope.tests.push({
+          type: 'clickable',
+          title: tests[k].name,
+          start: moment(tests[k].startDate).toDate(),
+          end: moment(tests[k].endDate).toDate(),
+          details: tests[k].details,
+          className: ['tests'],
+          allDay: true,
+          sort: "j"
+        });
+      }
+    };
+
+
+    $scope.generatePlan = function (startDate, phases, trainingActivity) {
+      $scope.trainingPhasesData = [];
+      var k = 0;
+      for (var i = 0; i < phases.length; i++) {
+        if (i % 2 == 1) {
+          phaseType = 'tp-odd';
+        } else {
+          phaseType = 'tp-even';
+        }
+        for (var l = 0; l < phases[i].duration; l++) {
+          $scope.trainingPhasesData.push({
+            name: phases[i].title,
+            phaseNumber: i + 1,
+            className: phaseType,
+            activities: []
+          });
+        }
+
+        var loopStart = 0 + k;
+        var loopEnd = (trainingActivity.length / phases.length) + k;
+        for (var j = loopStart; j < loopEnd; j++) {
+          // console.log(loopStart, j, moment(startDate).add(j, 'days').toDate());
+          if (trainingActivity[j].name == 'Rest Day') {
+            $scope.trainingPhasesData[i].activities.push({
+              _id: trainingActivity[j]._id,
+              name: trainingActivity[j].name,
+              detail: 'No Training',
+              volume: '',
+              intensity: '',
+              startDate: moment(startDate).add(j, 'days').toDate(),
+              athleteNoteData: trainingActivity[j].notesAthlete,
+              coachNoteData: trainingActivity[j].notesCoach
+            });
+          } else {
+            $scope.trainingPhasesData[i].activities.push({
+              _id: trainingActivity[j]._id,
+              name: trainingActivity[j].name,
+              detail: trainingActivity[j].detail,
+              volume: trainingActivity[j].volume,
+              intensity: trainingActivity[j].intensity,
+              startDate: moment(startDate).add(j, 'days').toDate(),
+              athleteNoteData: trainingActivity[j].notesAthlete,
+              coachNoteData: trainingActivity[j].notesCoach
+            });
+          }
+        }
+        k = k + trainingActivity.length / phases.length;
+      }
+      console.log($scope.trainingPhasesData);
+    };
+
+    $scope.formData = {};
+    $scope.formData.ID = $.jStorage.get('userProfile')._id;
+    $scope.showPlan = undefined;
+
+    $scope.scrollTo = function (target) {
+      $location.hash(target); //set the location hash
+      var handle = $ionicScrollDelegate.$getByHandle('listScroll');
+      handle.anchorScroll(true); // 'true' for animation
+    };
+
+    $scope.checkToday = function (data) {
+      if ($scope.todayScroll == 'scroll' + $filter('date')(data, 'ddMMyy')) {
+        return true;
+      } else {
+        return false;
+      }
+    };
+
+    //View Switcher
+    $scope.currentScreen = 'List';
+    $scope.switchView = function (val) {
+      if (val == 'Diary') {
+        $scope.scrollTo('diaryId');
+      } else if (val == 'List') {
+        $scope.scrollTo($scope.todayScroll);
+      }
+      $scope.currentScreen = val;
+    };
+
+    // $scope.showLoading('Loading...', 10000);
+    $scope.athleteData = [];
+    $scope.trainingDiary = [];
+
     /* alert on eventClick */
     $scope.diaryClick = function (obj) {
-      $scope.dayInfo = obj;
-      console.log(obj);
-      $scope.formInfo = obj.planForm;
-      m = moment(obj.end);
-      if (obj.planForm.answer && obj.planForm.answer.length > 0) {
-        $scope.feedback = obj.planForm.answer;
-        $scope.showComment = false;
-        $scope.makeDisable = true;
-        if (moment().isSameOrAfter(m)) {
-          $scope.openModal();
-          console.log('Feedback');
-        }
-      } else {
-        $scope.feedback = obj.planForm.answer;
-        $scope.showComment = true;
-        $scope.commentData.comment = obj.planForm.comment;
-        if (moment().isBefore(m)) {
-          $scope.openModal();
-          console.log('Comment');
-        }
-      }
-      if (obj.planForm.answer.length === 0) {
-        if (moment().isSameOrAfter(m)) {
-          $scope.showLoading('No Feedback Recived', 2000);
-        }
-      }
-    };
 
-    $scope.dayClick = function (date, jsEvent, view) {
-      $scope.clickedDay = date;
     };
 
     /* Change View */
     $scope.activeView = 'month';
     $scope.changeView = function (view) {
-      uiCalendarConfig.calendars.coachDiary.fullCalendar('changeView', view);
+      uiCalendarConfig.calendars.athleteDiary.fullCalendar('changeView', view);
       $scope.activeView = view;
     };
 
     //Navigate Buttons
     $scope.navigate = function (val) {
-      uiCalendarConfig.calendars.coachDiary.fullCalendar(val);
+      uiCalendarConfig.calendars.athleteDiary.fullCalendar(val);
     };
 
     $scope.uiConfig = {
@@ -1641,44 +1821,12 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
         firstDay: 1,
         height: 450,
         editable: false,
-        eventClick: $scope.diaryClick,
+        eventClick: $scope.openEvent,
         viewRender: function (view) {
           $scope.viewTitle = view.title;
         }
       }
     };
-
-    /* event sources array*/
-    $scope.trainingDiary = [];
-    var changePendingForm = function () {
-      console.log($scope.trainingDiary);
-      $scope.pendingForm = [];
-      _.each($scope.trainingDiary, function (events) {
-        _.each(events.events, function (obj) {
-          if (obj.planForm.answer && obj.planForm.answer.length > 0) {
-            $scope.pendingForm.push(obj);
-          }
-        });
-
-      });
-      console.log($scope.pendingForm);
-    };
-
-    $scope.submitComment = function () {
-      var obj = {};
-      obj.trainingPlan = $scope.formInfo.trainingPlan;
-      obj.trainingForm = $scope.formInfo._id;
-      obj.trainingFormStart = "";
-      obj.trainingFormEnd = "";
-      obj.comment = $scope.commentData.comment;
-      console.log(obj);
-      MyServices.saveComment(obj, function (data) {
-        $scope.showLoading('Comment Submitted', 2000);
-        $scope.changeAthlete();
-      });
-    };
-
-
   })
 
   .controller('CoachAthletesCoachingCtrl', function ($scope, $ionicModal, MyServices, $stateParams) {

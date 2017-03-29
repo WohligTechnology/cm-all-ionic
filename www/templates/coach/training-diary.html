@@ -1,33 +1,65 @@
 <ion-view>
   <ion-nav-title>
-    <span ng-if="athleteData.length > 0">{{viewTitle}}</span>
-    <span ng-if="athleteData.length == 0">Training Diary</span>
+    <span ng-if="currentScreen == 'Diary'">{{viewTitle}}</span>
+    <span ng-if="currentScreen == 'List'">Training Diary</span>
   </ion-nav-title>
-  <div class="tabs tabs-light tabs-color-positive" ng-if="athleteData.length > 0">
-    <a class="tab-item" ng-click="changeView('agendaDay')" ng-class="{'active': activeView == 'agendaDay'}">Day</a>
-    <a class="tab-item" ng-click="changeView('agendaWeek')" ng-class="{'active': activeView == 'agendaWeek'}">Week</a>
-    <a class="tab-item" ng-click="changeView('month')" ng-class="{'active': activeView == 'month'}">Month</a>
+  <div class="tabs tabs-positive tabs-top tabs-color-light" ng-if="showPlan">
+    <a class="tab-item" ng-click="switchView('Diary')" ng-class="{'active': currentScreen == 'Diary'}">Diary View</a>
+    <a class="tab-item" ng-click="switchView('List')" ng-class="{'active': currentScreen == 'List'}">List View</a>
   </div>
   <ion-nav-buttons side="right">
-    <div ng-if="athleteData.length > 0">
-      <button class="button button-clear button-icon ln-calendar ln-fit" ng-click="navigate('today')"></button>
-      <button class="button button-clear button-icon thick-btn ion-ios-arrow-left" ng-click="navigate('prev')"></button>
-      <button class="button button-clear button-icon thick-btn ion-ios-arrow-right" ng-click="navigate('next')"></button>
+    <div ng-if="currentScreen == 'Diary'">
+      <button class="button button-clear button-icon ion-ios-arrow-left" ng-click="navigate('prev')"></button>
+      <button class="button button-clear button-icon ion-ios-arrow-right" ng-click="navigate('next')"></button>
     </div>
+    <!--<div ng-if="currentScreen == 'List'">
+      <button class="button button-clear button-icon ln-download ln-fit"></button>
+    </div>-->
   </ion-nav-buttons>
-  <ion-content class="has-tabs">
-    <ion-list>
+  <ion-content ng-class="{'has-tabs-top': showPlan}" delegate-handle="listScroll">
+    <ion-list id="diaryId">
       <ion-item class="item-divider item-icon-right" ng-click="openSelect();">
         <i class="icon ion-ios-search"></i>
         <span ng-if="!formData.athlete">Select Athlete</span>
         <span ng-if="formData.athlete">{{formData.athlete.name}} {{formData.athlete.surname}}</span>
       </ion-item>
-      <ion-item ng-if="formData.athlete && athleteData.length == 0">
-        No Training Plan assigned to selected Athlete
+      <ion-item ng-if="formData.athlete && showPlan == false">
+        No Training Plan Assigned to {{formData.athlete.name}} {{formData.athlete.surname}}.
       </ion-item>
     </ion-list>
-    <div ng-if="athleteData.length > 0">
-      <div class="calendar" ng-model="trainingDiary" calendar="coachDiary" ui-calendar="uiConfig.calendar"></div>
+    <div ng-if="showPlan">
+      <div ng-if="currentScreen == 'Diary'" class="calendar" ng-model="trainingDiary" calendar="athleteDiary" ui-calendar="uiConfig.calendar"></div>
+      <div class="list diary-list" ng-if="currentScreen == 'Diary'">
+        <ion-item class="item-divider">Notes</ion-item>
+        <div class="item item-text-wrap" ng-bind-html="trainingPlan.notes"></div>
+        <ion-item class="item-divider">Goals &amp; Objectives</ion-item>
+        <div class="item item-text-wrap" ng-bind-html="trainingPlan.goalsAndObjectives"></div>
+      </div>
+      <div class="list tp-list" ng-if="currentScreen == 'List'">
+        <div ng-repeat="tpd in trainingPhasesData">
+          <ion-item class="tp-phase item item-text-wrap {{tpd.className}}"><span>Phase {{tpd.phaseNumber}}: {{tpd.name}}</span>
+            <div class="sub">Week {{$index+1}}</div>
+          </ion-item>
+          <ion-item class="tp-activity item-text-wrap item-icon-right" ng-class="{'today': checkToday(act.startDate) }" id="scroll{{act.startDate|date: 'ddMMyy'}}"
+            ng-repeat="act in tpd.activities">
+            <div class="icon ion-record show-today"></div>
+            <div ng-click="act[$index].show=!act[$index].show">
+              <span class="date">{{act.startDate|date: 'dd MMM'}} <span class="day">{{act.startDate|date: 'EEE'}}</span></span>
+              <h2 ng-class="{'rest-day': act.name=='Rest Day'}">{{act.name}}</h2>
+              <i class="icon ln-chevron-down ln-fit"></i>
+            </div>
+            <div class="hide-out" ng-show="act[$index].show">
+              <div> {{act.detail||'No details provided'}}</div>
+              <div class="pull-right">
+                <button class="button button-default {{act.intensity}} uppercase button-small" ng-if="act.name!='Rest Day' && act.name!='No Activity'">{{act.intensity}}</button>
+                <button class="button button-default button-small button-relative" type="button" ng-click="openNotes(act);"><i class="ic-document"></i></button>
+                <!--<button class="button button-default button-small button-relative" type="button" ng-click="downloadNow();"><i class="fa fa-download"></i></button>-->
+              </div>
+              <div class="after-text" ng-class="{'opace1': act.name == 'Rest Day','opace': act.name == 'No Activity'}"><b>Volume:</b> {{act.volume}}</div>
+            </div>
+          </ion-item>
+        </div>
+      </div>
     </div>
   </ion-content>
 </ion-view>

@@ -1904,7 +1904,7 @@ $phaseEven: #14a7ac;
   .icon.show-today {
     display: inline-block;
     opacity: 1;
-    color: #004a9b;
+    color: $positive;
     font-size: 12px;
     left: 2px;
     top: 14px;
@@ -1916,4 +1916,16 @@ $phaseEven: #14a7ac;
       width: auto;
     }
   }
+}
+
+.blue-layer {
+  background-color: #001d49;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  opacity: 0.75;
+  border-top: 5px solid $assertive;
 }
