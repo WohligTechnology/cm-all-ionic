@@ -42,20 +42,6 @@ angular.module('starter.controllers', ['starter.services', 'checklist-model', 'u
       $state.go('landing');
     };
 
-    //set search coach filter start
-    $scope.filter = {};
-    $scope.filter.age = [];
-    $scope.filter.coachingFocus = [];
-    $scope.filter.gender = [];
-    $scope.filter.credentials = [];
-    $scope.filter.experience = [];
-    if ($state.current.name === 'athlete.search-coach') {
-      $.jStorage.get("setFilter");
-    } else {
-      $.jStorage.set("setFilter", $scope.filter);
-    }
-    //set search coach filter end
-
   })
 
   .controller('LandingCtrl', function ($scope, $ionicModal, $timeout, $state, $rootScope, MyServices, $ionicHistory, $ionicSlideBoxDelegate) {

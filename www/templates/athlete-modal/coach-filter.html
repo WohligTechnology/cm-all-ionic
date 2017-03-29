@@ -8,19 +8,13 @@
     <div class="colr">
       <div class="part p1">
         <ion-list>
-          <ion-item ng-click="changeFilter($index)" ng-class="{'in':filterActive == $index}" ng-repeat="f in filterData">{{f.name}} <span ng-if="filter[f.arrayName].length > 0">({{filter[f.arrayName].length}})</ion-item>
-         
+          <ion-item ng-click="changeFilter($index)" ng-class="{'in':filterActive == $index}" ng-repeat="f in filterData">{{f.name}}</ion-item>
         </ion-list>
       </div>
       <div class="part p2">
         <ion-list ng-repeat="f in filterData" ng-show="filterActive == $index">
-          <!--<ion-checkbox ng-model="selectedFilters[v]" ng-change="pushSubCategory(v,f.name)" ng-repeat="v in f.value">{{v}}</ion-checkbox>-->
-          <ion-checkbox checklist-model="filter[f.arrayName]" checklist-value="v.value" ng-repeat="v in f.data">{{v.name}}</ion-checkbox>
+          <ion-checkbox ng-model="selectedFilters[v]" ng-change="pushSubCategory(v,f.name)" ng-repeat="v in f.value">{{v}}</ion-checkbox>
         </ion-list>
-         <!--<li class="upload-btn check-cust" ng-repeat="v in f.data">
-                    <input type="checkbox" id="{{v.name}}" checklist-model="filter[f.arrayName]" checklist-value="v.value" />
-                    <label for="{{v.name}}">{{v.name}}</label>
-                </li>-->
       </div>
     </div>
   </div>
