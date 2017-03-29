@@ -467,25 +467,18 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
     //Reactions
     $scope.athlete = MyServices.getUser();
-    $scope.goLike = function (val) {
-      if (val) {
-        MyServices.reactToBlog({
-          type: val,
-          _id: $stateParams.id
-        }, function (response) {
-          if (response.value) {
-            $scope.formData = response.data;
-          } else {}
-        });
-      } else {
-        MyServices.removeReaction({
-          _id: $stateParams.id
-        }, function (response) {
-          if (response.value) {
-            $scope.formData = response.data;
-          } else {}
-        });
-      }
+    $scope.getReaction = function (val) {
+      NavigationService.getReactionBlog({
+        type: val,
+        _id: $stateParams.id,
+        athlete: $scope.athlete._id
+      }, function (response) {
+        if (response.value) {
+          $scope.formData = response.data;
+        } else {
+          console.log("Unable to update reaction");
+        }
+      });
     };
 
   })
@@ -604,9 +597,9 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
           //Cahange status of message
           io.socket.on("statusChangedToRead" + athleteId + $scope.myCoachProfile._id, function (data) {
 
-            if ($state.current.name == "app.athlete-chatdetail") {
-              MyServices.getAllmessages($scope.chatData, function (data) {});
-            }
+            // if ($state.current.name == "app.athlete-chatdetail") {
+            //   MyServices.getAllmessages($scope.chatData, function (data) {});
+            // }
             console.log("Read is called");
             $scope.messages = _.map($scope.messages, function (n) {
               n.sent = true;

@@ -2283,9 +2283,9 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
     io.socket.on("statusChangedToRead" + coachId + athleteId, function (data) {
       console.log("Read is called");
-      if ($state.current.name == "app.coach-chatdetail") {
-        MyServices.getAllmessages($scope.chatData, function (data) {});
-      }
+      // if ($state.current.name == "app.coach-chatdetail") {
+      //   MyServices.getAllmessages($scope.chatData, function (data) {});
+      // }
       $scope.messages = _.map($scope.messages, function (n) {
         n.sent = true;
         n.isRead = true;
