@@ -1566,8 +1566,8 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       $scope.athleteNoteData = activity.athleteNoteData;
       $scope.coachNoteData = activity.coachNoteData;
       $scope.activityID = activity._id;
-      $scope.userAthlete = true;
-      $scope.showAthleteShared = true;
+      $scope.usercoach = true;
+      $scope.showShared = true;
       $scope.noteModal.show();
     };
     $scope.closeNotes = function () {
@@ -1579,7 +1579,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     // Function for Save Notes
 
     //Note Switcher
-    $scope.currentNote = 'Athlete';
+    $scope.currentNote = 'Coach';
     $scope.switchNote = function (val) {
       $scope.currentNote = val;
       $scope.currentType = 'Shared';
@@ -1590,25 +1590,27 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     $scope.switchType = function (val) {
       $scope.currentType = val;
       if (val === 'Personal') {
-        $scope.showAthletePersonal = true;
-        $scope.showAthleteShared = false;
+        $scope.showPersonal = true;
+        $scope.showShared = false;
       } else {
-        $scope.showAthletePersonal = false;
-        $scope.showAthleteShared = true;
+        $scope.showPersonal = false;
+        $scope.showShared = true;
       }
     };
 
 
     //Saving Notes
-    $scope.saveAthleteNotes = function (notedata) {
-      $scope.athleteData = MyServices.getUser();
-      $scope.athleteNoteData.athleteId = $scope.athleteData._id,
-        $scope.athleteNoteData.activityID = $scope.activityID,
-        $scope.athleteNoteData.notesAthlete = {
+    $scope.profileData = MyServices.getUser();
+    $scope.saveCoachNotes = function (notedata) {
+      var coachNoteData = {};
+      coachNoteData.coachId = $scope.profileData._id,
+        coachNoteData.activityID = $scope.activityID,
+        coachNoteData.notesCoach = {
           sharedNote: notedata.sharedNote,
           personalNote: notedata.personalNote
-        }
-      MyServices.saveNote($scope.athleteNoteData, function (data) {
+        };
+      // console.log(calenderAthlete.athlete);
+      MyServices.saveNote(coachNoteData, function (data) {
         if (data.value == true) {
           $scope.closeNotes();
           console.log("Note saved successfully");
@@ -1617,7 +1619,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
           console.log("Error while saving Note.");
 
         }
-      })
+      });
     }
     // Function for Save Notes End
     //Event Click Modal
