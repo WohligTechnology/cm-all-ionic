@@ -42,7 +42,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
     });
   })
 
-  .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $ionicConfigProvider) {
+
+    $ionicConfigProvider.views.swipeBackEnabled(false);
+
     $stateProvider
 
       .state('loading', {
