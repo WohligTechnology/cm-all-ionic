@@ -13,7 +13,7 @@
   <ion-content ng-show="currentNote == 'Athlete'" class="has-tabs-top">
     <div class="row text-center nopad">
       <div class="col" ng-click="switchType('Shared');" ng-class="{'checkd': currentType == 'Shared'}"><i class="icon ion-android-arrow-dropright" ng-if="currentType=='Shared'"></i> Shared</div>
-      <div class="col" ng-click="switchType('Personal');" ng-class="{'checkd': currentType == 'Personal'}" ng-if="currentNote !='Coach'"><i class="icon ion-android-arrow-dropright" ng-if="currentType=='Personal'"></i> Personal</div>
+      <div class="col" ng-click="switchType('Personal');" ng-class="{'checkd': currentType == 'Personal'}" ng-if="!usercoach"><i class="icon ion-android-arrow-dropright" ng-if="currentType=='Personal'"></i> Personal</div>
     </div>
     <form name="noteBox">
       <ion-list>
@@ -23,12 +23,13 @@
           <textarea auto-grow name="data" ng-model="athleteNoteData.sharedNote" ng-if="showAthleteShared && !usercoach" rows="7" maxlength="1600"
             required></textarea>
           <!--coach can view only shared note of athlete -->
-          <textarea auto-grow name="data" ng-model="athleteNoteData.sharedNote" ng-if="usercoach" rows="7" maxlength="1600" required></textarea>
+          <textarea auto-grow name="data" ng-model="athleteNoteData.sharedNote" ng-disabled="usercoach" ng-if="usercoach" rows="7"
+            maxlength="1600" required></textarea>
           <!--<span class="error-msg" ng-show="noteBox.data.$invalid && noteBox.data.$touched">Please enter valid Notes</span>-->
         </ion-item>
       </ion-list>
       <div class="padding">
-        <button class="button button-positive button-block" ng-click="saveAthleteNotes(athleteNoteData);" ng-disabled="noteBox.$invalid">Save</button>
+        <button class="button button-positive button-block" ng-show="userAthlete" ng-click="saveAthleteNotes(athleteNoteData);" ng-disabled="noteBox.$invalid">Save</button>
       </div>
     </form>
   </ion-content>
@@ -37,7 +38,7 @@
   <ion-content ng-show="currentNote == 'Coach'" class="has-tabs-top">
     <div class="row text-center nopad">
       <div class="col" ng-click="switchType('Shared');" ng-class="{'checkd': currentType == 'Shared'}"><i class="icon ion-android-arrow-dropright" ng-if="currentType=='Shared'"></i> Shared</div>
-      <div class="col" ng-click="switchType('Personal');" ng-class="{'checkd': currentType == 'Personal'}" ng-if="currentNote !='Coach'"><i class="icon ion-android-arrow-dropright" ng-if="currentType=='Personal'"></i> Personal</div>
+      <div class="col" ng-click="switchType('Personal');" ng-class="{'checkd': currentType == 'Personal'}" ng-if="!userAthlete"><i class="icon ion-android-arrow-dropright" ng-if="currentType=='Personal'"></i> Personal</div>
     </div>
     <form name="noteBox">
       <ion-list>
@@ -47,12 +48,13 @@
           <textarea auto-grow name="data" ng-model="coachNoteData.sharedNote" ng-if="showShared && !userAthlete" rows="7" maxlength="1600"
             required></textarea>
           <!--athlete can view only shared note of coach -->
-          <textarea auto-grow name="data" ng-model="coachNoteData.sharedNote" ng-if="userAthlete" rows="7" maxlength="1600" required></textarea>
+          <textarea auto-grow name="data" ng-model="coachNoteData.sharedNote" ng-disabled="userAthlete" ng-if="userAthlete" rows="7"
+            maxlength="1600" required></textarea>
           <!--<s></s>pan class="error-msg" ng-show="noteBox.data.$invalid && noteBox.data.$touched">Please enter valid Notes</span>-->
         </ion-item>
       </ion-list>
       <div class="padding">
-        <button class="button button-positive button-block" ng-show="!userAthlete" ng-click="saveCoachNotes(coachNoteData);" ng-disabled="noteBox.$invalid">Save</button>
+        <button class="button button-positive button-block" ng-show="usercoach" ng-click="saveCoachNotes(coachNoteData);" ng-disabled="noteBox.$invalid">Save</button>
       </div>
     </form>
   </ion-content>
