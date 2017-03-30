@@ -75,8 +75,16 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
         if (data.value === true) {
           $scope.formData = {};
           $scope.hideLoading();
-          $scope.registerMsg = "Successfully registed";
-          $scope.showLoading($scope.registerMsg, 3000);
+          $scope.regPop = $ionicPopup.show({
+            template: '<p>Thank you for registering with Coach Mentor.</p>',
+            title: 'Registration Successful!',
+            scope: $scope,
+            buttons: [{
+              type: 'button-positive',
+              text: 'OK'
+            }]
+          });
+
           $scope.modal4.hide();
           $state.go('landing');
         } else {

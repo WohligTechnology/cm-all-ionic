@@ -2018,7 +2018,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
           $scope.formData = {};
           $scope.hideLoading();
           $scope.regPop = $ionicPopup.show({
-            template: '<p>Thank you for registering with coach mentor. We have received your registration and you will shortly receive a message on your registered email with a verification link. Please follow the verification link to activate your athlete account. Please fill out your other personal details in your own time.</p>',
+            template: '<p>Thank you for registering with Coach Mentor. We have received your registration and you will shortly receive a message on your registered email with a verification link. Please follow the verification link to activate your athlete account. Please fill out your other personal details in your own time.</p>',
             title: 'Registration Successful!',
             scope: $scope,
             buttons: [{
