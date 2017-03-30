@@ -726,5 +726,15 @@ angular.module('starter.services', [])
           callback(data);
         });
       },
+      getReactionBlog: function (formData, callback) {
+        formData = _.merge(formData, requestCredentials);
+        $http({
+          url: adminurl + 'blog/getReactionBlog',
+          method: 'POST',
+          data: formData
+        }).success(function (data) {
+          callback(data);
+        });
+      },
     };
   });

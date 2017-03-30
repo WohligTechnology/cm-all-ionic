@@ -32,9 +32,9 @@
           <i class="icon ion-ios-trash-outline" ng-click="removeAthlete($index);"></i>
         </ion-item>-->
         <div class="item item-divider item-icon-right" ng-click="addTrainingPlan();">Add Training Plan<i class="icon ion-ios-plus-empty"></i></div>
-        <ion-item class="item-name item-icon-right" ng-repeat="d in formData.masterTrainingPlan" ng-if="formData.masterTrainingPlan">
-          <h2>{{d.name}}</h2>
-          <i class="icon ion-ios-trash-outline" ng-click="removeTrainingPlan($index);"></i>
+        <ion-item class="item-name item-icon-right" ng-if="!equals({}, formData.masterTrainingPlan)">
+          {{formData.masterTrainingPlan.name}}
+          <i class="icon ion-ios-trash-outline" ng-click="removeTrainingPlan(formData.masterTrainingPlan._id);"></i>
         </ion-item>
       </ion-list>
       <div class="padding-horizontal">

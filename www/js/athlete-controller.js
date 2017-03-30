@@ -468,7 +468,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     //Reactions
     $scope.athlete = MyServices.getUser();
     $scope.getReaction = function (val) {
-      NavigationService.getReactionBlog({
+      MyServices.getReactionBlog({
         type: val,
         _id: $stateParams.id,
         athlete: $scope.athlete._id

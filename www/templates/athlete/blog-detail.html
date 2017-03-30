@@ -3,7 +3,7 @@
     <div class="blog-detail">
       <div class="list">
         <div class="item item-body brd-zero">
-          <img class="full-image" ng-src="{{formData.image|uploadpath}}">
+          <img class="full-image" ng-src="{{(formData.image|uploadpath) || 'img/article/article-thumb.jpg'}}">
           <div class="padding">
             <div class="more-info adjustment">
               <span class="small-text pull-right">{{formData.publishingDate|date:'dd MMMM, yyyy'}}</span>

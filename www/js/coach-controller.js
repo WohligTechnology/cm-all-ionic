@@ -537,6 +537,8 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
   })
 
   .controller('CoachBlogCtrl', function ($scope, $ionicModal, MyServices, $ionicLoading, $ionicPopup) {
+    $scope.profileData = MyServices.getUser();
+    console.log($scope.profileData);
     $scope.currentPage = 1;
     var i = 0;
     $scope.allBlog = [];
@@ -577,7 +579,8 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       }
       MyServices.searchBlog({
         page: $scope.currentPage,
-        keyword: $scope.search.keyword
+        keyword: $scope.search.keyword,
+        coach: $scope.profileData._id
       }, ++i, function (data, ini) {
         if (ini == i) {
           if (data.value) {
@@ -600,7 +603,6 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
     //Load More
     $scope.loadMore = function () {
-      // $scope.more.Data = false;
       console.log('Load More');
       $scope.showAllBlog();
     };
@@ -1327,7 +1329,11 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     // };
 
     $scope.removeTrainingPlan = function (pos) {
-      $scope.formData.trainingPlan.splice(pos, 1);
+      //$scope.formData.trainingPlan.splice(pos, 1);
+      alert("button clicked");
+      console.log("$scope.formData before", $scope.formData);
+      $scope.formData.masterTrainingPlan = {};
+      console.log("$scope.formData", $scope.formData);
     };
     $scope.formData.trainingPlan = [];
     $scope.matchTrainingPlan = function (data) {
