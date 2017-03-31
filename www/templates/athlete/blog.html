@@ -17,7 +17,7 @@
             <img ng-src="{{(d.author.profilePic | uploadpath)||'img/img-placeholder.png'}}"> {{d.author.name}} {{d.author.surname}}
           </p>
         </div>
-        <img class="full-image" ng-src="{{d.image|uploadpath}}">
+        <img class="full-image" ng-src="{{(d.image|uploadpath) || 'img/article/article-thumb.jpg'}}">
         <div class="item-content">
           <h4 class="card-title">{{d.title}}</h4>
           <div class="more-info">

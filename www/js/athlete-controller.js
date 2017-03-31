@@ -468,7 +468,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     //Reactions
     $scope.athlete = MyServices.getUser();
     $scope.getReaction = function (val) {
-      NavigationService.getReactionBlog({
+      MyServices.getReactionBlog({
         type: val,
         _id: $stateParams.id,
         athlete: $scope.athlete._id
@@ -2017,8 +2017,15 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         if (data.value === true) {
           $scope.formData = {};
           $scope.hideLoading();
-          $scope.registerMsg = "Thank you for registering with coach mentor. We have received your registration and you will shortly receive a message on your registered email with a verification link. Please follow the verification link to activate your athlete account. Please fill out your other personal details in your own time.";
-          $scope.showLoading($scope.registerMsg, 3000);
+          $scope.regPop = $ionicPopup.show({
+            template: '<p>Thank you for registering with Coach Mentor. We have received your registration and you will shortly receive a message on your registered email with a verification link. Please follow the verification link to activate your athlete account. Please fill out your other personal details in your own time.</p>',
+            title: 'Registration Successful!',
+            scope: $scope,
+            buttons: [{
+              type: 'button-positive',
+              text: 'OK'
+            }]
+          });
           $scope.modal2.hide();
           $state.go('landing');
         } else {

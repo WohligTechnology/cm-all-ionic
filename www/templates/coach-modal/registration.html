@@ -89,7 +89,7 @@
               <input type="checkbox" id="Others" ng-model="formData.specialisations.otherVal">
               <label for="Others">Others</label>
             </div>
-            <input type="hidden" name="specialisations" ng-model="formData.specialisations[0]" required>
+            <input type="hidden" name="specialisations" ng-model="formData.specialisations[0]" ng-required="!formData.specialisations.otherVal">
             <span class="error-msg" ng-show="formData.specialisations == '' && !formData.specialisations.otherVal">Please select Specialisations</span>
           </ion-item>
           <label ng-if="formData.specialisations.otherVal" class="item item-input item-block" ng-class="{'err':formName.specialisationOther.$invalid && formName.specialisationOther.$touched}">

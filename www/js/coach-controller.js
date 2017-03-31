@@ -75,8 +75,16 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       if (data.value === true) {
         $scope.formData = {};
         $scope.hideLoading();
-        $scope.registerMsg = "Successfully registed";
-        $scope.showLoading($scope.registerMsg, 3000);
+        $scope.regPop = $ionicPopup.show({
+          template: '<p>Thank you for registering with Coach Mentor.</p>',
+          title: 'Registration Successful!',
+          scope: $scope,
+          buttons: [{
+            type: 'button-positive',
+            text: 'OK'
+          }]
+        });
+
         $scope.modal4.hide();
         $state.go('landing');
       } else {
@@ -537,6 +545,8 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 })
 
 .controller('CoachBlogCtrl', function ($scope, $ionicModal, MyServices, $ionicLoading, $ionicPopup) {
+  $scope.profileData = MyServices.getUser();
+  console.log($scope.profileData);
   $scope.currentPage = 1;
   var i = 0;
   $scope.allBlog = [];
@@ -577,7 +587,8 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     }
     MyServices.searchBlog({
       page: $scope.currentPage,
-      keyword: $scope.search.keyword
+      keyword: $scope.search.keyword,
+      coach: $scope.profileData._id
     }, ++i, function (data, ini) {
       if (ini == i) {
         if (data.value) {
@@ -600,7 +611,6 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
   //Load More
   $scope.loadMore = function () {
-    // $scope.more.Data = false;
     console.log('Load More');
     $scope.showAllBlog();
   };
@@ -1326,9 +1336,12 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
   //   $scope.formData.athlete = $scope.selectAthlete.array;
   // };
 
-  $scope.removeTrainingPlan = function () {
-    // $scope.formData.trainingPlan.splice(pos, 1);
+  $scope.removeTrainingPlan = function (pos) {
+    //$scope.formData.trainingPlan.splice(pos, 1);
+    alert("button clicked");
+    console.log("$scope.formData before", $scope.formData);
     $scope.formData.masterTrainingPlan = {};
+    console.log("$scope.formData", $scope.formData);
   };
   $scope.formData.trainingPlan = [];
   $scope.matchTrainingPlan = function (data) {
@@ -1561,8 +1574,8 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     $scope.athleteNoteData = activity.athleteNoteData;
     $scope.coachNoteData = activity.coachNoteData;
     $scope.activityID = activity._id;
-    $scope.userAthlete = true;
-    $scope.showAthleteShared = true;
+    $scope.usercoach = true;
+    $scope.showShared = true;
     $scope.noteModal.show();
   };
   $scope.closeNotes = function () {
@@ -1574,7 +1587,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
   // Function for Save Notes
 
   //Note Switcher
-  $scope.currentNote = 'Athlete';
+  $scope.currentNote = 'Coach';
   $scope.switchNote = function (val) {
     $scope.currentNote = val;
     $scope.currentType = 'Shared';
@@ -1585,25 +1598,27 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
   $scope.switchType = function (val) {
     $scope.currentType = val;
     if (val === 'Personal') {
-      $scope.showAthletePersonal = true;
-      $scope.showAthleteShared = false;
+      $scope.showPersonal = true;
+      $scope.showShared = false;
     } else {
-      $scope.showAthletePersonal = false;
-      $scope.showAthleteShared = true;
+      $scope.showPersonal = false;
+      $scope.showShared = true;
     }
   };
 
 
   //Saving Notes
-  $scope.saveAthleteNotes = function (notedata) {
-      $scope.athleteData = MyServices.getUser();
-      $scope.athleteNoteData.athleteId = $scope.athleteData._id,
-        $scope.athleteNoteData.activityID = $scope.activityID,
-        $scope.athleteNoteData.notesAthlete = {
+  $scope.profileData = MyServices.getUser();
+  $scope.saveCoachNotes = function (notedata) {
+      var coachNoteData = {};
+      coachNoteData.coachId = $scope.profileData._id,
+        coachNoteData.activityID = $scope.activityID,
+        coachNoteData.notesCoach = {
           sharedNote: notedata.sharedNote,
           personalNote: notedata.personalNote
-        }
-      MyServices.saveNote($scope.athleteNoteData, function (data) {
+        };
+      // console.log(calenderAthlete.athlete);
+      MyServices.saveNote(coachNoteData, function (data) {
         if (data.value == true) {
           $scope.closeNotes();
           console.log("Note saved successfully");
@@ -1612,7 +1627,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
           console.log("Error while saving Note.");
 
         }
-      })
+      });
     }
     // Function for Save Notes End
     //Event Click Modal

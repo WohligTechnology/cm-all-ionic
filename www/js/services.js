@@ -1,4 +1,4 @@
-var adminurl = "http://coachmentor.wohlig.com/api/";
+var adminurl = "http://coachmentor.wohlig.co.in/api/";
 // var adminurl = "http://192.168.0.101:1337/api/";
 // var adminurl = "http://wohlig.io/api/";
 var imgurl = adminurl + "upload/";
@@ -720,6 +720,16 @@ angular.module('starter.services', [])
         formData = _.merge(formData, requestCredentials);
         $http({
           url: adminurl + 'CommencementForm/getMyServiceform',
+          method: 'POST',
+          data: formData
+        }).success(function (data) {
+          callback(data);
+        });
+      },
+      getReactionBlog: function (formData, callback) {
+        formData = _.merge(formData, requestCredentials);
+        $http({
+          url: adminurl + 'blog/getReactionBlog',
           method: 'POST',
           data: formData
         }).success(function (data) {
