@@ -11221,6 +11221,12 @@ p.bold {
   border-color: #0da183;
   font-weight: bold; }
 
+.injuries {
+  background-color: #c1271c !important;
+  border-color: #c1271c;
+  color: white;
+  font-weight: bold; }
+
 .phaseEven {
   background-color: #14a7ac !important;
   border-color: #14a7ac;

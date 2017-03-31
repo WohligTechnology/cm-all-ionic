@@ -4,7 +4,7 @@
       <div class="zd">
         <div class="dp" style="background-image: url({{(athleteCoaching.athlete.profilePic | uploadpath) || 'img/img-placeholder.png'}});"></div>
         <h3>{{athleteCoaching.athlete.name}} {{athleteCoaching.athlete.surname}}</h3>
-        <p>{{(athleteCoaching.athlete.age)||'-'}} years, {{athleteCoaching.athlete.country}}</p>
+        <p>{{(athleteCoaching.athlete.dob | ageConvert)||'-'}}, {{athleteCoaching.athlete.country}}</p>
         <p class="badged positive-bg">{{athleteCoaching.subscriptionType}}</p>
       </div>
     </div>

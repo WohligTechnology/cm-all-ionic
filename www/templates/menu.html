@@ -22,7 +22,7 @@
           </ion-item>
           <ion-item class="item-icon-left" menu-close ui-sref="app.coach-notifications" ui-sref-active="on">
             <i class="icon ln-earth"></i> Notifications
-            <span class="badge badge-assertive">0</span>
+            <span class="badge badge-assertive" ng-if="notificationCount > 0">{{notificationCount}}</span>
           </ion-item>
           <ion-item class="item-icon-left" menu-close ui-sref="app.coach-training-diary" ui-sref-active="on">
             <i class="icon ln-calendar"></i> Athlete Diary View
@@ -53,7 +53,7 @@
           </ion-item>
           <ion-item class="item-icon-left" menu-close ui-sref="app.athlete-notifications" ui-sref-active="on">
             <i class="icon ln-earth"></i> Notifications
-            <span class="badge badge-assertive">{{notificationCount}}</span>
+            <span class="badge badge-assertive" ng-if="notificationCount > 0">{{notificationCount}}</span>
           </ion-item>
           <ion-item class="item-icon-left" menu-close ui-sref="app.athlete-coach-detail" ui-sref-active="on">
             <i class="icon ln-bookmark"></i> My Coach
