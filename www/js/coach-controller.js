@@ -2004,14 +2004,14 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     if ($stateParams.athleteId) {
       $scope.athleteCoaching = undefined;
       MyServices.getOneAthleteCoached({
-        athleteId: $stateParams.athleteId
+        athleteCoachingId: $stateParams.athleteId
       }, function (response) {
         if (response.value) {
           $scope.athleteCoaching = response.data;
         } else {
           $scope.athleteCoaching = [];
         }
-      })
+      });
     }
     $scope.reason = function (athleteCoachId, coachID) {
       $scope.unsubscribe._id = athleteCoachId;

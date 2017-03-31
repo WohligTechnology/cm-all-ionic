@@ -10,7 +10,7 @@
         <label class="item-input-wrapper"><input type="text" placeholder="Athlete Name"></label>
         <button class="button button-small icon ln-magnifier"></button>
       </ion-item>-->
-      <ion-item class="item-avatar" ui-sref="app.coach-athletes-coaching-detail({athleteId:myathletes.athlete._id})" ng-repeat="myathletes in athletecoaching">
+      <ion-item class="item-avatar" ui-sref="app.coach-athletes-coaching-detail({athleteId:myathletes._id})" ng-repeat="myathletes in athletecoaching">
         <img ng-src="{{(myathletes.athlete.profilePic | uploadpath) || 'img/img-placeholder.png'}}">
         <h2>{{myathletes.athlete.name}} {{myathletes.athlete.surname}}</h2>
         <p><i class="icon ln-calendar3"></i> {{(myathletes.createdAt| date:"dd/MM/yyyy")||'-'}} - {{(myathletes.renewalDate)||'-'}}</p>
