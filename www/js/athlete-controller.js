@@ -1809,15 +1809,15 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         });
       }
 
-      for (var i = 0; i < injury.length; i++) {
+      for (var l = 0; l < injury.length; l++) {
         $scope.injury.push({
           type: 'clickable',
-          title: injury[i].name,
-          start: moment(injury[i].injuryDate).toDate(),
-          end: moment(injury[i].resumeTrainingDate).toDate(),
+          title: injury[l].name,
+          start: moment(injury[l].injuryDate).toDate(),
+          end: moment(injury[l].resumeTrainingDate).toDate(),
           allDay: true,
           className: ['injuries'],
-          details: injury[i].prescribingPractitioner,
+          details: injury[l].prescribingPractitioner,
           sort: "j"
         });
       }

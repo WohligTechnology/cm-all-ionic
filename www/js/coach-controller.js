@@ -1676,7 +1676,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     $scope.competitions = [];
     $scope.tests = [];
 
-    $scope.generateDiary = function (aspects, competitions, tests) {
+    $scope.generateDiary = function (aspects, competitions, tests, injury) {
       for (var i = 0; i < aspects.length; i++) {
         $scope.aspects.push({
           type: 'clickable',
@@ -1721,6 +1721,19 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
           details: tests[k].details,
           className: ['tests'],
           allDay: true,
+          sort: "j"
+        });
+      }
+
+      for (var l = 0; l < injury.length; l++) {
+        $scope.injury.push({
+          type: 'clickable',
+          title: injury[l].name,
+          start: moment(injury[l].injuryDate).toDate(),
+          end: moment(injury[l].resumeTrainingDate).toDate(),
+          allDay: true,
+          className: ['injuries'],
+          details: injury[l].prescribingPractitioner,
           sort: "j"
         });
       }
