@@ -1524,6 +1524,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       $scope.aspects = [];
       $scope.competitions = [];
       $scope.tests = [];
+      $scope.injury = [];
     };
 
     $scope.changeAthlete = function () {
@@ -1538,9 +1539,10 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
             $scope.trainingActivity = data.data.TrainingActivity;
             $scope.trainingPlan = data.data.TrainingPlan[0];
             $scope.trainingPhases = data.data.TrainingPlan[0].phase;
-            $scope.generatePlan($scope.trainingPlan.startDate, $scope.trainingPhases, $scope.trainingActivity);
+            $scope.trainingActivityNotes = data.data.TrainingActivityNotes;
+            $scope.generatePlan($scope.trainingPlan.startDate, $scope.trainingPhases, $scope.trainingActivity, $scope.trainingActivityNotes);
             $scope.generateDiaryPhases($scope.trainingPlan.startDate, $scope.trainingPhases);
-            $scope.generateDiary(data.data.Aspect, data.data.Competition, data.data.Test);
+            $scope.generateDiary(data.data.Aspect, data.data.Competition, data.data.Test, data.data.Injury);
             console.log($scope.trainingPlan.startDate);
             $scope.trainingDiary = [$scope.phase, $scope.aspects, $scope.competitions, $scope.tests];
             $timeout(function () {
@@ -1569,11 +1571,11 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     }).then(function (modal) {
       $scope.noteModal = modal;
     });
-    $scope.openNotes = function (activity) {
-      // console.log(activity);
-      $scope.athleteNoteData = activity.athleteNoteData;
-      $scope.coachNoteData = activity.coachNoteData;
-      $scope.activityID = activity._id;
+    $scope.openNotes = function (activityNote) {
+      console.log(activityNote);
+      $scope.athleteNoteData = activityNote.athleteNoteData;
+      $scope.coachNoteData = activityNote.coachNoteData;
+      $scope.noteID = activityNote.noteID;
       $scope.usercoach = true;
       $scope.showShared = true;
       $scope.noteModal.show();
@@ -1612,12 +1614,12 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     $scope.saveCoachNotes = function (notedata) {
       var coachNoteData = {};
       coachNoteData.coachId = $scope.profileData._id,
-        coachNoteData.activityID = $scope.activityID,
+        coachNoteData._id = $scope.noteID,
         coachNoteData.notesCoach = {
           sharedNote: notedata.sharedNote,
           personalNote: notedata.personalNote
         };
-      // console.log(calenderAthlete.athlete);
+      console.log("coachNoteData", coachNoteData);
       MyServices.saveNote(coachNoteData, function (data) {
         if (data.value == true) {
           $scope.closeNotes();
@@ -1740,7 +1742,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     };
 
 
-    $scope.generatePlan = function (startDate, phases, trainingActivity) {
+    $scope.generatePlan = function (startDate, phases, trainingActivity, trainingActivityNotes) {
       $scope.trainingPhasesData = [];
       var k = 0;
 
@@ -1766,6 +1768,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
           var loopEnd = loopDuration + k;
           console.log('Loop Start', loopStart);
           console.log('Loop End', loopEnd);
+          // console.log(trainingActivityNotes);
           for (var j = loopStart; j < loopEnd; j++) {
             if (trainingActivity[j].name == 'Rest Day') {
               $scope.trainingPhasesData[l].activities.push({
@@ -1775,9 +1778,11 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
                 volume: '',
                 intensity: '',
                 startDate: moment(startDate).add(j, 'days').toDate(),
-                athleteNoteData: trainingActivity[j].notesAthlete,
-                coachNoteData: trainingActivity[j].notesCoach
+                noteID: trainingActivityNotes[j]._id,
+                athleteNoteData: trainingActivityNotes[j].notesAthlete,
+                coachNoteData: trainingActivityNotes[j].notesCoach
               });
+
             } else {
               $scope.trainingPhasesData[l].activities.push({
                 _id: trainingActivity[j]._id,
@@ -1786,8 +1791,9 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
                 volume: trainingActivity[j].volume,
                 intensity: trainingActivity[j].intensity,
                 startDate: moment(startDate).add(j, 'days').toDate(),
-                athleteNoteData: trainingActivity[j].notesAthlete,
-                coachNoteData: trainingActivity[j].notesCoach
+                noteID: trainingActivityNotes[j]._id,
+                athleteNoteData: trainingActivityNotes[j].notesAthlete,
+                coachNoteData: trainingActivityNotes[j].notesCoach
               });
             }
           }

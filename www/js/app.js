@@ -85,6 +85,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.personal-goals', {
         url: '/athlete/personal-goals',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/athlete/personal-goals.html',
@@ -130,6 +131,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.athlete-blog-detail', {
         url: '/athlete/blog/:id',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/athlete/blog-detail.html',
@@ -173,6 +175,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.athlete-chat-group', {
         url: '/athlete/chat-group',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/athlete/chat-group.html',
@@ -183,6 +186,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.athlete-coach', {
         url: '/athlete/coach',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/athlete/coach.html',
@@ -193,6 +197,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.athlete-coach-detail', {
         url: '/athlete/coach/detail',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/athlete/coach-detail.html',
@@ -203,6 +208,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.athlete-analytics', {
         url: '/athlete/analytics',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/athlete/analytics.html',
@@ -225,6 +231,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.athlete-injuries-create', {
         url: '/athlete/injuries-create',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/athlete/injuries-create.html',
@@ -235,6 +242,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.athlete-injuries-detail', {
         url: '/athlete/injuries/:id',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/athlete/injuries-create.html',
@@ -246,6 +254,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.athlete-search-coaches', {
         url: '/athlete/search-coaches',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/athlete/search-coaches.html',
@@ -256,6 +265,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.athlete-search-coaches-detail', {
         url: '/athlete/search-coaches/:id',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/athlete/search-coaches-detail.html',
@@ -266,6 +276,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.athlete-notifications', {
         url: '/athlete/notifications',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/athlete/notifications.html',
@@ -276,6 +287,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.athlete-training-diary', {
         url: '/training-diary',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/athlete/training-diary.html',
@@ -336,6 +348,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.coach-blog-detail', {
         url: '/coach/blog/:id',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/coach/blog-detail.html',
@@ -357,6 +370,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.coach-notifications', {
         url: '/coach/notifications',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/coach/notifications.html',
@@ -379,6 +393,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.coach-chat-group', {
         url: '/coach/chat-group',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/coach/chat-group.html',
@@ -389,6 +404,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.coach-coaches', {
         url: '/coach/coaches',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/coach/coaches.html',
@@ -398,8 +414,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
       })
 
       .state('app.coach-competition', {
-        cache: false,
         url: '/coach/competition',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/coach/competition.html',
@@ -410,6 +426,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.coach-analytics', {
         url: '/coach/analytics',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/coach/analytics.html',
@@ -420,6 +437,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.coach-competition-create', {
         url: '/coach/competition-create',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/coach/competition-create.html',
@@ -430,6 +448,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.coach-competition-detail', {
         url: '/coach/competition/:id',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/coach/competition-create.html',
@@ -439,8 +458,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
       })
 
       .state('app.coach-testing', {
-        cache: false,
         url: '/coach/testing',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/coach/testing.html',
@@ -452,6 +471,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.coach-testing-create', {
         url: '/coach/testing-create',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/coach/testing-create.html',
@@ -462,6 +482,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.coach-testing-detail', {
         url: '/coachtesting/:id',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/coach/testing-create.html',
@@ -473,6 +494,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.coach-athletes-coaching', {
         url: '/coachathletes-coaching/:page/:keyword',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/coach/athletes-coaching.html',
@@ -483,6 +505,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.coach-athletes-coaching-detail', {
         url: '/coachathletes-coaching-detail/:athleteId',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/coach/athletes-coaching-detail.html',
@@ -493,6 +516,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.coach-athlete-detail', {
         url: '/coachathlete-detail/:athleteId',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/coach/athlete-detail.html',
@@ -503,6 +527,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
 
       .state('app.coach-athletes-request', {
         url: '/coach/athletes-request',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/coach/athletes-request.html',
@@ -538,6 +563,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
       })
       .state('app.marketplace-service', {
         url: '/marketplace/service',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/marketplace/service.html',
@@ -547,6 +573,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
       })
       .state('app.marketplace-event', {
         url: '/marketplace/event',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/marketplace/event.html',
@@ -556,6 +583,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
       })
       .state('app.marketplace-article-detail', {
         url: '/marketplace/article-detail/:_id',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/marketplace/article-detail.html',
@@ -574,6 +602,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'athleteController', 
       })
       .state('app.marketplace-event-detail', {
         url: '/marketplace/event-detail',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/marketplace/event-detail.html',

@@ -700,7 +700,7 @@ angular.module('starter.services', [])
       saveNote: function (formData, callback) {
         formData = _.merge(formData, requestCredentials);
         $http({
-          url: adminurl + 'trainingActivity/saveNotes',
+          url: adminurl + 'TrainingPlanNotes/saveNotes',
           method: 'POST',
           data: formData
         }).success(callback);
