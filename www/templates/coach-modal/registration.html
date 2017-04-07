@@ -73,8 +73,8 @@
           <ion-item class="item-text-wrap multi-select" ng-class="{'err': formData.coachingFocus == ''}">
             <h3>Coaching Focus</h3>
             <div class="tag-box-label" ng-repeat="c in coachingFocus">
-              <input type="checkbox" id="{{c}}" checklist-model="formData.coachingFocus" checklist-value="c" name="{{c}}">
-              <label for="{{c}}">{{c}}</label>
+              <input type="checkbox" id="{{c}}-coach" checklist-model="formData.coachingFocus" checklist-value="c" name="{{c}}">
+              <label for="{{c}}-coach">{{c}}</label>
             </div>
             <input type="hidden" name="coachingFocus" ng-model="formData.coachingFocus[0]" required>
             <span class="error-msg" ng-show="formData.coachingFocus == ''">Please select Coaching Focus</span>
@@ -82,12 +82,12 @@
           <ion-item class="item-text-wrap multi-select" ng-class="{'err': formData.specialisations == '' && !formData.specialisations.otherVal}">
             <h3>Specialisations</h3>
             <div class="tag-box-label" ng-repeat="s in specialisations">
-              <input type="checkbox" id="{{s}}" checklist-model="formData.specialisations" checklist-value="s" name="{{s}}">
-              <label for="{{s}}">{{s}}</label>
+              <input type="checkbox" id="{{s}}-coach" checklist-model="formData.specialisations" checklist-value="s" name="{{s}}">
+              <label for="{{s}}-coach">{{s}}</label>
             </div>
             <div class="tag-box-label" ng-click="toggleOthers();">
-              <input type="checkbox" id="Others" ng-model="formData.specialisations.otherVal">
-              <label for="Others">Others</label>
+              <input type="checkbox" id="Others-coach" ng-model="formData.specialisations.otherVal">
+              <label for="Others-coach">Others</label>
             </div>
             <input type="hidden" name="specialisations" ng-model="formData.specialisations[0]" ng-required="!formData.specialisations.otherVal">
             <span class="error-msg" ng-show="formData.specialisations == '' && !formData.specialisations.otherVal">Please select Specialisations</span>
