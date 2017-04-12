@@ -6,6 +6,36 @@ angular.module('starter.controllers', ['starter.services', 'checklist-model', 'u
     $scope.accessType = MyServices.getAccessType();
     console.log($scope.accessType);
 
+    var ID = $scope.profileData._id;
+    var i = 0;
+
+    $scope.showAthleteNotification = function (ID) {
+      $scope.totalItems = undefined;
+      $scope.athletenotifications = undefined;
+      $scope.currentPage = 1;
+      MyServices.getAthleteNotification({
+        Id: ID,
+        page: $scope.currentPage
+      }, ++i, function (response, ini) {
+        if (ini == i) {
+          if (response.value == true) {
+            $scope.isAthlete = true;
+            $scope.athletenotifications = response.data.results;;
+            $scope.notificationCount = response.data.unreadcount;
+            $.jStorage.set("notificationCount", $scope.notificationCount);
+            $scope.maxRow = response.data.count;
+            $scope.totalItems = response.data.total;
+
+          } else {
+            $scope.athletenotifications = [];
+          }
+        }
+
+      })
+    }
+    $scope.showAthleteNotification(ID);
+
+
     //Athlete Login Modal
     $ionicModal.fromTemplateUrl('templates/athlete-modal/login.html', {
       scope: $scope,
