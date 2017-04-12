@@ -1,6 +1,6 @@
-var adminurl = "http://coachmentor.wohlig.co.in/api/";
+// var adminurl = "http://coachmentor.wohlig.co.in/api/";
 // var adminurl = "http://coachmentor.wohlig.com/api/";
-// var adminurl = "http://wohlig.io/api/";
+var adminurl = "http://wohlig.io/api/";
 var imgurl = adminurl + "upload/";
 
 var imgpath = imgurl + "readFile";
@@ -333,6 +333,7 @@ angular.module('starter.services', [])
 
       searchAthlete: function (formData, callback) {
         console.log(formData);
+        formData = _.merge(formData, requestCredentials);
         // var accessToken = {
         //   _id: formData.accessToken
         // }
@@ -344,9 +345,9 @@ angular.module('starter.services', [])
           url: adminurl + 'athletecoaching/searchAthleteByCoach',
           method: 'POST',
           data: formData
-        }).success(function (data) {
-          callback(data);
-        });
+        }).success(
+          callback
+        );
       },
 
       getAthletePlans: function (formData, callback) {
