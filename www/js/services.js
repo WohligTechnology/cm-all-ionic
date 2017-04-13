@@ -331,23 +331,19 @@ angular.module('starter.services', [])
         }).success(callback);
       },
 
-      searchAthlete: function (formData, callback) {
+      searchAthlete: function (formData, i, callback) {
         console.log(formData);
         formData = _.merge(formData, requestCredentials);
-        // var accessToken = {
-        //   _id: formData.accessToken
-        // }
-        // var accessType = {
-        //   _id: formData.accessType
-        // }
-        // formData = _.merge(formData, requestCredentials);
+
         $http({
           url: adminurl + 'athletecoaching/searchAthleteByCoach',
           method: 'POST',
           data: formData
-        }).success(
-          callback
-        );
+        }).success(function (data) {
+          console.log(data);
+          callback(data, i);
+        });
+
       },
 
       getAthletePlans: function (formData, callback) {
