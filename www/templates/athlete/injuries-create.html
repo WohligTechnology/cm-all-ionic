@@ -19,7 +19,7 @@
         </ion-item>
         <ion-item class="item-input" ng-class="{'err':formName.injuryDate.$invalid && formName.injuryDate.$touched}">
           <span class="input-label">Injury Date</span>
-          <input type="date" name="injuryDate" ng-model="formData.injuryDate" ng-change="matchDate()" min="{{today}}" required>
+          <input type="date" name="injuryDate" ng-model="formData.injuryDate" ng-change="matchDate()" max="{{oneWeekLater}}" required>
           <span class="error-msg" ng-show="formName.injuryDate.$invalid && formName.injuryDate.$touched">Please enter valid Injury Date</span>
         </ion-item>
         <ion-item class="item-input" ng-class="{'err':formName.resumeTrainingDate.$invalid && formName.resumeTrainingDate.$touched}">

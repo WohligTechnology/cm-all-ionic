@@ -923,7 +923,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     $scope.title = 'Add';
     $scope.selectAthlete = {};
     $scope.formData = {};
-    $scope.today = $filter('date')(new Date(), 'yyyy-MM-dd');
+    $scope.oneWeekLater = $filter('date')(moment().add(7, 'days'));
     $scope.severity = ['Minor', 'Moderate', 'Severe'];
 
     //Match start date & end date
@@ -963,7 +963,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     $scope.formData = {};
     $scope.selectAthlete = {};
     $scope.injuryId = $stateParams.id;
-    $scope.today = $filter('date')(new Date(), 'yyyy-MM-dd');
+    $scope.oneWeekLater = $filter('date')(moment().add(7, 'days'));
     $scope.severity = ['Minor', 'Moderate', 'Severe'];
 
     //Match start date & end date
