@@ -11319,3 +11319,6 @@ p.bold {
   z-index: 0;
   opacity: 0.75;
   border-top: 5px solid #c70e17; }
+
+.api-html p {
+  font-size: 14px !important; }

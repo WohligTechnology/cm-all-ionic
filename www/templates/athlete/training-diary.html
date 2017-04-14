@@ -26,9 +26,9 @@
       <div ng-if="currentScreen == 'Diary'" class="calendar" ng-model="trainingDiary" calendar="athleteDiary" ui-calendar="uiConfig.calendar"></div>
       <div class="list diary-list" ng-if="currentScreen == 'Diary'">
         <ion-item class="item-divider">Notes</ion-item>
-        <div class="item item-text-wrap" ng-bind-html="trainingPlan.notes"></div>
+        <div class="item item-text-wrap  api-html" ng-bind-html="trainingPlan.notes"></div>
         <ion-item class="item-divider">Goals &amp; Objectives</ion-item>
-        <div class="item item-text-wrap" ng-bind-html="trainingPlan.goalsAndObjectives"></div>
+        <div class="item item-text-wrap  api-html" ng-bind-html="trainingPlan.goalsAndObjectives"></div>
       </div>
       <div class="list tp-list" ng-if="currentScreen == 'List'">
         <div ng-repeat="tpd in trainingPhasesData">

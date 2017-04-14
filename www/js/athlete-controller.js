@@ -536,6 +536,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
           $scope.chatMsg = response.data.latestChat[0].lastDoc.message;
           if (response.data.UnreadCount.length > 0) {
             $scope.unreadcount = response.data.UnreadCount[0].count;
+            $scope.chatMsg = response.data.latestChat[0].lastDoc.message;
           }
           // if (response.data.latestChat != undefined) {
           //   $scope.chatId = response.data.latestChat[0]._id;
@@ -558,7 +559,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         if (data.data.length > 0) {
           $scope.chatId = data.data[0]._id;
           // console.log(data);
-          $scope.chatMsg = data.data[0].message[0].message;
+          // $scope.chatMsg = data.data[0].message[0].message;
         } else {
           $scope.chatMsg = "Start a chat with coach";
         }
