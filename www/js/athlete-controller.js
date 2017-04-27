@@ -43,6 +43,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       $ionicLoading.hide();
     };
 
+    //athlete Login function start
     $scope.callAPI = function (formData) {
       MyServices.athletelogin(formData, function (data) {
         if (data.value === true) {
@@ -59,6 +60,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         }
       });
     };
+    //athlete Login function end
     //Submit Form
     $scope.submitData = function (formData) {
       $scope.showLoading('Please wait...', 15000);
@@ -146,6 +148,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     var athlete = $scope.profileData._id;
     var i = 0;
 
+    //Notification of athlete start
     $scope.showAthleteNotification = function (athlete) {
       $scope.totalItems = undefined;
       $scope.athletenotifications = undefined;
@@ -171,6 +174,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       })
     }
     $scope.showAthleteNotification(athlete);
+    //Notification of athlete end
 
     //Profile Incomplete Check
     $scope.profileIncomplete = function () {
@@ -1185,6 +1189,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       $scope.showAllCoaches();
     };
 
+    // filter apply Start
     $scope.filter.age = [];
     $scope.filter.coachingFocus = [];
     $scope.filter.gender = [];
@@ -1262,6 +1267,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       $scope.showAllCoaches();
       $scope.closeModal();
     };
+    // filter apply end
 
   })
 
@@ -1473,6 +1479,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       });
     }
 
+    ///Unsub coach start
     $scope.Unsubscription = function (athleteCoachId) {
       $scope.unsubscribe._id = athleteCoachId;
       $scope.unsubscribe.athleteID = athleteId;
@@ -1502,6 +1509,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         // }
       });
     };
+    ///Unsub coach end
 
   })
 
@@ -1525,6 +1533,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
     var athlete = $scope.athleteData._id;
 
+    //Fucntion for notification of athlete start
     $scope.showAthleteNotification = function (athlete) {
       $scope.totalItems = undefined;
       $scope.athletenotifications = undefined;
@@ -1551,7 +1560,9 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       });
     };
     $scope.showAthleteNotification(athlete);
+    //Fucntion for notification of athlete end
 
+    //read notification start
     $scope.readNotification = function () {
       $scope.totalItems = undefined;
       $scope.athletenotifications = undefined;
@@ -1576,6 +1587,8 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         }
       })
     }
+    //read notification end
+
 
     $scope.reason = function () {
       $scope.data = {};
@@ -1607,6 +1620,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     $scope.closePayNow = function () {
       $scope.modal.hide();
     };
+    //pay subscription start
     $scope.openPayNow = function (coachdata) {
       $scope.formData = {};
       $scope.formData.coachPrice = coachdata.coach.coachAskingPrice;
@@ -1626,7 +1640,9 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
           $scope.closePayNow();
         }
       })
-    }
+    };
+    //pay subscription end
+
   })
 
 

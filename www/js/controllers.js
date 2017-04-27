@@ -9,6 +9,7 @@ angular.module('starter.controllers', ['starter.services', 'checklist-model', 'u
     var ID = $scope.profileData._id;
     var i = 0;
 
+    //function for getting all notifictaion start
     $scope.showNotification = function (ID) {
       $scope.totalItems = undefined;
       $scope.athletenotifications = undefined;
@@ -57,6 +58,7 @@ angular.module('starter.controllers', ['starter.services', 'checklist-model', 'u
 
     }
     $scope.showNotification(ID);
+    //function for getting all notifictaion end
 
 
     //Athlete Login Modal
