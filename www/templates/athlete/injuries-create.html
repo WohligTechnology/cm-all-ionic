@@ -30,8 +30,7 @@
         </ion-item>
         <ion-item class="item-input item-block" ng-class="{'err':formName.prescribingPractitioner.$invalid && formName.prescribingPractitioner.$touched}">
           <span class="input-label">Prescribing Practitioner</span>
-          <textarea auto-grow name="prescribingPractitioner" ng-model="formData.prescribingPractitioner" maxlength="1200" rows="4"
-            required></textarea>
+          <textarea auto-grow name="prescribingPractitioner" ng-model="formData.prescribingPractitioner" maxlength="1200" rows="4"></textarea>
           <span class="error-msg" ng-show="formName.prescribingPractitioner.$invalid && formName.prescribingPractitioner.$touched">Please enter valid Prescribing Practitioner</span>
         </ion-item>
       </ion-list>

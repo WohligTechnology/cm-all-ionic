@@ -31,6 +31,14 @@
           </p>
           <p>{{notification.createdAt | date:"dd/MM/yyyy 'at' h:mma"}}</p>
         </div>
+        <!--Injury Updated-->
+        <div ng-if="notification.type == 'athleteInjuryupdated'">
+          <p><span class="notify-name">{{notification.athleteinjury.athlete.name}} {{notification.athleteinjury.athlete.surname}} </span>athlete
+            injury is extended from {{notification.athleteinjury.injuryDate | date:"dd/MM/yyyy"}} to {{notification.athleteinjury.resumeTrainingDate
+            | date:"dd/MM/yyyy"}}.
+          </p>
+          <p>{{notification.createdAt | date:"dd/MM/yyyy 'at' h:mma"}}</p>
+        </div>
         <!-- competition  -->
         <div ng-if="d.type == 'competition'">
           <p>{{d.name}} {{d.surname}} rejected your competition.</p>

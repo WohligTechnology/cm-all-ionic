@@ -38,6 +38,14 @@
         <h3>Previous Season Review</h3>
         <p class="text-justified" read-more="athleteCoaching.athlete.previousSeasonReview"></p>
       </ion-item>
+      <ion-item class="item-text-wrap">
+        <h3>Training Plan</h3>
+        <p>{{(athleteCoaching.trainingPlan.name)||'-'}}</p>
+      </ion-item>
+      <ion-item class="item-text-wrap">
+        <h3>Start Date</h3>
+        <p>{{(athleteCoaching.trainingPlan.startDate| date:"dd/MM/yyyy")||'-'}}</p>
+      </ion-item>
     </ion-list>
     <div class="padding-horizontal">
       <button ng-if="athleteCoaching.status != 'Unsubscribe'" class="button button-assertive button-block" ng-click="reason(athleteCoaching._id,athleteCoaching.coach)">Unsubscribe</button>

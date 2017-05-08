@@ -52,7 +52,11 @@
               <div> {{act.detail||'No details provided'}}</div>
               <div class="pull-right">
                 <button class="button button-default {{act.intensity}} uppercase button-small" ng-if="act.name!='Rest Day' && act.name!='No Activity'">{{act.intensity}}</button>
-                <button class="button button-default button-small button-relative" type="button" ng-click="openNotes(act);"><i class="ic-document"></i></button>
+                <!--<button class="button button-default button-small button-relative" type="button" ng-click="openNotes(act);"><i class="ic-document"></i></button>-->
+                <button class="button button-default button-small button-relative" type="button" ng-if="applyNotesCSS[$index].status == false"
+                  ng-click="openNotes(act);"><i class="ic-document"></i></button>
+                <button class="button button-default button-small button-relative" type="button" ng-if="applyNotesCSS[$index].status == true"
+                  ng-click="openNotes(act);"><i class="notes-notified"></i></button>
                 <!--<button class="button button-default button-small button-relative" type="button" ng-click="downloadNow();"><i class="fa fa-download"></i></button>-->
               </div>
               <div class="after-text" ng-class="{'opace1': act.name == 'Rest Day','opace': act.name == 'No Activity'}"><b>Volume:</b> {{act.volume}}</div>

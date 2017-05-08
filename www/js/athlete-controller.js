@@ -1723,6 +1723,11 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         if (data.value == true) {
           $scope.closeNotes();
           console.log("Note saved successfully");
+          _.each($scope.applyNotesCSS, function (n, i) {
+            if (n._id == data.data._id) {
+              $scope.applyNotesCSS[i].status = true;
+            }
+          })
         } else {
           $scope.closeNotes();
           console.log("Error while saving Note.");
@@ -1868,34 +1873,75 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         var loopStart = 0 + k;
         var loopDuration = 7;
         var loopEnd = loopDuration + k;
+        $scope.applyNotesCSS = [];
         console.log('Loop Start:', loopStart, 'Loop End:', loopEnd);
 
         for (var j = loopStart; j < loopEnd; j++) {
           if (trainingActivity[j].name == 'Rest Day') {
-            $scope.trainingPhasesData[w].activities.push({
-              _id: trainingActivity[j]._id,
-              name: trainingActivity[j].name,
-              detail: 'No Training',
-              volume: '',
-              intensity: '',
-              startDate: moment(startDate).add(j, 'days').toDate(),
-              noteID: trainingActivityNotes[j]._id,
-              athleteNoteData: trainingActivityNotes[j].notesAthlete,
-              coachNoteData: trainingActivityNotes[j].notesCoach
-            });
-
+            if (trainingActivityNotes[j].notesAthlete.sharedNote != "" || trainingActivityNotes[j].notesAthlete.personalNote != "" || trainingActivityNotes[j].notesCoach.sharedNote != "" || trainingActivityNotes[j].notesCoach.personalNote != "") {
+              $scope.applyNotesCSS[j] = {};
+              $scope.applyNotesCSS[j].status = true;
+              $scope.applyNotesCSS[j]._id = trainingActivityNotes[j]._id;
+              $scope.trainingPhasesData[w].activities.push({
+                _id: trainingActivity[j]._id,
+                name: trainingActivity[j].name,
+                detail: 'No Training',
+                volume: '',
+                intensity: '',
+                startDate: moment(startDate).add(j, 'days').toDate(),
+                noteID: trainingActivityNotes[j]._id,
+                athleteNoteData: trainingActivityNotes[j].notesAthlete,
+                coachNoteData: trainingActivityNotes[j].notesCoach
+              });
+            } else {
+              $scope.applyNotesCSS[j] = {};
+              $scope.applyNotesCSS[j].status = false;
+              $scope.applyNotesCSS[j]._id = trainingActivityNotes[j]._id;
+              $scope.trainingPhasesData[w].activities.push({
+                _id: trainingActivity[j]._id,
+                name: trainingActivity[j].name,
+                detail: 'No Training',
+                volume: '',
+                intensity: '',
+                startDate: moment(startDate).add(j, 'days').toDate(),
+                noteID: trainingActivityNotes[j]._id,
+                athleteNoteData: trainingActivityNotes[j].notesAthlete,
+                coachNoteData: trainingActivityNotes[j].notesCoach
+              });
+            }
           } else {
-            $scope.trainingPhasesData[w].activities.push({
-              _id: trainingActivity[j]._id,
-              name: trainingActivity[j].name,
-              detail: trainingActivity[j].detail,
-              volume: trainingActivity[j].volume,
-              intensity: trainingActivity[j].intensity,
-              startDate: moment(startDate).add(j, 'days').toDate(),
-              noteID: trainingActivityNotes[j]._id,
-              athleteNoteData: trainingActivityNotes[j].notesAthlete,
-              coachNoteData: trainingActivityNotes[j].notesCoach
-            });
+            if (trainingActivityNotes[j].notesAthlete.sharedNote != "" || trainingActivityNotes[j].notesAthlete.personalNote != "" || trainingActivityNotes[j].notesCoach.sharedNote != "" || trainingActivityNotes[j].notesCoach.personalNote != "") {
+              $scope.applyNotesCSS[j] = {};
+              $scope.applyNotesCSS[j].status = true;
+              $scope.applyNotesCSS[j]._id = trainingActivityNotes[j]._id;
+              console.log("hsdfjskdfjkasjkjskdjkl", $scope.applyNotesCSS[j]);
+              $scope.trainingPhasesData[w].activities.push({
+                _id: trainingActivity[j]._id,
+                name: trainingActivity[j].name,
+                detail: trainingActivity[j].detail,
+                volume: trainingActivity[j].volume,
+                intensity: trainingActivity[j].intensity,
+                startDate: moment(startDate).add(j, 'days').toDate(),
+                noteID: trainingActivityNotes[j]._id,
+                athleteNoteData: trainingActivityNotes[j].notesAthlete,
+                coachNoteData: trainingActivityNotes[j].notesCoach
+              });
+            } else {
+              $scope.applyNotesCSS[j] = {};
+              $scope.applyNotesCSS[j].status = false;
+              $scope.applyNotesCSS[j]._id = trainingActivityNotes[j]._id;
+              $scope.trainingPhasesData[w].activities.push({
+                _id: trainingActivity[j]._id,
+                name: trainingActivity[j].name,
+                detail: trainingActivity[j].detail,
+                volume: trainingActivity[j].volume,
+                intensity: trainingActivity[j].intensity,
+                startDate: moment(startDate).add(j, 'days').toDate(),
+                noteID: trainingActivityNotes[j]._id,
+                athleteNoteData: trainingActivityNotes[j].notesAthlete,
+                coachNoteData: trainingActivityNotes[j].notesCoach
+              });
+            }
           }
         }
         k = k + loopDuration;

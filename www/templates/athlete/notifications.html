@@ -33,10 +33,24 @@
         </div>
         <!--Blog-->
         <div ng-if="notification.type=='blogAssign' ">
-          <p><span class="notify-name ">{{notification.blog.author.name}} {{notification.blog.author.surname}} </span>shared
-            a Coach Update.
+          <p><span class="notify-name ">{{notification.blog.author.name}} {{notification.blog.author.surname}} </span>has sent
+            you a Coach Update to read.
           </p>
           <p>{{notification.createdAt | date:"dd/MM/yyyy 'at' h:mma "}}</p>
+        </div>
+        <!-- Training plan assigned to athlete -->
+        <div ng-if="notification.type == 'AthleteAssignedToTP'">
+          <p><span class="notify-name">{{notification.coach.name}} {{notification.coach.surname}} </span> assigned you a Training
+            plan. Select your Training Diary to view this plan.
+          </p>
+          <p>{{notification.createdAt | date:"dd/MM/yyyy 'at' h:mma"}}</p>
+        </div>
+        <!-- Athlete removed from training plan -->
+        <div ng-if="notification.type == 'AthleteRemovedFromTP'">
+          <p><span class="notify-name">{{notification.coach.name}} {{notification.coach.surname}} </span> has removed you from
+            your Training plan
+          </p>
+          <p>{{notification.createdAt | date:"dd/MM/yyyy 'at' h:mma"}}</p>
         </div>
         <!-- Competition -->
         <div ng-if="notification.type == 'Competition'">

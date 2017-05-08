@@ -25,7 +25,7 @@
     <div ng-if="showPlan">
       <div ng-if="currentScreen == 'Diary'" class="calendar" ng-model="trainingDiary" calendar="athleteDiary" ui-calendar="uiConfig.calendar"></div>
       <div class="list diary-list" ng-if="currentScreen == 'Diary'">
-        <ion-item class="item-divider">Notes</ion-item>
+        <ion-item class="item-divider">Notes</ion-item>{{trainingPlan.notes}}
         <div class="item item-text-wrap  api-html" ng-bind-html="trainingPlan.notes"></div>
         <ion-item class="item-divider">Goals &amp; Objectives</ion-item>
         <div class="item item-text-wrap  api-html" ng-bind-html="trainingPlan.goalsAndObjectives"></div>
@@ -47,7 +47,10 @@
               <div> {{act.detail||'No details provided'}}</div>
               <div class="pull-right">
                 <button class="button button-default {{act.intensity}} uppercase button-small" ng-if="act.name!='Rest Day' && act.name!='No Activity'">{{act.intensity}}</button>
-                <button class="button button-default button-small button-relative" type="button" ng-click="openNotes(act);"><i class="ic-document"></i></button>
+                <button class="button button-default button-small button-relative" type="button" ng-if="applyNotesCSS[$index].status == false"
+                  ng-click="openNotes(act);"><i class="ic-document"></i></button>
+                <button class="button button-default button-small button-relative" type="button" ng-if="applyNotesCSS[$index].status == true"
+                  ng-click="openNotes(act);"><i class="notes-notified"></i></button>
                 <!--<button class="button button-default button-small button-relative" type="button" ng-click="downloadNow();"><i class="fa fa-download"></i></button>-->
               </div>
               <div class="after-text" ng-class="{'opace1': act.name == 'Rest Day','opace': act.name == 'No Activity'}"><b>Volume:</b> {{act.volume}}</div>
