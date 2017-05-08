@@ -1,6 +1,6 @@
 // var adminurl = "http://coachmentor.wohlig.co.in/api/";
-// var adminurl = "http://coachmentor.wohlig.com/api/";
-var adminurl = "http://wohlig.io/api/";
+var adminurl = "http://coachmentor.wohlig.com/api/";
+// var adminurl = "http://wohlig.io/api/";
 var imgurl = adminurl + "upload/";
 
 var imgpath = imgurl + "readFile";
