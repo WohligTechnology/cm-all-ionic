@@ -1,5 +1,5 @@
-var adminurl = "http://coachmentor.wohlig.co.in/api/";
-// var adminurl = "http://coachmentor.wohlig.com/api/";
+// var adminurl = "http://coachmentor.wohlig.co.in/api/";
+var adminurl = "http://coachmentor.wohlig.com/api/";
 // var adminurl = "http://wohlig.io/api/";
 var imgurl = adminurl + "upload/";
 
@@ -489,7 +489,7 @@ angular.module('starter.services', [])
       searchBlog: function (formData, i, callback) {
         formData = _.merge(formData, requestCredentials);
         $http({
-          url: adminurl + 'Blog/search',
+          url: adminurl + 'Blog/searchBlog',
           method: 'POST',
           data: formData
         }).success(function (data) {
