@@ -1766,7 +1766,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
       }
     };
 
-
+    $scope.applyNotesCSS = [];
     $scope.generatePlan = function (startDate, phases, trainingActivity, trainingActivityNotes) {
       $scope.trainingPhasesData = [];
       var k = 0;
@@ -1793,14 +1793,16 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
         var loopStart = 0 + k;
         var loopDuration = 7;
         var loopEnd = loopDuration + k;
-        $scope.applyNotesCSS = [];
-        console.log('Loop Start:', loopStart, 'Loop End:', loopEnd);
+
+        // console.log('Loop Start:', loopStart, 'Loop End:', loopEnd);
 
         for (var j = loopStart; j < loopEnd; j++) {
-          if (trainingActivity[j].name == 'Rest Day') {
+
+          if (trainingActivity[j] != undefined && trainingActivity[j].name == 'Rest Day') {
             if (trainingActivityNotes[j].notesAthlete.sharedNote != "" || trainingActivityNotes[j].notesAthlete.personalNote != "" || trainingActivityNotes[j].notesCoach.sharedNote != "" || trainingActivityNotes[j].notesCoach.personalNote != "") {
               $scope.applyNotesCSS[j] = {};
               $scope.applyNotesCSS[j].status = true;
+              // console.log("status 1", $scope.applyNotesCSS[j].status);
               $scope.applyNotesCSS[j]._id = trainingActivityNotes[j]._id;
               $scope.trainingPhasesData[w].activities.push({
                 _id: trainingActivity[j]._id,
@@ -1816,6 +1818,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
             } else {
               $scope.applyNotesCSS[j] = {};
               $scope.applyNotesCSS[j].status = false;
+              // console.log("status 2", $scope.applyNotesCSS[j].status);
               $scope.applyNotesCSS[j]._id = trainingActivityNotes[j]._id;
               $scope.trainingPhasesData[w].activities.push({
                 _id: trainingActivity[j]._id,
@@ -1830,10 +1833,11 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
               });
             }
 
-          } else {
-            if (trainingActivityNotes[j].notesAthlete.sharedNote != "" || trainingActivityNotes[j].notesAthlete.personalNote != "" || trainingActivityNotes[j].notesCoach.sharedNote != "" || trainingActivityNotes[j].notesCoach.personalNote != "") {
+          } else if (trainingActivity[j] != undefined) {
+            if (trainingActivity[j] != undefined && (trainingActivityNotes[j].notesAthlete.sharedNote != "" || trainingActivityNotes[j].notesAthlete.personalNote != "" || trainingActivityNotes[j].notesCoach.sharedNote != "" || trainingActivityNotes[j].notesCoach.personalNote != "")) {
               $scope.applyNotesCSS[j] = {};
               $scope.applyNotesCSS[j].status = true;
+              // console.log("status 3", $scope.applyNotesCSS[j].status);
               $scope.applyNotesCSS[j]._id = trainingActivityNotes[j]._id;
               $scope.trainingPhasesData[w].activities.push({
                 _id: trainingActivity[j]._id,
@@ -1849,6 +1853,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
             } else {
               $scope.applyNotesCSS[j] = {};
               $scope.applyNotesCSS[j].status = false;
+              // console.log("status 4", $scope.applyNotesCSS[j].status);
               $scope.applyNotesCSS[j]._id = trainingActivityNotes[j]._id;
               $scope.trainingPhasesData[w].activities.push({
                 _id: trainingActivity[j]._id,
@@ -1862,11 +1867,16 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
                 coachNoteData: trainingActivityNotes[j].notesCoach
               });
             }
+          } else {
+            break;
           }
+        }
+        if ($scope.trainingPhasesData[w] == undefined) {
+          break;
         }
         k = k + loopDuration;
       }
-      console.log($scope.trainingPhasesData);
+      // console.log("hdfjkhsdfjkahjksdfhjkadhsfjkdhsfjkhasfjk", $scope.trainingPhasesData, $scope.applyNotesCSS);
     };
 
     $scope.formData = {};

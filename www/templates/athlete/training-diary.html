@@ -25,18 +25,18 @@
     <div ng-if="showPlan">
       <div ng-if="currentScreen == 'Diary'" class="calendar" ng-model="trainingDiary" calendar="athleteDiary" ui-calendar="uiConfig.calendar"></div>
       <div class="list diary-list" ng-if="currentScreen == 'Diary'">
-        <ion-item class="item-divider">Notes</ion-item>{{trainingPlan.notes}}
+        <ion-item class="item-divider">Notes</ion-item>
         <div class="item item-text-wrap  api-html" ng-bind-html="trainingPlan.notes"></div>
         <ion-item class="item-divider">Goals &amp; Objectives</ion-item>
         <div class="item item-text-wrap  api-html" ng-bind-html="trainingPlan.goalsAndObjectives"></div>
       </div>
       <div class="list tp-list" ng-if="currentScreen == 'List'">
-        <div ng-repeat="tpd in trainingPhasesData">
+        <div ng-repeat="tpd in trainingPhasesData" ng-init="$index1 = $index">
           <ion-item class="tp-phase item item-text-wrap {{tpd.className}}"><span>Phase {{tpd.phaseNumber}}: {{tpd.name}}</span>
             <div class="sub">Week {{$index+1}}</div>
           </ion-item>
           <ion-item class="tp-activity item-text-wrap item-icon-right" ng-class="{'today': checkToday(act.startDate) }" id="scroll{{act.startDate|date: 'ddMMyy'}}"
-            ng-repeat="act in tpd.activities">
+            ng-repeat="act in tpd.activities" ng-init="$index2 = $index">
             <div class="icon ion-record show-today"></div>
             <div ng-click="act[$index].show=!act[$index].show">
               <span class="date">{{act.startDate|date: 'dd MMM'}} <span class="day">{{act.startDate|date: 'EEE'}}</span></span>
@@ -47,9 +47,9 @@
               <div> {{act.detail||'No details provided'}}</div>
               <div class="pull-right">
                 <button class="button button-default {{act.intensity}} uppercase button-small" ng-if="act.name!='Rest Day' && act.name!='No Activity'">{{act.intensity}}</button>
-                <button class="button button-default button-small button-relative" type="button" ng-if="applyNotesCSS[$index].status == false"
+                <button class="button button-default button-small button-relative" type="button" ng-if="applyNotesCSS[($index1*7)+$index2].status == false"
                   ng-click="openNotes(act);"><i class="ic-document"></i></button>
-                <button class="button button-default button-small button-relative" type="button" ng-if="applyNotesCSS[$index].status == true"
+                <button class="button button-default button-small button-relative" type="button" ng-if="applyNotesCSS[($index1*7)+$index2].status == true"
                   ng-click="openNotes(act);"><i class="notes-notified"></i></button>
                 <!--<button class="button button-default button-small button-relative" type="button" ng-click="downloadNow();"><i class="fa fa-download"></i></button>-->
               </div>

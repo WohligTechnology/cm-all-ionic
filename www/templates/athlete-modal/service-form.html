@@ -31,7 +31,7 @@
       </label>
     <label class="item item-input" ng-class="{'err': formName.height.$invalid && formName.height.$touched}">
       <span class="input-label">Height*: (in metres)</span>
-      <input type="text" name="height" ng-model="formData.height" replace="[^0-9.]" with="" required>
+      <input type="text" name="height" ng-model="formData.height" required>
       <div class="error-msg" ng-show="formName.height.$touched && formName.height.$invalid"> Please enter valid Height </div>
     </label>
     <label class="item item-input" ng-class="{'err': formName.heartRate.$invalid && formName.heartRate.$touched}">
@@ -58,18 +58,18 @@
         <button class="btn assertive-bg" type="button" ng-click="removeSporting($index);"><i class="icon ion-minus"></i></button>
       </div>
       <label class="item item-input" ng-class="{'err': formName['activity' + $index].$invalid && formName['activity' + $index].$touched}">
-        <span class="input-label">Activity*</span>
-        <input type="text" name="activity{{$index}}" ng-model="formData.otherSporting[$index].activity"  required>
+        <span class="input-label">Activity</span>
+        <input type="text" name="activity{{$index}}" ng-model="formData.otherSporting[$index].activity"  >
         <div class="error-msg" ng-show="formName['activity' + $index].$invalid && formName['activity' + $index].$touched"> Please enter valid activity </div>
       </label>
       <label class="item item-input" ng-class="{'err': formName['day' + $index].$invalid && formName['day' + $index].$touched}">
-        <span class="input-label">Day(s)*</span>
-        <input type="text" name="day{{$index}}" ng-model="formData.otherSporting[$index].day"  required>
+        <span class="input-label">Day(s)</span>
+        <input type="text" name="day{{$index}}" ng-model="formData.otherSporting[$index].day"  >
         <div class="error-msg" ng-show="formName['day' + $index].$invalid && formName['day' + $index].$touched"> Please enter valid Days </div>
       </label>
       <label class="item item-input item-select" ng-class="{'err': formName['intensity' + $index].$invalid && formName['intensity' + $index].$touched}">
-        <span class="input-label">Intensity*</span>
-        <select name="intensity{{$index}}" ng-model="formData.otherSporting[$index].intensity"  required>
+        <span class="input-label">Intensity</span>
+        <select name="intensity{{$index}}" ng-model="formData.otherSporting[$index].intensity"  >
             <option value="">Please Select</option>
             <option value="Low">Low</option>
             <option value="Medium">Medium</option>
@@ -150,7 +150,7 @@
         </label>
       <label class="item item-input">
             <span class="input-label">Year Achieved</span>
-            <input type="text" minlength="4" maxlength="4" replace="[^0-9]" with="" name="pbYear" ng-model="formData.personalBests[$index].year">
+            <input type="number" minlength="4" maxlength="4" name="pbYear" ng-model="formData.personalBests[$index].year">
         </label>
     </div>
     </div>
