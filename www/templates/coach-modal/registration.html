@@ -79,7 +79,7 @@
             <input type="hidden" name="coachingFocus" ng-model="formData.coachingFocus[0]" required>
             <span class="error-msg" ng-show="formData.coachingFocus == ''">Please select Coaching Focus</span>
           </ion-item>
-          <ion-item class="item-text-wrap multi-select" ng-class="{'err': formData.specialisations == '' && !formData.specialisations.otherVal}">
+          <ion-item class="item-text-wrap multi-select">
             <h3>Specialisations</h3>
             <div class="tag-box-label" ng-repeat="s in specialisations">
               <input type="checkbox" id="{{s}}-coach" checklist-model="formData.specialisations" checklist-value="s" name="{{s}}">
@@ -89,8 +89,8 @@
               <input type="checkbox" id="Others-coach" ng-model="formData.specialisations.otherVal">
               <label for="Others-coach">Others</label>
             </div>
-            <input type="hidden" name="specialisations" ng-model="formData.specialisations[0]" ng-required="!formData.specialisations.otherVal">
-            <span class="error-msg" ng-show="formData.specialisations == '' && !formData.specialisations.otherVal">Please select Specialisations</span>
+            <input type="hidden" name="specialisations" ng-model="formData.specialisations[0]">
+            <!--<span class="error-msg" ng-show="!formData.specialisations.otherVal">Please select Specialisations</span>-->
           </ion-item>
           <label ng-if="formData.specialisations.otherVal" class="item item-input item-block" ng-class="{'err':formName.specialisationOther.$invalid && formName.specialisationOther.$touched}">
             <span class="input-label">Others Specialisations</span>
