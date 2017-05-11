@@ -13,6 +13,7 @@ angular.module('starter.controllers', ['starter.services', 'checklist-model', 'u
         if (isOpen) {
           console.log("open");
           $scope.profileData = MyServices.getUser();
+          $scope.showNotification($scope.profileData._id);
         } else {
           console.log("close");
         }
