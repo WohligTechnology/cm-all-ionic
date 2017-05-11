@@ -1,10 +1,22 @@
 // angular.module('starter.controllers', ['starter.services', 'checklist-model', 'chart.js', 'ui.calendar', 'ngCordova'])
 angular.module('starter.controllers', ['starter.services', 'checklist-model', 'ui.calendar', 'ngCordova'])
 
-  .controller('appCtrl', function ($scope, $ionicModal, $window, $timeout, $state, $rootScope, MyServices) {
+  .controller('appCtrl', function ($scope, $ionicModal, $window, $timeout, $state, $rootScope, MyServices, $ionicSideMenuDelegate) {
     $scope.profileData = MyServices.getUser();
     $scope.accessType = MyServices.getAccessType();
     console.log($scope.accessType);
+
+    $scope.$watch(function () {
+        return $ionicSideMenuDelegate.isOpenLeft();
+      },
+      function (isOpen) {
+        if (isOpen) {
+          console.log("open");
+          $scope.profileData = MyServices.getUser();
+        } else {
+          console.log("close");
+        }
+      });
 
     var ID = $scope.profileData._id;
     var i = 0;
