@@ -8,7 +8,10 @@
   <ion-content>
     <ion-list>
       <ion-item class="item-text-wrap">
-        <p><b>{{eventInfo.title}}</b></p>
+        <p>
+          <b ng-if="eventInfo.title != 'Injury'">{{eventInfo.title}}</b>
+          <b ng-if="eventInfo.title == 'Injury'">{{eventInfo.name}}</b>
+        </p>
         <p>Date: {{eventInfo.start._d | date: 'dd, MMMM yyyy'}}</p>
         <p>Details: <span ng-bind-html="eventInfo.details"></span></p>
       </ion-item>

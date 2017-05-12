@@ -1835,7 +1835,8 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       for (var l = 0; l < injury.length; l++) {
         $scope.injury.push({
           type: 'clickable',
-          title: injury[l].name,
+          title: "Injury",
+          name: injury[l].name,
           start: moment(injury[l].injuryDate).toDate(),
           end: moment(injury[l].resumeTrainingDate).toDate(),
           allDay: true,
