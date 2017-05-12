@@ -77,8 +77,8 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
           $scope.hideLoading();
           $scope.regPop = $ionicPopup.show({
             // template: '<p>Thank you for registering with Coach Mentor.</p>',
-            template: '<p>Thank you.</p>',
-            title: 'Registration Successful!',
+            template: '<p>Registration Successful!</p>',
+            title: 'Thank you',
             scope: $scope,
             buttons: [{
               type: 'button-positive',
