@@ -4,8 +4,9 @@
       <ion-item class="item-text-wrap" ng-repeat="notification in coachnotifications">
         <!-- Unsbuscribe -->
         <div ng-if="notification.type === 'athleteSubscription'">
-          <p><a ui-sref="app.coach-athletes-request">{{notification.athletecoach.athlete.name}} {{notification.athletecoach.athlete.surname}} </a>wants
-            to subsribe your coaching service.</p>
+          <p><a ui-sref="app.coach-athletes-request">{{notification.athletecoach.athlete.name}} {{notification.athletecoach.athlete.surname}} </a>would
+            like to subscribe to your coaching service. Click on the athletes name to accept/reject their request and to
+            view their Service Request Form.</p>
           <p>{{notification.createdAt | date:"dd/MM/yyyy 'at' h:mma"}}</p>
           <div class="button-bar hide">
             <button class="button button-small button-positive">Accept</button>
