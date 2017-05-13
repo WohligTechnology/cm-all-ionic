@@ -2083,7 +2083,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
   })
 
-  .controller('CoachAthletesCoachingDetailCtrl', function ($scope, $ionicModal, $stateParams, MyServices, $ionicPopup) {
+  .controller('CoachAthletesCoachingDetailCtrl', function ($scope, $ionicModal, $stateParams, MyServices, $state, $ionicPopup) {
     $scope.unsubscribe = {};
     if ($stateParams.athleteId) {
       $scope.athleteCoaching = undefined;
@@ -2179,8 +2179,22 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     //   surname: 'Chant',
     //   type: 'competition'
     // }];
+    $ionicModal.fromTemplateUrl('templates/reason.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.modal = modal;
+    });
 
+    $scope.showReason = function (value) {
+      $scope.unsubReason = value;
+      console.log("hiii", $scope.unsubReason, value)
+      $scope.modal.show();
+    }
 
+    $scope.closeEvent = function () {
+      $scope.modal.hide();
+    }
 
     // console.log($scope.profileData);
     var i = 0;

@@ -1446,7 +1446,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     }];
   })
 
-  .controller('AthleteCoachDetailCtrl', function ($scope, $ionicModal, $ionicScrollDelegate, MyServices, $ionicPopup, $ionicLoading) {
+  .controller('AthleteCoachDetailCtrl', function ($scope, $ionicModal, $ionicScrollDelegate, MyServices, $ionicPopup, $state, $ionicLoading) {
     $scope.athleteData = MyServices.getUser();
     var athleteId = $scope.athleteData._id;
     $scope.unsubscribe = {};
@@ -1495,25 +1495,26 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
           text: '<b>Reject</b>',
           type: 'button-assertive',
           onTap: function (e) {
-            $scope.unsubscribeCoach();
+            $scope.unsubscribeCoach($scope.data);
           }
         }, ]
       });
     };
 
-    $scope.unsubscribeCoach = function () {
+    $scope.unsubscribeCoach = function (val) {
       $scope.unsubscribe.status = "Unsubscribe";
+      $scope.unsubscribe.reason = val.reason;
       MyServices.Unsubscribeacoach($scope.unsubscribe, function (response) {
-        // if (response.value === true) {
-        // } else {
-        // }
+        if (response.value === true) {
+          $state.go('app.athlete-search-coaches');
+        }
       });
     };
     ///Unsub coach end
 
   })
 
-  .controller('AthleteNotificationsCtrl', function ($scope, MyServices, $ionicModal, $ionicScrollDelegate, $ionicPopup, $ionicLoading) {
+  .controller('AthleteNotificationsCtrl', function ($scope, MyServices, $ionicModal, $ionicScrollDelegate, $ionicPopup, $state, $ionicLoading) {
 
     //Loading
     $scope.showLoading = function (value, time) {
@@ -1532,6 +1533,22 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     var i = 0;
 
     var athlete = $scope.athleteData._id;
+    $ionicModal.fromTemplateUrl('templates/reason.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.modalReason = modal;
+    });
+
+    $scope.showReason = function (value) {
+      $scope.unsubReason = value;
+      console.log("hiii", $scope.unsubReason, value)
+      $scope.modalReason.show();
+    }
+
+    $scope.closeEvent = function () {
+      $scope.modalReason.hide();
+    }
 
     //Fucntion for notification of athlete start
     $scope.showAthleteNotification = function (athlete) {
@@ -1636,6 +1653,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       MyServices.paySubscription(subscriptionData, function (response) {
         if (response.value == true) {
           $scope.closePayNow();
+          $state.go('app.athlete-coach-detail');
         } else {
           $scope.closePayNow();
         }

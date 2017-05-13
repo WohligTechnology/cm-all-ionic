@@ -22,6 +22,7 @@
           <p><span class="notify-name ">{{notification.athletecoach.coach.name}} {{notification.athletecoach.coach.surname}} </span>has
             unsubsribed you.
           </p>
+          <p ng-click="showReason(notification.reason)"><span class="notify-name">Read More...</span></p>
           <p>{{notification.createdAt | date:"dd/MM/yyyy 'at' h:mma "}}</p>
         </div>
         <!--Test-->

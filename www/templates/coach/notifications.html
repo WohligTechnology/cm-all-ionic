@@ -23,6 +23,7 @@
         <div ng-if="notification.type == 'Unsubscribe'">
           <p>{{notification.athletecoach.athlete.name}} {{notification.athletecoach.athlete.surname}} wants to unsubsribe from
             your coaching service.</p>
+          <p ng-click="showReason(notification.reason)"><span class="notify-name">Read More...</span></p>
         </div>
         <!--Injury-->
         <div ng-if="notification.type == 'athleteInjury'">
