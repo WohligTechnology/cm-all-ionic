@@ -1942,3 +1942,30 @@ $phaseEven: #14a7ac;
     font-size: 14px !important;
   }
 }
+
+
+/* code by nilesh */
+
+.notify-name {
+  color: #1358a6;
+}
+
+.inner-div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  img {
+    width: 100%;
+  }
+}
+
+.outer-div {
+  height: 100vh;
+  position: relative;
+}
+
+.button-color {
+  color: black;
+}

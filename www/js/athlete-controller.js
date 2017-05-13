@@ -113,12 +113,13 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
   })
 
-  .controller('AthleteProfileCtrl', function ($scope, $ionicScrollDelegate, $ionicHistory, $rootScope, MyServices, $ionicLoading) {
+  .controller('AthleteProfileCtrl', function ($scope, $ionicScrollDelegate, $ionicModal, $ionicHistory, $rootScope, MyServices, $ionicLoading) {
     $ionicHistory.clearCache();
     $ionicHistory.clearHistory();
     $ionicHistory.removeBackView();
     $scope.profileData = MyServices.getUser();
     console.log($scope.profileData);
+    $scope.profilePic = null;
     $scope.validTel = /^\+?\d{2}[- ]?\d{3}[- ]?\d{5}$/;
     //Loading
     $scope.showLoading = function (value, time) {
@@ -148,6 +149,20 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     var athlete = $scope.profileData._id;
     var i = 0;
 
+    //to view profile
+    $ionicModal.fromTemplateUrl('templates/viewImage.html', {
+      id: 1,
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.viewImageModal = modal;
+    });
+
+    $scope.viewProfile = function (value) {
+
+      $scope.profilePic = value;
+      $scope.viewImageModal.show();
+    }
     //Notification of athlete start
     $scope.showAthleteNotification = function (athlete) {
       $scope.totalItems = undefined;

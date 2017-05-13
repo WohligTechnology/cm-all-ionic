@@ -1,0 +1,16 @@
+<ion-modal-view>
+  <ion-header-bar class="bar-positive bar bar-header">
+    <h1 class="title">Profile Photo</h1>
+    <div class="buttons">
+      <button class="button button-clear button-icon ln-cross ln-fit" ng-click="closeEvent()"></button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <div class="outer-div">
+      <div class="inner-div">
+        <img ng-src="{{(profilePic | uploadpath)||'img/img-placeholder.png'}}" alt="img">
+      </div>
+    </div>
+
+  </ion-content>
+</ion-modal-view>
