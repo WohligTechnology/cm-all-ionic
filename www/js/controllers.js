@@ -19,6 +19,23 @@ angular.module('starter.controllers', ['starter.services', 'checklist-model', 'u
         }
       });
 
+    $ionicModal.fromTemplateUrl('templates/viewImage.html', {
+      id: 1,
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.viewImageModal = modal;
+    });
+
+    $scope.viewProfile = function (value) {
+
+      $scope.profilePic = value;
+      $scope.viewImageModal.show();
+    }
+    $scope.closeEvent = function () {
+      $scope.viewImageModal.hide();
+    }
+
     var ID = $scope.profileData._id;
     var i = 0;
 

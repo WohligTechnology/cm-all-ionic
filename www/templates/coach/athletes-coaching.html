@@ -11,7 +11,7 @@
         <button class="button button-small icon ln-magnifier"></button>
       </ion-item>-->
       <ion-item class="item-avatar" ui-sref="app.coach-athletes-coaching-detail({athleteId:myathletes._id})" ng-repeat="myathletes in athletecoaching">
-        <img ng-src="{{(myathletes.athlete.profilePic | uploadpath) || 'img/img-placeholder.png'}}">
+        <img ng-click="viewProfile(myathletes.athlete.profilePic)" ng-src="{{(myathletes.athlete.profilePic | uploadpath) || 'img/img-placeholder.png'}}">
         <h2>{{myathletes.athlete.name}} {{myathletes.athlete.surname}}</h2>
         <p><i class="icon ln-calendar3"></i> {{(myathletes.createdAt| date:"dd/MM/yyyy")||'-'}} - {{(myathletes.renewalDate)||'-'}}</p>
         <span class="badge badge-positive chat-badge">{{ myathletes.subscriptionType | limitTo:1 }}</span>

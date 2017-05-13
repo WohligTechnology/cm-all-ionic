@@ -16,7 +16,7 @@
       <ion-list>
         <div ng-if="accessType=='Coach'">
           <ion-item class="item-avatar" menu-close ui-sref="app.coach-profile" ui-sref-active="on">
-            <div class="img-avatar" style="background-image: url({{(profileData.profilePic | uploadpath) || 'img/img-placeholder.png'}});"></div>
+            <div class="img-avatar" ng-click="viewProfile(profileData.profilePic)" style="background-image: url({{(profileData.profilePic | uploadpath) || 'img/img-placeholder.png'}});"></div>
             <h2>{{profileData.name}} {{profileData.surname}}</h2>
             <p>Coach</p>
           </ion-item>
@@ -47,7 +47,7 @@
         <!--Athlete Menu Start-->
         <div ng-if="accessType=='Athlete'">
           <ion-item class="item-avatar" menu-close ui-sref="app.athlete-profile" ui-sref-active="on">
-            <div class="img-avatar" style="background-image: url({{(profileData.profilePic | uploadpath)||'img/img-placeholder.png'}});"></div>
+            <div class="img-avatar" ng-click="viewProfile(profileData.profilePic)" style="background-image: url({{(profileData.profilePic | uploadpath)||'img/img-placeholder.png'}});"></div>
             <h2>{{profileData.name}} {{profileData.surname}}</h2>
             <p>Athlete</p>
           </ion-item>

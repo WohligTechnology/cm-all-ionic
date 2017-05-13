@@ -12,7 +12,7 @@
         No Coaches Found.
       </ion-item>
       <ion-item class="item-avatar" ui-sref="app.athlete-search-coaches-detail({id:c._id})" ng-repeat="c in allCoaches">
-        <img ng-src="{{(c.profilePic|uploadpath)||'img/img-placeholder.png'}}">
+        <img ng-click="viewProfile(c.profilePic)" ng-src="{{(c.profilePic|uploadpath)||'img/img-placeholder.png'}}">
         <h2>{{c.name}} {{c.surname}}</h2>
         <p>{{c.credentials}}</p>
         <span class="full" ng-if="c.full">Fully Subscribed</span>

@@ -3,7 +3,7 @@
     <div ng-if="myCoachProfile">
       <div class="picture-hold picture-pad">
         <div class="zd">
-          <div class="dp" style="background-image: url({{(myCoachProfile.coach.profilePic|uploadpath)||'img/img-placeholder.png'}});"></div>
+          <div class="dp" ng-click="viewProfile(myCoachProfile.coach.profilePic)" style="background-image: url({{(myCoachProfile.coach.profilePic|uploadpath)||'img/img-placeholder.png'}});"></div>
           <h3>{{myCoachProfile.coach.name}} {{myCoachProfile.coach.surname}}</h3>
           <p>{{myCoachProfile.coach.credentials}}</p>
           <p class="badged positive-bg">{{myCoachProfile.subscriptionType}}, {{myCoachProfile.coach.coachAskingPrice | currency : '£' : 0}}</p>

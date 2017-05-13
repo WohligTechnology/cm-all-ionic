@@ -240,7 +240,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     };
   })
 
-  .controller('CoachProfileCtrl', function ($scope, $ionicScrollDelegate, $ionicHistory, $rootScope, MyServices, $ionicLoading) {
+  .controller('CoachProfileCtrl', function ($scope, $ionicScrollDelegate, $ionicModal, $ionicHistory, $rootScope, MyServices, $ionicLoading) {
     $ionicHistory.clearCache();
     $ionicHistory.clearHistory();
     $ionicHistory.removeBackView();
@@ -256,6 +256,23 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     $scope.hideLoading = function () {
       $ionicLoading.hide();
     };
+
+    $ionicModal.fromTemplateUrl('templates/viewImage.html', {
+      id: 1,
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.viewImageModal = modal;
+    });
+
+    $scope.viewProfile = function (value) {
+
+      $scope.profilePic = value;
+      $scope.viewImageModal.show();
+    };
+    $scope.closeEvent = function () {
+      $scope.viewImageModal.hide();
+    }
 
     //Reload Profile
     $scope.reloadProfile = function () {
@@ -1948,6 +1965,24 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     $scope.profileData = MyServices.getUser();
     var coachId = $scope.profileData._id;
     var i = 0;
+
+    $ionicModal.fromTemplateUrl('templates/viewImage.html', {
+      id: 1,
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.viewImageModal = modal;
+    });
+
+    // $scope.viewProfile = function (value) {
+    //   // alert("asjdklals")
+    //   $scope.profilePic = value;
+    //   $scope.viewImageModal.show();
+    // };
+    $scope.closeEvent = function () {
+      // alert("asjdklals")
+      $scope.viewImageModal.hide();
+    }
     $scope.search = {
       keyword: ""
     };
@@ -2096,6 +2131,24 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
           $scope.athleteCoaching = [];
         }
       });
+    }
+
+    $ionicModal.fromTemplateUrl('templates/viewImage.html', {
+      id: 1,
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.viewImageModal = modal;
+    });
+
+    $scope.viewProfile = function (value) {
+
+      $scope.profilePic = value;
+      $scope.viewImageModal.show();
+    }
+    $scope.closeEvent = function () {
+
+      $scope.viewImageModal.hide();
     }
     $scope.reason = function (athleteCoachId, coachID) {
       $scope.unsubscribe._id = athleteCoachId;

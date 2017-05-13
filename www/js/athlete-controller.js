@@ -162,6 +162,9 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
       $scope.profilePic = value;
       $scope.viewImageModal.show();
+    };
+    $scope.closeEvent = function () {
+      $scope.viewImageModal.hide();
     }
     //Notification of athlete start
     $scope.showAthleteNotification = function (athlete) {
@@ -1098,6 +1101,23 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       $scope.modal.show();
     };
 
+    $ionicModal.fromTemplateUrl('templates/viewImage.html', {
+      id: 1,
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.viewImageModal = modal;
+    });
+
+    // $scope.viewProfile = function (value) {
+
+    //   $scope.profilePic = value;
+    //   $scope.viewImageModal.show();
+    // };
+    $scope.closeEvent = function () {
+      $scope.viewImageModal.hide();
+    }
+
 
     $scope.myCoachProfile = {};
     if ($scope.profileData) {
@@ -1314,6 +1334,23 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
           $scope.coaches = {};
         }
       });
+    };
+
+    $ionicModal.fromTemplateUrl('templates/viewImage.html', {
+      id: 1,
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.viewImageModal = modal;
+    });
+
+    $scope.viewProfile = function (value) {
+
+      $scope.profilePic = value;
+      $scope.viewImageModal.show();
+    };
+    $scope.closeEvent = function () {
+      $scope.viewImageModal.hide();
     }
 
     //check if the request is already send or not start
@@ -1492,6 +1529,24 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
           // $scope.showLoading('Error Loading Data!', 3000);
         }
       });
+    };
+
+    $ionicModal.fromTemplateUrl('templates/viewImage.html', {
+      id: 1,
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.viewImageModal = modal;
+    });
+
+    $scope.viewProfile = function (value) {
+
+      $scope.profilePic = value;
+      $scope.viewImageModal.show();
+    };
+    $scope.closeEvent = function () {
+
+      $scope.viewImageModal.hide();
     }
 
     ///Unsub coach start
