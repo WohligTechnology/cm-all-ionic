@@ -1890,6 +1890,19 @@ $phaseEven: #14a7ac;
   background-repeat: no-repeat;
 }
 
+//Nilesh
+.notes-notified {
+  background-image: url(../img/notified.png);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-position: center;
+  background-size: 16px auto;
+  background-repeat: no-repeat;
+}
+
 .button-relative {
   position: relative;
   z-index: 9;
