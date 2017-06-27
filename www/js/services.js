@@ -733,5 +733,15 @@ angular.module('starter.services', [])
           callback(data);
         });
       },
+
+      //For payment
+      paynowMobile: function (formData, callback) {
+        formData = _.merge(formData, requestCredentials);
+        $http({
+          url: adminurl + 'AthleteCoaching/paynowMobile',
+          method: 'POST',
+          data: formData
+        }).success(callback);
+      },
     };
   });

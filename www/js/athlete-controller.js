@@ -699,7 +699,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
         randomVal: data.message.randomVal
       });
 
-      MyServices.getAllmessages($scope.chatData, function () {});
+      MyServices.getAllmessages($scope.chatData, function () { });
 
       if (arr.length > 0) {
         $scope.messages = _.map($scope.messages, function (n) {
@@ -1128,7 +1128,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
           $scope.myCoachProfile = response.data;
           $scope.coachId = $scope.myCoachProfile.coach._id;
           console.log($scope.myCoachProfile);
-        } else {}
+        } else { }
         $scope.showAllCoaches();
       })
     }
@@ -1567,7 +1567,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
           onTap: function (e) {
             $scope.unsubscribeCoach($scope.data);
           }
-        }, ]
+        },]
       });
     };
 
@@ -1692,7 +1692,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
           onTap: function (e) {
             console.log($scope.data.message);
           }
-        }, ]
+        },]
       });
     };
 
@@ -1709,6 +1709,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     };
     //pay subscription start
     $scope.openPayNow = function (coachdata) {
+      console.log("$scope.athletenotifications", $scope.athletenotifications);
       $scope.formData = {};
       $scope.formData.coachPrice = coachdata.coach.coachAskingPrice;
       $scope.coachAthleyteId = coachdata._id;
@@ -1717,17 +1718,115 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     $scope.paySubscription = function (subscriptionData) {
       if (subscriptionData.subscriptionType == "Yearly") {
         subscriptionData.coachAskingPrice = subscriptionData.coachPrice * 11;
+      } else {
+        subscriptionData.coachAskingPrice = subscriptionData.coachPrice;
       }
       subscriptionData._id = $scope.coachAthleyteId;
       subscriptionData.status = "Active";
-      MyServices.paySubscription(subscriptionData, function (response) {
-        if (response.value == true) {
-          $scope.closePayNow();
-          $state.go('app.athlete-coach-detail');
-        } else {
-          $scope.closePayNow();
+
+      //var athleteId = ._id;
+
+      var subscriptionObj = {};
+      var updateAthleteCoachingObj = {};
+      updateAthleteCoachingObj = subscriptionData;
+      $.jStorage.set('updateAthleteCoachingObj', updateAthleteCoachingObj);
+
+      subscriptionData.userId = $scope.athleteData._id;
+      subscriptionData.email = $scope.athleteData.email;
+      subscriptionData.name = $scope.athleteData.name;
+      subscriptionData.surname = $scope.athleteData.surname;
+      subscriptionData.currency = "PHP";
+      subscriptionData.amount = subscriptionData.coachAskingPrice;
+
+      subscriptionObj = subscriptionData;
+
+      subscriptionObj.coachName = $scope.athletenotifications[0].athletecoach.coach.name;
+      subscriptionObj.coachSurname = $scope.athletenotifications[0].athletecoach.coach.surname;
+      subscriptionObj.coachId = $scope.athletenotifications[0].athletecoach.coach._id;
+      console.log("subscriptionData", subscriptionData);
+      $.jStorage.set('emailObj', subscriptionObj);
+      MyServices.paynowMobile(subscriptionData, function (data) {
+        console.log("subscriptionData 1", data);
+        if (data.value === true) {
+          // console.log("m back");
+          // window.location.href = data.data;
+          // var formData = {};
+          // formData.id = $.jStorage.get('user')._id;
+          // alert("its working");
+
+          // var options = {
+          //   location: 'yes',
+          //   clearcache: 'yes',
+          //   toolbar: 'no'
+          // };
+          var options = "location=yes,toolbar=no";
+          var target = "_blank";
+          var url = "";
+          $scope.finalURL = data.data;
+          var ref = cordova.InAppBrowser.open($scope.finalURL, target, options);
+          ref.addEventListener('loadstop', function (event) {
+            var url = event.url;
+            console.log(url);
+
+            url = event.url.split("?")[0];
+            if (url == "http://coachmentor.wohlig.com/error") {
+              ref.close();
+              var alertPopup = $ionicPopup.alert({
+                template: '<h4 style="text-align:center;">Some Error Occurred. Payment Failed</h4>'
+              });
+              alertPopup.then(function (res) {
+                alertPopup.close();
+                $state.go('app.athlete-profile');
+              });
+            } else if (url == "http://coachmentor.wohlig.com/thankyou") {
+              ref.close();
+              $state.go('app.athlete-profile');
+            }
+          });
         }
       })
+
+
+      // $scope.payRp = function (order) {
+      //   console.log(order);
+      //   var options = {
+      //     location: 'yes',
+      //     clearcache: 'yes',
+      //     toolbar: 'no'
+      //   };
+      //   var target = "_blank";
+      //   var url = "";
+      //   $scope.finalURL = data.data;
+      //   var ref = cordova.InAppBrowser.open($scope.finalURL, target, options);
+      //   ref.addEventListener('loadstop', function (event) {
+      //     var url = event.url;
+      //     console.log(url);
+      //     if (url == "http://coachmentor.wohlig.com/error") {
+      //       ref.close();
+      //       var alertPopup = $ionicPopup.alert({
+      //         template: '<h4 style="text-align:center;">Some Error Occurred. Payment Failed</h4>'
+      //       });
+      //       alertPopup.then(function (res) {
+      //         alertPopup.close();
+      //         $state.go('app.athlete-profile');
+      //       });
+      //     } else if (url == "http://coachmentor.wohlig.com/thankyou") {
+      //       ref.close();
+      //       $state.go('app.athlete-profile');
+      //     }
+      //   });
+
+      // };
+
+
+      // MyServices.paySubscription(subscriptionData, function (response) {
+      //   if (response.value == true) {
+      //     $scope.closePayNow();
+      //     $state.go('app.athlete-coach-detail');
+      //   } else {
+      //     $scope.closePayNow();
+      //   }
+      // })
     };
     //pay subscription end
 
@@ -2349,6 +2448,6 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
   })
 
-;
+  ;
 
 //end of Athlete controller
