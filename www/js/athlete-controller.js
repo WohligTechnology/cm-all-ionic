@@ -1759,7 +1759,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
           //   clearcache: 'yes',
           //   toolbar: 'no'
           // };
-          var options = "location=yes,toolbar=no";
+          var options = "location=no,toolbar=no";
           var target = "_blank";
           var url = "";
           $scope.finalURL = data.data;
