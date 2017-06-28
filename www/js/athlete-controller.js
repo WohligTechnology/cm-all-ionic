@@ -1735,7 +1735,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       subscriptionData.email = $scope.athleteData.email;
       subscriptionData.name = $scope.athleteData.name;
       subscriptionData.surname = $scope.athleteData.surname;
-      subscriptionData.currency = "PHP";
+      subscriptionData.currency = "GBP";
       subscriptionData.amount = subscriptionData.coachAskingPrice;
 
       subscriptionObj = subscriptionData;
