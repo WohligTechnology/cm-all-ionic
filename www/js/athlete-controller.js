@@ -1730,7 +1730,6 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
       var updateAthleteCoachingObj = {};
       updateAthleteCoachingObj = subscriptionData;
       $.jStorage.set('updateAthleteCoachingObj', updateAthleteCoachingObj);
-
       subscriptionData.userId = $scope.athleteData._id;
       subscriptionData.email = $scope.athleteData.email;
       subscriptionData.name = $scope.athleteData.name;
