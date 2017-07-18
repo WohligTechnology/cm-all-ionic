@@ -113,7 +113,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
   })
 
-  .controller('AthleteProfileCtrl', function ($scope, $ionicScrollDelegate, $ionicModal, $ionicHistory, $rootScope, MyServices, $ionicLoading) {
+  .controller('AthleteProfileCtrl', function ($scope, $ionicScrollDelegate, $rootScope, $ionicModal, $ionicHistory, $rootScope, MyServices, $state, $ionicLoading) {
     $ionicHistory.clearCache();
     $ionicHistory.clearHistory();
     $ionicHistory.removeBackView();
@@ -131,6 +131,11 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
     $scope.hideLoading = function () {
       $ionicLoading.hide();
     };
+
+    $rootScope.$on('proximityCatched', function () {
+      console.log("loader called")
+      $state.reload();
+    });
 
     //Reload Profile
     $scope.reloadProfile = function () {
@@ -1584,7 +1589,7 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
 
   })
 
-  .controller('AthleteNotificationsCtrl', function ($scope, MyServices, $ionicModal, $ionicScrollDelegate, $ionicPopup, $state, $ionicLoading) {
+  .controller('AthleteNotificationsCtrl', function ($scope, MyServices, $ionicModal, $rootScope, $ionicHistory, $ionicScrollDelegate, $ionicPopup, $state, $ionicLoading) {
 
     //Loading
     $scope.showLoading = function (value, time) {
@@ -1775,11 +1780,31 @@ angular.module('athleteController', ['starter.services', 'checklist-model', 'ui.
               });
               alertPopup.then(function (res) {
                 alertPopup.close();
+                $scope.closePayNow();
+                $rootScope.$broadcast('proximityCatched', null);
+                $ionicHistory.nextViewOptions({
+                  disableBack: true
+                });
+
                 $state.go('app.athlete-profile');
               });
             } else if (url == "http://coachmentor.wohlig.com/thankyou") {
               ref.close();
-              $state.go('app.athlete-profile');
+              MyServices.paySubscription(subscriptionData, function (response) {
+                if (response.value == true) {
+                  $scope.closePayNow();
+                  $rootScope.$broadcast('proximityCatched', null);
+                  $ionicHistory.nextViewOptions({
+                    disableBack: true
+                  });
+
+                  $state.go('app.athlete-profile');
+                  // $state.go('app.athlete-coach-detail');
+                } else {
+                  $scope.closePayNow();
+                }
+              })
+              // $state.go('app.athlete-profile');
             }
           });
         }
