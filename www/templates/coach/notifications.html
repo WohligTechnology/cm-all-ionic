@@ -1,7 +1,7 @@
 <ion-view view-title="Notifications">
   <ion-content>
     <ion-list class="no-pad-list">
-      <ion-item class="item-text-wrap" ng-repeat="notification in coachnotifications">
+      <ion-item class="item-text-wrap" ng-repeat="notification in coachnotifications" ng-if="notification.type != 'athleteSubscriptionPaymentDone'">
         <!-- Unsbuscribe -->
         <div ng-if="notification.type === 'athleteSubscription'">
           <p><a ui-sref="app.coach-athletes-request">{{notification.athletecoach.athlete.name}} {{notification.athletecoach.athlete.surname}} </a>would
@@ -14,11 +14,11 @@
           </div>
         </div>
         <!-- Payment done -->
-        <div ng-if="notification.type === 'athleteSubscriptionPaymentDone'">
+        <!--<div ng-if="notification.type === 'athleteSubscriptionPaymentDone'">
           <p>{{notification.athletecoach.athlete.name}} {{notification.athletecoach.athlete.surname}} has paid your subscription
             fees.
           </p>
-        </div>
+        </div>-->
         <!-- unsubscribe -->
         <div ng-if="notification.type == 'Unsubscribe'">
           <p>{{notification.athletecoach.athlete.name}} {{notification.athletecoach.athlete.surname}} wants to unsubsribe from

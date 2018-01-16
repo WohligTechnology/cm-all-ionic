@@ -2055,7 +2055,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
           onTap: function (e) {
             $scope.rejectRequest($scope.data.message);
           }
-        }, ]
+        },]
       });
     };
 
@@ -2093,7 +2093,8 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
     $scope.acceptRequest = function (Id) {
       var athleteCoaching = {};
       athleteCoaching._id = Id;
-      athleteCoaching.status = "Payment Pending";
+      // athleteCoaching.status = "Payment Pending";
+      athleteCoaching.status = "Active";
       athleteCoaching.readRequestStatus = true;
       // athleteCoaching.acceptedDate = moment().format();
       $scope.acceptRejectRequest(athleteCoaching, 'accept');
@@ -2168,7 +2169,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
             $scope.unsubscribe.reason = $scope.data.reasonForRejection;
             $scope.rejectRequest();
           }
-        }, ]
+        },]
       });
     };
 
@@ -2543,7 +2544,7 @@ angular.module('coachController', ['starter.services', 'checklist-model', 'ui.ca
 
     io.socket.on("chatAdded", function (data) {
       console.log(data);
-      MyServices.getAllmessages($scope.chatData, function () {});
+      MyServices.getAllmessages($scope.chatData, function () { });
       var arr = _.filter($scope.messages, {
         randomVal: data.message.randomVal
       });
